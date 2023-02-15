@@ -1,5 +1,4 @@
-#include <iostream>
-#include <glm/glm.hpp>
+
 #include "glmHandler.h" 
 
 // --------a funciton that takes the square vertex as the 3d position and then ------
