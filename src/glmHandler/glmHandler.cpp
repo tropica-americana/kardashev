@@ -17,5 +17,7 @@ inline  void rotateVertex ( glm::vec4 &vertex
     vertexToModel = glm::rotate (vertexToModel,
     orientationVec3.z ,glm::vec3 ( 0.0f , 0.0f , 1.0f));
     vertex =  ( vertexToModel * glm::vec4 (1.0f , 1.0f  , 1.0f , 1.0f ) ) ;  
-    return ; 
+    return ;
+    
+     
 }
