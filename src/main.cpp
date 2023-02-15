@@ -10,7 +10,6 @@
 #include <SDL2/SDL.h>
 using namespace std ; 
 
-
 template <typename T>
 void MyRenderFunction (T function ){
     function () ;
