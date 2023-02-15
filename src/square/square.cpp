@@ -30,8 +30,15 @@ void Square :: renderMyself (SDL_Renderer * renderer )
         glm::vec4 vertex =  (model * glm::vec4(1.0f))+ glm::vec4(squarePosition , 1.0f) ; 
         squareverticesarray.push_back (vertex ) ; 
 
-    }   
-// ----------------------------------------------------------------------------------
+    } 
+    // ---rotating hte square vertices along the sqaure orientation ----------------
+     std::for_each (squareverticesarray.begin () , 
+     squareverticesarray.end() , [this ] ( glm::vec4 &vertex ) {
+        rotateVertex (vertex ,squareOrientation );
+     })
+
+
+    // ----------------------------------------------------------------------------------
 
     int numvertices  = squareverticesarray.size () ; 
     auto iterator_end = squareverticesarray.end() - 1  ;
