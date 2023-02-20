@@ -6,7 +6,8 @@
 class Game {
     public: 
     bool isRunning ; 
-    SDL_MouseMotionEvent mouseevent ;    
+    SDL_MouseMotionEvent mouseevent ; 
+    SDL_MouseWheelEvent wheelEvent ;    
     SDL_Window * window ; 
     SDL_Renderer * renderer ; 
     Game () ;  // calls the initialize method 

@@ -29,7 +29,7 @@ int main () {
                 SDL_RenderClear(game.renderer ) ; 
                 SDL_SetRenderDrawColor(game.renderer  , 255,255,255,255);
                 square.renderMyself(game.renderer ) ; 
-                square.handleMouseEvents(game.mouseevent);
+                square.handleMouseEvents(game.mouseevent , game.wheelEvent);
                 SDL_RenderPresent(game.renderer ) ; 
             }
         );

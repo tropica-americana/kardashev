@@ -42,10 +42,12 @@ void Game ::processInput()
                 }
 
             case SDL_MOUSEMOTION :{
-                mouseevent = event.motion  ; 
-              
+                mouseevent = event.motion  ;  
             }     
 
+            }
+            case SDL_MOUSEWHEEL :{
+                wheelEvent = event.wheel ; 
             }
             default :{} ; 
         }
