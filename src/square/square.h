@@ -17,7 +17,7 @@ class Square {
     Square (float squareWidth ) ; 
     ~Square () = default ; 
     void renderMyself ( SDL_Renderer * renderer ) ;
-    void handleMouseEvents(SDL_MouseMotionEvent &mouseEvent) ;  
+    void handleMouseEvents(SDL_MouseMotionEvent &mouseEvent , SDL_MouseWheelEvent &wheelEvent) ;  
     void fillVertices () ; 
 }; 
 

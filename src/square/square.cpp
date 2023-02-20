@@ -24,13 +24,13 @@ void Square:: fillVertices (){
     squareverticesarray.clear() ; 
     float squareWidthStack ; 
 // -- dealing with negative zAxis and scaling the relativeSquareWidth -------------
-    if (compSum (squarePosition[2]) < 0 ) { 
-        squareWidthStack = squareWidth * (squareWidth / (squareWidth - compSum (squarePosition[2]) )) 
+    if (squarePosition[2] < 0 ) { 
+        squareWidthStack = squareWidth * (squareWidth / (squareWidth -  (squarePosition[2]) ))  ; 
         } 
 // -- dealing with positive zAxis and scaling the relativeSqaureWidth  ------------        
-    else if (compSum(squarePosition[2] >= 0 ) )
+    else if ((squarePosition[2]) >= 0  )
     {
-        squareWidthStack = squareWidth * (squareWidth / (squareWidth + compSum (squarePosition[2]) )) 
+        squareWidthStack = squareWidth * (squareWidth / (squareWidth +  (squarePosition[2]) )) ;
     }
 // --  creating and popping the sqaurevertices onto the squareverticesarray --------
     glm::mat4 vertex = vec4ToMat4(createVec4(squareWidthStack) ) ; 
@@ -53,10 +53,10 @@ void Square::handleMouseEvents (SDL_MouseMotionEvent &mouseEvent , SDL_MouseWhee
         squareOrientation.x += mouseEvent.yrel  ;
         squareOrientation.y += mouseEvent.xrel ;  
     }
-    if(wheelEvent.y > 0) // scroll up
-         squarePosition.z += 10 ; 
-    else if(wheelEvent.y < 0) // scroll down
-         squarePosition.z -= 10 ;    
+    // if(wheelEvent.y > 0) // scroll up
+    //      squarePosition.z += 10 ; 
+    // else if(wheelEvent.y < 0) // scroll down
+    //      squarePosition.z -= 10 ;    
         
     
 } 

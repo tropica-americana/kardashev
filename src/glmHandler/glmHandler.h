@@ -3,6 +3,7 @@
 #include <glm/glm.hpp>
 #include <vector>
 #include <SDL2/SDL.h>
+
 inline glm::vec4 createVec4 (float sizeOfElement ) {
    return  glm::vec4(glm::vec3 (sizeOfElement) , 1.0f ) ; 
 }
@@ -43,9 +44,16 @@ static void rotateVertex (glm::mat4 & vertex , const glm::vec3 & orientationVec3
     orientationVec3.z ,glm::vec3 ( 0.0f , 0.0f , 1.0f));  
     return ;
 } 
-template <typename T >
-inline float compSum(T & vector ) {
-    return glm::compSum (vector) ; 
+// -----------only designed for mat4 --------------------------------------------------------
+inline float compSum( const glm::vec4 & vector ) {
+    float sum = 0.0f ; 
+    for (int i = 0 ; i < 4 ; i++ )  sum += vector[i]  ; 
+    return sum ;
+}
+inline float compSum( const glm::vec3 & vector ) {
+    float sum = 0.0f ; 
+    for (int i = 0 ; i < 3 ; i++ )  sum += vector[i]  ; 
+    return sum ;
 }
 static  void staticConnectDotsAndRender (SDL_Renderer * renderer ,const  std::vector<glm::mat4> & verticesArray )
 {   
@@ -54,19 +62,17 @@ static  void staticConnectDotsAndRender (SDL_Renderer * renderer ,const  std::ve
     auto start = verticesArray.begin () ; 
     for (int i = 0 ; i <= numvertices  ; i++ ){
         if (i != 0 && i < numvertices  ){  
-            // glm::vec4 vertex = mat4ToVec4 (verticesArray[i]) ;
-            // glm::vec4 previousVertex = mat4ToVec4 (verticesArray[i-1]) ;
-            float xPos = glm::compSum (verticesArray[i][0]) ; 
-            float yPos = glm::compSum (verticesArray[i][1] ) ; 
-            float previousXPos = glm::compSum (verticesArray[i-1][0] ) ; 
-            float previousYPos = glm::compSum (verticesArray[i-1][1]) ; 
+            float xPos = compSum(verticesArray[i][0]) ;     
+            float yPos = compSum (verticesArray[i][1] ) ; 
+            float previousXPos = compSum (verticesArray[i-1][0] ) ; 
+            float previousYPos = compSum (verticesArray[i-1][1]) ; 
             SDL_RenderDrawLine(renderer , xPos , yPos , 
             previousXPos , previousYPos );
 
             } ; 
         if (i == numvertices )
         {
-            SDL_RenderDrawLine(renderer , compSum(end[0]) , compSum(end[1]) , compSum(start[0]) , compSum(start[1]) );
+            SDL_RenderDrawLine(renderer , compSum((*end)[0]) , compSum((*end)[1]) , compSum((*start)[0]) , compSum((*start)[1]) );
         };
      }  
 }
