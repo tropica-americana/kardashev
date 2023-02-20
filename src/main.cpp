@@ -15,16 +15,11 @@ void MyRenderFunction (T function ){
     function () ;
 };
 
-void MyRenderFunction (){
-
-};
 int main () {
-
     Game game ; 
     Square square(100.0) ; 
-
-    
     while (game.isRunning){
+        if (SDL_GetTicks() >= 10000) game.isRunning = false ; 
         game.processInput() ; 
         game.update()  ; 
         MyRenderFunction(

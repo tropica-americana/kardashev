@@ -7,17 +7,18 @@
 #include "glm/gtc/matrix_transform.hpp"
 #include <glm/gtx/string_cast.hpp>
 #include <string>
-#include "../glmHandler/glmHandler.h "
+#include "../glmHandler/glmHandler.h"
 class Square {
     public:
     float  squareWidth ; 
-    glm::vec3 squarePosition ; 
+    glm::vec3 squarePosition ; // contains the position of the sqaure i the 3Dimesional space 
     glm::vec3 squareOrientation ; // contains the value of square rotation in radians  
-    std::vector <glm::vec4> squareverticesarray  ;   
+    std::vector <glm::mat4> squareverticesarray ;   
     Square (float squareWidth ) ; 
-    ~Square () = default   ; 
+    ~Square () = default ; 
     void renderMyself ( SDL_Renderer * renderer ) ;
-    void handleMouseEvents(SDL_MouseMotionEvent &mouseEvent  ) ;   
+    void handleMouseEvents(SDL_MouseMotionEvent &mouseEvent) ;  
+    void fillVertices () ; 
 }; 
 
 
