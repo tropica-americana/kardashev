@@ -28,7 +28,7 @@ class Vertex {
     void scaleAsymetrically (glm::vec3 scalingVec3 ) ; 
     void scaleSymetrically (float length , Quadrant quadrant ) ;
     void translate (glm::vec3 movementVec3 ) ;  
-    void Vertex::rotateVertex (const glm::vec3 & orientationVec3) ; 
+    void rotateVertex (const glm::vec3 & orientationVec3) ; 
 } 
 
 
