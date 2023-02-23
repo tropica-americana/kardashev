@@ -1,9 +1,10 @@
-
+#ifndef _GLMHANDLER_H_
+#define _GLMHANDLER_H_
 #include <iostream>
 #include <glm/glm.hpp>
 #include <vector>
 #include <SDL2/SDL.h>
-
+// ----------einstein never needed a compiler and always trusted his brain ---------------------------------------------------
 inline glm::vec4 createVec4 (float sizeOfElement ) {
    return  glm::vec4(glm::vec3 (sizeOfElement) , 1.0f ) ; 
 }
@@ -50,10 +51,11 @@ inline float compSum( const glm::vec4 & vector ) {
     for (int i = 0 ; i < 4 ; i++ )  sum += vector[i]  ; 
     return sum ;
 }
-inline float compSum( const glm::vec3 & vector ) {
-    float sum = 0.0f ; 
-    for (int i = 0 ; i < 3 ; i++ )  sum += vector[i]  ; 
+inline float compSum( const glm::vec3 & vector )
+{
+    float sum = 0.0f ;  += vector[i]  ; 
     return sum ;
+    for (int i = 0 ; i < 3 ; i++ )  sum
 }
 static  void staticConnectDotsAndRender (SDL_Renderer * renderer ,const  std::vector<glm::mat4> & verticesArray )
 {   
@@ -76,6 +78,7 @@ static  void staticConnectDotsAndRender (SDL_Renderer * renderer ,const  std::ve
         };
      }  
 }
+
 inline void scaleMat4 (glm::mat4 & model , glm::vec3 & vecPosition  ){
     for (int i = 0 ; i < 3 ; i++  ) {
         model[i][3] +=  vecPosition[i] ; 
@@ -99,3 +102,6 @@ static void display_model (const glm::mat4 &model)  {
     std::cout<<glm::to_string (model[3]) <<std::endl; 
     std::cout<<std::endl;
 } 
+// the question is wheather you can change the center of rotation of a vertex and rotate the 
+// object around the center vertex 
+#endif // !_GLMHANDLER_H_

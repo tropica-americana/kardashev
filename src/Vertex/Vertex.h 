@@ -3,17 +3,21 @@
 #include <iostream>
 #include <SDL2/SDL.h>
 #include <glm/glm.hpp>
+#include "../glmHandler/glmHandler.h"
 #include <vector>
 enum class Quadrant {
-    positiveUpperRight ; 
-    positiveLowerRight ; 
-    positiveLowerLeft ; 
-    positiveUpperLeft ; 
-    negativeUpperRight ; 
-    negativeLowerRight ; 
-    negativeLowerLeft ; 
-    negativeUpperLeft ;  
+    positiveUpperRight , 
+    positiveLowerRight , 
+    positiveLowerLeft ,
+    positiveUpperLeft , 
+    negativeUpperRight , 
+    negativeLowerRight , 
+    negativeLowerLeft ,
+    negativeUpperLeft 
 }
+enum class Axis {
+    positiveX , positiveY , positiveZ , negativeX , negativeY , negativeY 
+} 
 class Vertex {
     private: 
     glm::mat4 varticeMatrix ; 
@@ -22,8 +26,9 @@ class Vertex {
     ~Vertex()  = default ;
     void scaleSymetrically (float length ) ;  
     void scaleAsymetrically (glm::vec3 scalingVec3 ) ; 
-    void scaleSymetrically (float length , Quadrant quadrant ) ; 
-    
+    void scaleSymetrically (float length , Quadrant quadrant ) ;
+    void translate (glm::vec3 movementVec3 ) ;  
+    void Vertex::rotateVertex (const glm::vec3 & orientationVec3) ; 
 } 
 
 
