@@ -18,24 +18,34 @@ void myRenderFunction (T function ){
 };
 
 int main () {
+    // Game game ; 
+    // Square square(100.0) ; 
+    // while (game.isRunning){
+    //     if (SDL_GetTicks() >= 10000) game.isRunning = false ; 
+    //     game.processInput() ; 
+    //     game.update()  ; 
+    //     // MyRenderFunction(
+    //     //     [&game , &square ] (){
+    //     //         SDL_SetRenderDrawColor(game.renderer , 21,
+    //     //         21,21,255 ) ; 
+    //     //         SDL_RenderClear(game.renderer ) ; 
+    //     //         SDL_SetRenderDrawColor(game.renderer  , 255,255,255,255);
+    //     //         square.renderMyself(game.renderer ) ; 
+    //     //         square.handleMouseEvents(game.mouseevent , game.wheelEvent);
+    //     //         SDL_RenderPresent(game.renderer ) ; 
+    //     //     }
+    //     // );
+    //     myRenderFunction( ()[&game]{}) 
+    //     game.render() ; 
+    //     SDL_Delay (10) ; 
     Game game ; 
-    Square square(100.0) ; 
+    Line line ; 
     while (game.isRunning){
         if (SDL_GetTicks() >= 10000) game.isRunning = false ; 
-        game.processInput() ; 
-        game.update()  ; 
-        // MyRenderFunction(
-        //     [&game , &square ] (){
-        //         SDL_SetRenderDrawColor(game.renderer , 21,
-        //         21,21,255 ) ; 
-        //         SDL_RenderClear(game.renderer ) ; 
-        //         SDL_SetRenderDrawColor(game.renderer  , 255,255,255,255);
-        //         square.renderMyself(game.renderer ) ; 
-        //         square.handleMouseEvents(game.mouseevent , game.wheelEvent);
-        //         SDL_RenderPresent(game.renderer ) ; 
-        //     }
-        // );
-        myRenderFunction( ()[&game]{}) 
+       
+        myRenderFunction( ()[&game]{
+            line.renderMyself (game.renderer ) ; 
+        }) 
         game.render() ; 
         SDL_Delay (10) ; 
     }

@@ -26,3 +26,7 @@ void Line :: rotateLineAlongCOT(const glm::vec3 & orientationVec3 , Vertex & cen
         verticeMatrix[i][3] = connectingVertex[i] ; 
      } 
 } 
+void renderMyself (SDL_Renderer * renderer ){
+    SDL_SetRenderDrawColor(255 , 255 , 255 , 255) ; 
+    SDL_RenderDrawLine(renderer ,(*this)[0][0] , (*this)[0][1] , (*this)[1][0] , (*this)[1][1] ) ; 
+}

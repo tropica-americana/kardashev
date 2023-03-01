@@ -22,5 +22,5 @@ class Game {
     void render () ;  // just paste everything on thhe renderrer 
     void destroy () ; // destroys the window and the renderer 
 } ; 
-
+///
 #endif // !_GAME_H_

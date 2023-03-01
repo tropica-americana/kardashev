@@ -8,7 +8,7 @@
 inline glm::vec4 createVec4 (float sizeOfElement ) {
    return  glm::vec4(glm::vec3 (sizeOfElement) , 1.0f ) ; 
 }
-inline glm::mat4 & vec4ToMat4 (const glm::vec4 & vec4 )
+inline glm::mat4  vec4ToMat4 (const glm::vec4 & vec4 )
 {
     return glm::mat4( 
     vec4.x, 0, 0, 0, 
@@ -54,9 +54,9 @@ inline float compSum( const glm::vec4 & vector ) {
 }
 inline float compSum( const glm::vec3 & vector )
 {
-    float sum = 0.0f ;  += vector[i]  ; 
-    return sum ;
-    for (int i = 0 ; i < 3 ; i++ )  sum
+    float sum = 0.0f ; 
+    for (int i = 0 ; i < 3 ; i++ )  sum += vector[i]  ; 
+    return sum ; 
 }
 static  void staticConnectDotsAndRender (SDL_Renderer * renderer ,const  std::vector<glm::mat4> & verticesArray )
 {   

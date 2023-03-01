@@ -1,6 +1,6 @@
 #include "square.h" // might give an linker error 
 #include <algorithm>
-
+///
 
 void Square :: renderMyself (SDL_Renderer * renderer )
 {
@@ -10,7 +10,7 @@ void Square :: renderMyself (SDL_Renderer * renderer )
     std::for_each (squareverticesarray.begin () , squareverticesarray.end () , 
     [this] (glm::mat4 & vertex){
         rotateVertex(vertex , squareOrientation);
-    }) ;w 
+    }) ;
     //----------- scaling each vertice according to  square position -------------------
     for_each (squareverticesarray.begin () , squareverticesarray.end () , 
     [this] (glm::mat4 & vertex){
