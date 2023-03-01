@@ -1,9 +1,13 @@
+#ifndef _SQUARE_H_
+#define _SQUARE_H_
+
 #include <iostream>
 #include <vector> 
 #include <map>
 #include "glm/glm.hpp"
 #include <SDL2/SDL.h>
 #include <array>
+#include <vector>
 #include "glm/gtc/matrix_transform.hpp"
 #include <glm/gtx/string_cast.hpp>
 #include <string>
@@ -18,9 +22,8 @@ class Square {
     ~Square () = default ; 
     void renderMyself ( SDL_Renderer * renderer ) ;
     void handleMouseEvents(SDL_MouseMotionEvent &mouseEvent , SDL_MouseWheelEvent &wheelEvent) ;  
-    void fillVertices () ; 
+    void fillVertices () ;
+    
 }; 
 
-
-
-
+#endif // !_SQUARE_H_

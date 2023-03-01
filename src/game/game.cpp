@@ -37,19 +37,21 @@ void Game ::processInput()
                     case SDL_SCANCODE_ESCAPE :{
                         isRunning = false ; break ; 
                     }
-                    default : {} ; 
+                    default : {break ; } ; 
 
                 }
 
             case SDL_MOUSEMOTION :{
                 mouseevent = event.motion  ;  
+                break ; 
             }     
 
             }
             case SDL_MOUSEWHEEL :{
                 wheelEvent = event.wheel ; 
+                break ; 
             }
-            default :{} ; 
+            default :{break ; } ; 
         }
    } 
 
@@ -61,8 +63,6 @@ void Game :: update () {
 
 void Game :: render () //where function is of the type function object 
 {
-    SDL_SetRenderDrawColor(renderer ,21 ,21 ,21 , 255 ) ; 
-    SDL_RenderClear (renderer ) ; 
     SDL_RenderPresent(renderer ) ; 
 } 
 

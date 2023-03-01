@@ -1,3 +1,7 @@
+#ifndef _GAME_H_
+#define _GAME_H_
+
+
 #include <iostream>
 #include <SDL2/SDL.h>
 #include <vector> 
@@ -18,3 +22,5 @@ class Game {
     void render () ;  // just paste everything on thhe renderrer 
     void destroy () ; // destroys the window and the renderer 
 } ; 
+
+#endif // !_GAME_H_

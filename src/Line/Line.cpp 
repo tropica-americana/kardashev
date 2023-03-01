@@ -1,0 +1,28 @@
+#include "./Line.h"
+Line :: Line () {
+    push_back( Vertex(0.5f , positiveUpperRight ) ) ; 
+    push_back(Vertex(0.5f , negativeLowerLeft ) ) ;  
+}
+// returns a pointer to the vertex
+Vertex * Line::getCenterOfRotation (){
+    Vertex * vertex = new Vertex ;  
+    for (int i = 0 ; i < 4 ; i++ ) {
+        vertex->verticeMatrix[i][i] = this->verticeMatrix[i][3] ;  
+    }
+    return vertex  ; 
+} 
+void Line :: rotateLine( glm::vec3 & orientationVec3 ) {
+    (*this)[0].rotateVertex(orientationVec3 ) ; 
+    (*this)[1].rotateVertex(orientationVec3 ) ; 
+}  
+void Line :: rotateLineAlongCOT(const glm::vec3 & orientationVec3 , Vertex & centerOfTranslation  ) {
+    Vertex connectingVertex  ; 
+    
+    for (int i = 0 ; i < 4 ; i++ ) {              //centerOfRotation     // center of translation 
+        (connectingVertex.verticeMatrix)[i][i] = (verticeMatrix[i][3] - centerOfTranslation[i]) ; 
+    }
+    connectingVertex.rotate(orientationVec3)  ; 
+     for (int i =  0 ; i < 4 ; i++ ){
+        verticeMatrix[i][3] = connectingVertex[i] ; 
+     } 
+} 

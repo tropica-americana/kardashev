@@ -3,6 +3,10 @@
 Vertex:: Vertex() {
     verticeMatrix  = glm::mat4 (1.0f ) ;  
 }
+Vertex:: Vertex (float symetricDistanceFromOrigin , Quadrant quadrant ) {
+    verticeMatrix  = glm::mat4 (1.0f ) ; 
+    scaleSymetrically( symetricDistanceFromOrigin , quadrant ) ; 
+} ;
 
 void Vertex::scaleSymetrically (float length ) {
     glm::scale (verticeMatrix , glm::vec3 (length , length , length ) )   ; 
@@ -63,3 +67,21 @@ void Vertex::rotateVertex ( const glm::vec3 & orientationVec3) {
     orientationVec3.z ,glm::vec3 ( 0.0f , 0.0f , 1.0f));  
     return ;
 }  
+Vertex:: Vertex(glm::vec3 & positionVec3 ){
+    verticeMatrix =   vec4toMat4( glm::vec4 (positionVec3 , 1.0f  )) ;  
+} 
+
+void Vertex::translate (glm::mat4 & modelToBeAdded ){
+    glm::translate (vertexMatrix , mat4toVec4(modelToBeAdded)); 
+}
+Vertex::Vertex (glm::mat4 & matrix ){
+    verticeMatrix = matrix ; 
+} ;  
+//------------------- operator overloading ---------------
+Vertex  operator - (const Vertex & vertex1  ){
+    Vertex  localVertex  = new Vertex ; 
+    localVertex -> verticeMatrix = (this->verticeMatrix )- (vertex1.verticeMatrix ) ;
+    return q localVertex ;  
+ } ; 
+float operator [] (int index )
+ {float returnFloat{0.0f}  ; for (int i = 0 ; i <4  ; i++) {returnFloat += vertexMatrix[index][i] ; } return returnFloat ;   } ;     

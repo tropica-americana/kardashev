@@ -8,7 +8,7 @@
 inline glm::vec4 createVec4 (float sizeOfElement ) {
    return  glm::vec4(glm::vec3 (sizeOfElement) , 1.0f ) ; 
 }
-inline glm::mat4 vec4ToMat4 (const glm::vec4 & vec4 )
+inline glm::mat4 & vec4ToMat4 (const glm::vec4 & vec4 )
 {
     return glm::mat4( 
     vec4.x, 0, 0, 0, 
@@ -35,6 +35,7 @@ inline glm::vec4  mat4ToVec4 (glm::mat4 &&model){
     glm::vec4 vertex =  ( model * glm::vec4 (1.0f , 1.0f  , 1.0f , 1.0f ) ) ;  
     return vertex ; 
 }
+
 
 static void rotateVertex (glm::mat4 & vertex , const glm::vec3 & orientationVec3) {
     vertex = glm::rotate (vertex,

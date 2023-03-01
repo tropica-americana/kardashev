@@ -10,7 +10,7 @@ void Square :: renderMyself (SDL_Renderer * renderer )
     std::for_each (squareverticesarray.begin () , squareverticesarray.end () , 
     [this] (glm::mat4 & vertex){
         rotateVertex(vertex , squareOrientation);
-    }) ; 
+    }) ;w 
     //----------- scaling each vertice according to  square position -------------------
     for_each (squareverticesarray.begin () , squareverticesarray.end () , 
     [this] (glm::mat4 & vertex){
@@ -37,9 +37,10 @@ void Square:: fillVertices (){
     for (int i = 0 ; i < 4 ; i++  ) {
        vertex =  glm::rotate(vertex  , 1.57f , glm::vec3 (0.0f , 0.0f , 1.0f )) ;     
        squareverticesarray.push_back(vertex ) ; 
-    }
-}
+     
 
+}
+}
 Square::Square(float  squareWidth ): squareWidth{squareWidth} { 
     squarePosition.x = 100.0f ; 
     squarePosition.y = 30.0f ;
@@ -50,13 +51,9 @@ void Square::handleMouseEvents (SDL_MouseMotionEvent &mouseEvent , SDL_MouseWhee
     {
         squarePosition.x +=  mouseEvent.xrel ; 
         squarePosition.y +=  mouseEvent.yrel ; 
-        squareOrientation.x += mouseEvent.yrel  ;
-        squareOrientation.y += mouseEvent.xrel ;  
     }
     // if(wheelEvent.y > 0) // scroll up
     //      squarePosition.z += 10 ; 
     // else if(wheelEvent.y < 0) // scroll down
     //      squarePosition.z -= 10 ;    
-        
-    
 } 
