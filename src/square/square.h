@@ -23,7 +23,6 @@ class Square {
     void renderMyself ( SDL_Renderer * renderer ) ;
     void handleMouseEvents(SDL_MouseMotionEvent &mouseEvent , SDL_MouseWheelEvent &wheelEvent) ;  
     void fillVertices () ;
-    
 }; 
 
 #endif // !_SQUARE_H_

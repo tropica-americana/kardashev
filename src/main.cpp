@@ -39,15 +39,22 @@ int main () {
     //     game.render() ; 
     //     SDL_Delay (10) ; 
     Game game ; 
-    Line line ; 
+    Line line(200.0f ) ;
+    line[0].translate (glm::vec3(10.0f , 10.0f , 10.0f )) ; 
+    line[1].translate (glm::vec3(10.0f , 10.0f , 10.0f )) ;  
+    // line.rotateLine(glm::)
     while (game.isRunning){
-        if (SDL_GetTicks() >= 10000) game.isRunning = false ; 
-       
-        myRenderFunction( ()[&game]{
-            line.renderMyself (game.renderer ) ; 
-        }) 
+        game.processInput() ; 
+        game.update() ; 
+        myRenderFunction([&game , &line ]{
+        SDL_SetRenderDrawColor(game.renderer , 50, 50, 50, 255 ) ; 
+        SDL_RenderClear(game.renderer) ; 
+        line.processInput(game.mouseevent) ; 
+        line.rotateLineAlongAxis(glm::vec3 (1.0f , 0.0f , 0.0f ) , 0.14f ) ; 
+        line.renderMyself (game.renderer ) ; 
         game.render() ; 
-        SDL_Delay (10) ; 
-    }
-    return 0 ; 
-     }
+        SDL_Delay (10) ;
+        }) ;  
+
+    } 
+    return 0 ; } 

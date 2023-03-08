@@ -5,21 +5,10 @@
 #include <glm/glm.hpp>
 #include "../glmHandler/glmHandler.h"
 #include <vector>
-enum class Quadrant {
-    positiveUpperRight , 
-    positiveLowerRight , 
-    positiveLowerLeft ,
-    positiveUpperLeft , 
-    negativeUpperRight , 
-    negativeLowerRight , 
-    negativeLowerLeft ,
-    negativeUpperLeft 
-}
-enum class Axis {
-    positiveX , positiveY , positiveZ , negativeX , negativeY , negativeY 
-} 
+#include "../Quadrant/Quadrant.h"
+
 class Vertex {
- // a vertex cannot be rotated around another vertex with different center of mass , to rotate a vertex around another vertex a new vertex should be created with the the desired center of mass    
+
     public: 
     glm::mat4 verticeMatrix ;  
     Vertex() ; 
@@ -30,10 +19,14 @@ class Vertex {
     void scaleSymetrically (float length ) ;  
     void scaleAsymetrically (glm::vec3 scalingVec3 ) ; 
     void scaleSymetrically (float length , Quadrant quadrant ) ;
-    void translate (glm::vec3 movementVec3 ) ; 
+    void translate (const glm::vec3 & movementVec3 ) ; 
     void translate (glm::mat4 & modelToBeAdded ) ; // can take model as an input 
-    void rotateVertex (const glm::vec3 & orientationVec3) ; 
+    // void rotateVertex (const glm::vec3 & orientationVec3) ; 
+    void rotateVertexAlongAxis (const glm::vec3 & axis , float amount  ) ; 
     float operator [] (int index ) ;
-    Vertex & operator - (const Vertex & vertex1  ) ; 
-}   
+    Vertex operator - (const Vertex & vertex1  ) ; 
+    Vertex & operator = (float decimal_number )  ; 
+    bool isTouchingVertex (float range , const SDL_MouseMotionEvent & mouseEvent )  ; 
+
+}  ; 
 #endif // !_VERTEX_H_

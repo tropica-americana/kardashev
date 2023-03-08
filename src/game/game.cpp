@@ -1,6 +1,7 @@
 #include <iostream>
 #include "game.h"
-
+#include "../glmHandler/glmHandler.h"
+#include <string>
 void Game ::initialize()
 {
 
@@ -12,12 +13,18 @@ void Game ::initialize()
     }
     SDL_DisplayMode displayMode;
     SDL_GetCurrentDisplayMode(0 , &displayMode);
-    window = SDL_CreateWindow(NULL /*NULL AS THE TITLE */,SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, (displayMode).w, (displayMode).h, SDL_WINDOW_BORDERLESS); // MIGHT GIVE AN ERROR
+    window = SDL_CreateWindow(NULL /*NULL AS THE TITLE */,SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 
+    
+    (displayMode).w
+    ,
+    (displayMode).h
+    , SDL_WINDOW_BORDERLESS); // MIGHT GIVE AN ERROR
     if (window == 0 ){isRunning = false ;std::cout<<"probleme windowe "<<std::endl; ;return ; }
-    SDL_SetWindowFullscreen(window, SDL_WINDOW_FULLSCREEN);
     renderer = SDL_CreateRenderer(window, NULL, 0);
-    if (renderer == 0 ){isRunning = false ; std::cout<<"probleme renderere "<<std::endl;return ; }
-
+    if (renderer == 0 ){isRunning = false ; 
+    std::cout<<"probleme renderere "<<std::endl;
+    SDL_SetWindowFullscreen(window  , SDL_WINDOW_FULLSCREEN) ; 
+    return ; }
 }
 
 void Game ::processInput()
@@ -27,31 +34,28 @@ void Game ::processInput()
     {
         switch (event.type)
         {
-            case SDL_QUIT :  {
-                // handle quitting event here 
+            case SDL_QUIT :  
                 isRunning = false ; 
                 break ; 
-            }
-            case SDL_KEYDOWN  :{
-                switch (event.key.keysym.scancode){
-                    case SDL_SCANCODE_ESCAPE :{
-                        isRunning = false ; break ; 
-                    }
-                    default : {break ; } ; 
+            
+            case SDL_KEYDOWN  :
+                if ((event.key.keysym.sym ) == SDLK_ESCAPE) {
 
+                    isRunning = false ; 
                 }
-
-            case SDL_MOUSEMOTION :{
+                break; 
+            
+            case SDL_MOUSEMOTION :
                 mouseevent = event.motion  ;  
+                // print<std::string> ("mouse motion event ") ; 
                 break ; 
-            }     
-
-            }
-            case SDL_MOUSEWHEEL :{
+                
+            case SDL_MOUSEWHEEL :
                 wheelEvent = event.wheel ; 
                 break ; 
-            }
-            default :{break ; } ; 
+            
+            default :
+                break;  
         }
    } 
 
@@ -70,8 +74,6 @@ void Game :: destroy () {
     SDL_DestroyWindow (window ) ; 
     SDL_DestroyRenderer (renderer ) ;  
 }
-
-//----------constructor of the game object --------------------------------------------
  Game :: Game () {
     isRunning = true ; 
     initialize() ; 
@@ -79,4 +81,4 @@ void Game :: destroy () {
 
  Game :: ~ Game () {
     destroy () ; 
- } 
+ }  

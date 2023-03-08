@@ -1,0 +1,17 @@
+the higher something is on the list the more important it is to be done 
+
+if i assemble the pyramid vertices correctly 
+
+and render them correctly , i might be able to solve the whole thing 
+
+solve the 3d pyramid rendering the problem 
+
+solve the terminal problem inside our programme 
+
+create a artficial terminal inside our programme that can be used to 
+script and change the state of the programme 
+
+i have to solve the sleep problem really fast 
+
+going to gym associated with increased need for sleep is not a unknown mystery 
+

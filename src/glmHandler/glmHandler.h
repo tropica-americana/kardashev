@@ -4,6 +4,9 @@
 #include <glm/glm.hpp>
 #include <vector>
 #include <SDL2/SDL.h>
+#include <glm/gtx/transform.hpp>
+#include "glm/gtc/matrix_transform.hpp"
+#include <glm/gtx/string_cast.hpp>
 // ----------einstein never needed a compiler and always trusted his brain ---------------------------------------------------
 inline glm::vec4 createVec4 (float sizeOfElement ) {
    return  glm::vec4(glm::vec3 (sizeOfElement) , 1.0f ) ; 
@@ -39,12 +42,12 @@ inline glm::vec4  mat4ToVec4 (glm::mat4 &&model){
 
 static void rotateVertex (glm::mat4 & vertex , const glm::vec3 & orientationVec3) {
     vertex = glm::rotate (vertex,
-    orientationVec3.x ,glm::vec3(1.0f , 0.0f , 0.0f ) );
+    static_cast<float>(orientationVec3.x) ,glm::vec3(1.0f , 0.0f , 0.0f ) );
     vertex = glm::rotate (vertex,
-    orientationVec3.y ,glm::vec3 (0.0f , 1.0f , 0.0f ) );
+   static_cast<float>(orientationVec3.y) ,glm::vec3 (0.0f , 1.0f , 0.0f ) );
     vertex = glm::rotate (vertex,
-    orientationVec3.z ,glm::vec3 ( 0.0f , 0.0f , 1.0f));  
-    return ;
+   static_cast<float>(orientationVec3.z) ,glm::vec3 ( 0.0f , 0.0f , 1.0f));  
+return ;
 } 
 // -----------only designed for mat4 --------------------------------------------------------
 inline float compSum( const glm::vec4 & vector ) {
@@ -103,6 +106,14 @@ static void display_model (const glm::mat4 &model)  {
     std::cout<<glm::to_string (model[3]) <<std::endl; 
     std::cout<<std::endl;
 } 
-// the question is wheather you can change the center of rotation of a vertex and rotate the 
-// object around the center vertex 
+template <typename T >
+static void print ( T object ) {std::cout<<object <<std::endl ; }
+
+static void myScale (glm::mat4 & model , glm::vec3 hec3 ) {
+    for (int i = 0 ; i < 3 ; i++ ) {
+        model[i][i] =(model[i][i])* hec3[i] ; 
+    }
+} 
+
+
 #endif // !_GLMHANDLER_H_
