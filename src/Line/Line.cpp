@@ -7,12 +7,9 @@ Line :: Line () {
 }
 Line :: Line (float scalingNumber ) {
     this->at(0) = ( Vertex(scalingNumber , Quadrant::positiveUpperRight ) ) ; 
-    // print<float> (this->at(0).verticeMatrix[0][0] )   ; 
-    // print<std::string>(" line initialized ");
     this->at(1) = (Vertex(scalingNumber , Quadrant::negativeLowerLeft ) ) ; 
-    // print<float> (this->at(0)[1] ) ; 
+
 }
-// returns a pointer to the vertex
 Vertex * Line::getCenterOfRotation (){
     Vertex * pointerToVertex = new Vertex ;  
     for (int i = 0 ; i < 4 ; i++ ) {
@@ -20,10 +17,7 @@ Vertex * Line::getCenterOfRotation (){
     }
     return pointerToVertex ; 
 } 
-// void Line :: rotateLine( const glm::vec3 & orientationVec3 ) {
-//     this->at(0).rotateVertex(orientationVec3 ) ; 
-//     this->at(1).rotateVertex(orientationVec3 ) ; 
-// }  
+
 void Line :: rotateLineAlongAxis (const glm::vec3 & axis , float amount  ) {
     this->at(0).rotateVertexAlongAxis(axis , amount ) ; 
     this->at(1).rotateVertexAlongAxis(axis , amount ) ; 

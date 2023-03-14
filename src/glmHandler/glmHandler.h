@@ -7,6 +7,8 @@
 #include <glm/gtx/transform.hpp>
 #include "glm/gtc/matrix_transform.hpp"
 #include <glm/gtx/string_cast.hpp>
+#include <cmath>
+
 // ----------einstein never needed a compiler and always trusted his brain ---------------------------------------------------
 inline glm::vec4 createVec4 (float sizeOfElement ) {
    return  glm::vec4(glm::vec3 (sizeOfElement) , 1.0f ) ; 

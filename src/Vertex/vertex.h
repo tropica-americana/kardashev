@@ -9,19 +9,22 @@
 
 class Vertex {
 
-    public: 
+    public:
+    float distanceFromObserver {500.0f };  
     glm::mat4 verticeMatrix ;  
     Vertex() ; 
     Vertex (float symetricDistanceFromOrigin , Quadrant quadrant ) ; 
     Vertex (glm::vec3 & positionVec3 )  ;
     Vertex (glm::mat4 & matrix ) ;  
     ~Vertex()  = default ;
+    float getAtIndex (int index) {float returnFloat{0} ; for (int i = 0 ; i < 4 ; i++){returnFloat += verticeMatrix[i][index] ; } return returnFloat ; }
+    float getAtIndexExcludingTranslate (int index) {float returnFloat{0} ; for (int i = 0 ; i < 3 ; i++){returnFloat += verticeMatrix[i][index] ; } return returnFloat ; }
     void scaleSymetrically (float length ) ;  
     void scaleAsymetrically (glm::vec3 scalingVec3 ) ; 
     void scaleSymetrically (float length , Quadrant quadrant ) ;
     void translate (const glm::vec3 & movementVec3 ) ; 
     void translate (glm::mat4 & modelToBeAdded ) ; // can take model as an input 
-    // void rotateVertex (const glm::vec3 & orientationVec3) ; 
+    void rotateVertex (const glm::vec3 & orientationVec3) ; 
     void rotateVertexAlongAxis (const glm::vec3 & axis , float amount  ) ; 
     float operator [] (int index ) ;
     Vertex operator - (const Vertex & vertex1  ) ; 
