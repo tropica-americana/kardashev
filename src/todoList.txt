@@ -1,16 +1,39 @@
 
-if i assemble the pyramid vertices correctly 
+we create a inputThread function 
+and let it run till the game.isRunning is true (1) 
 
+input thread functions connects with a nothingClass and runs the function processInput on that nothingClass object 
 
-
-and render them correctly , i might be able to solve the whole thing 
-
-solve the 3d pyramid rendering the problem 
 
 solve the terminal problem inside our programme 
 
 create a artficial terminal inside our programme that can be used to 
 script and change the state of the programme 
+
+
+i have a nothing class that looks like this               nothingClass {} ;  
+nothingClass is stored in "./nothingClass/nothingClass.cpp" with respect to main 
+i have various shapes in my programme which are derived from nothing class eg pyramid , square 
+each of these shapes object have proccessInput methods 
+what i wanna do is create a 
+
+void inputThread (vector <nothingClass> hector , const SDL_MouseMotionEvent & mouseEvent) {} function 
+which connect to vector of  shapes derived from objects derived from nothing class 
+
+what i wanna do is
+take terminal input between two return presses "return/enter" and "return/enter" and read the 
+text from the terminal and stores it inside std::string terminalText ; 
+make no mistake that the inputThread function runs in its own sepereate thread and is connected 
+to shape and processes its input changes 
+now the structure of inputThread is such that 
+it has various switch cases for each type of terminalText 
+when case "rotate 0" 
+it goes to vector[0] and calls the rotate method such that 
+rotate method take glm::vec3 orientationVector ; as a paramter 
+which contains the x , y , z  angles of rotation in radians 
+mouseEvent.xrel is taken as orientationVector.x  += (xrel is thought to be in degrees and converted to radians ) ;
+mouseEvent.yrel is taken as orientationVector.y += yrel( proceeses as the xrel was processed into radians  ) ; 
+convert both orientationVector.x and orientationVector.y into radians which were initially in degrees 
 
 
 

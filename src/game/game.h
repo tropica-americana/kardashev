@@ -4,6 +4,7 @@
 
 #include <iostream>
 #include <SDL2/SDL.h>
+#include <SDL2/SDL_ttf.h>
 #include <vector> 
 #include <map>
 #include <string> 
@@ -21,6 +22,7 @@ class Game {
     void update () ;  // updates the postion and presence of objects based on the input    
     void render () ;  // just paste everything on thhe renderrer 
     void destroy () ; // destroys the window and the renderer 
+    void renderText (TTF_Font * ourFont ) ; 
 } ; 
 ///
 #endif // !_GAME_H_

@@ -24,8 +24,10 @@ void Game ::initialize()
     if (renderer == 0 ){isRunning = false ; 
     std::cout<<"probleme renderere "<<std::endl;
     SDL_SetWindowFullscreen(window  , SDL_WINDOW_FULLSCREEN) ; 
-    return ; }
-}
+
+    // --------------to render text -----------------------------------------------------
+     
+}}
 
 void Game ::processInput()
 {
@@ -72,7 +74,8 @@ void Game :: render () //where function is of the type function object
 
 void Game :: destroy () {
     SDL_DestroyWindow (window ) ; 
-    SDL_DestroyRenderer (renderer ) ;  
+    SDL_DestroyRenderer (renderer ) ; 
+   
 }
  Game :: Game () {
     isRunning = true ; 
@@ -82,3 +85,20 @@ void Game :: destroy () {
  Game :: ~ Game () {
     destroy () ; 
  }  
+ void Game :: renderText (TTF_Font * ourFont ) {
+    
+    if (TTF_Init() == -1 ) {std::cout << "problem rendering text "<<std::endl ; }
+    SDL_Surface * surfaceText = TTF_RenderText_Solid (ourFont , "mike shah randwa" , {255 ,255,255})  ; 
+    
+    SDL_Texture * textTexture = SDL_CreateTextureFromSurface(renderer , surfaceText) ; 
+    SDL_FreeSurface (surfaceText) ; 
+    SDL_Rect rectangle ; 
+    rectangle.x = 10 ; 
+    rectangle.y = 10 ; 
+    rectangle.w = 100 ; 
+    rectangle.h = 100 ; 
+    SDL_RenderCopy(renderer , textTexture ,NULL ,  &rectangle ) ; 
+    SDL_DestroyTexture (textTexture ) ; 
+    TTF_CloseFont ( ourFont ) ; 
+
+ }

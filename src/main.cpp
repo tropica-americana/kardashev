@@ -10,14 +10,33 @@
 #include <SDL2/SDL.h>
 #include "./Line/Line.h"
 #include "./Pyramid/Pyramid.h"
+#include "./nothingClass /nothingClass.h" // do not change this 
+#include <thread>
 using namespace std ; 
-
-template <typename T>
-void myRenderFunction (T function ){
-    function () ;
-};
+static void inputThread(std::vector<nothingClass *> &hector, const Game &game ) ; 
 int main () {
-    // Game game ; 
+    Game game ; 
+    Line line(200.0f ) ;
+    std::vector <nothingClass * > hector ; 
+    hector.push_back(new Pyramid(100.0f )) ; 
+    hector.push_back(new Pyramid(10.0f ) ) ; 
+    std::thread processInput(inputThread ,hector , game  ) ; 
+    while (game.isRunning){
+        game.processInput() ; 
+        game.update() ; 
+        SDL_SetRenderDrawColor(game.renderer , 50, 50, 50, 255 ) ; 
+        SDL_RenderClear(game.renderer) ; 
+        for (auto  & item : hector ) {item->renderMyself(game.renderer ) ; }  
+        game.render() ; 
+        SDL_Delay (10) ;
+    } 
+    processInput.join () ; 
+    return 0 ; 
+   
+    } 
+
+
+     // Game game ; 
     // Square square(100.0) ; 
     // while (game.isRunning){
     //     if (SDL_GetTicks() >= 10000) game.isRunning = false ; 
@@ -36,33 +55,28 @@ int main () {
     //     // );
     //     myRenderFunction( ()[&game]{}) 
     //     game.render() ; 
-    //     SDL_Delay (10) ; 
-    Game game ; 
-    Line line(200.0f ) ;
-    // line[0].translate (glm::vec3(10.0f , 10.0f , 10.0f )) ; 
-    // line[1].translate (glm::vec3(10.0f , 10.0f , 10.0f )) ;  
-    Pyramid pyramid (100.0f ) ; 
-    pyramid.translate (glm::vec3(100.0f , 100.0f , 100.0f  )) ; 
-    pyramid.displaySelf () ; 
-    while (game.isRunning){
-        game.processInput() ; 
-        game.update() ; 
-        myRenderFunction([&game , &line , &pyramid ]{
-        SDL_SetRenderDrawColor(game.renderer , 50, 50, 50, 255 ) ; 
-        SDL_RenderClear(game.renderer) ; 
-        // line.processInput(game.mouseevent) ; 
-        // line.rotateLineAlongAxis(glm::vec3 (0.0f , 1.0f , 0.0f ) , 0.14f ) ; 
-        // line.renderMyself (game.renderer ) ; 
+    //     SDL_Delay (10) ;
 
-        pyramid.processInput (game.mouseevent) ; 
-        pyramid.rotate(glm::vec3 (0.01f , 0.01f , 0.01f )) ; 
-        pyramid.renderMyself (game.renderer) ; 
+    static void inputThread(std::vector<nothingClass *> &hector, const Game &game ){
+    std::string terminalText;
+    SDL_MouseMotionEvent mouseEvent = game.mouseevent ; 
+    while (game.isRunning) {
+        std::getline(std::cin, terminalText); // Read input from the terminal
 
-        // pyramid.translate(glm::vec3 (1.0f , 0.0f , 0.0f )) ;
-        // pyramid.displaySelf() ; 
-        
-        game.render() ; 
-        SDL_Delay (10) ;
-        }) ;  
-    } 
-    return 0 ; } 
+        if (terminalText.empty()) break; // Stop reading input on second return/enter press
+
+        glm::vec3 orientationVector;
+
+        orientationVector.x += mouseEvent.xrel;
+        orientationVector.y += mouseEvent.yrel;
+
+        // Convert degrees to radians
+        orientationVector.x = glm::radians(orientationVector.x);
+        orientationVector.y = glm::radians(orientationVector.y);
+
+        if (terminalText == "rotate 0" && !hector.empty()) {
+            hector[0]->rotate(orientationVector);
+        }
+        // Add more cases as needed
+    }
+}
