@@ -12,15 +12,17 @@
 #include "./Pyramid/Pyramid.h"
 #include "./nothingClass /nothingClass.h" // do not change this 
 #include <thread>
+#include <chrono>
 using namespace std ; 
-static void inputThread(std::vector<nothingClass *> &hector, const Game &game ) ; 
+static void inputThread(std::vector<nothingClass *>  & hector, Game &  game ) ;
+static void getTerminalText(std::string & textTerminal , Game & game  ) ;
 int main () {
     Game game ; 
     Line line(200.0f ) ;
     std::vector <nothingClass * > hector ; 
     hector.push_back(new Pyramid(100.0f )) ; 
     hector.push_back(new Pyramid(10.0f ) ) ; 
-    std::thread processInput(inputThread ,hector , game  ) ; 
+    std::thread processInput(inputThread ,std::ref(hector) , std::ref(game ) );
     while (game.isRunning){
         game.processInput() ; 
         game.update() ; 
@@ -30,53 +32,49 @@ int main () {
         game.render() ; 
         SDL_Delay (10) ;
     } 
-    processInput.join () ; 
+    // processInput.join () ; 
     return 0 ; 
-   
-    } 
+   } 
 
-
-     // Game game ; 
-    // Square square(100.0) ; 
-    // while (game.isRunning){
-    //     if (SDL_GetTicks() >= 10000) game.isRunning = false ; 
-    //     game.processInput() ; 
-    //     game.update()  ; 
-    //     // MyRenderFunction(
-    //     //     [&game , &square ] (){
-    //     //         SDL_SetRenderDrawColor(game.renderer , 21,
-    //     //         21,21,255 ) ; 
-    //     //         SDL_RenderClear(game.renderer ) ; 
-    //     //         SDL_SetRenderDrawColor(game.renderer  , 255,255,255,255);
-    //     //         square.renderMyself(game.renderer ) ; 
-    //     //         square.handleMouseEvents(game.mouseevent , game.wheelEvent);
-    //     //         SDL_RenderPresent(game.renderer ) ; 
-    //     //     }
-    //     // );
-    //     myRenderFunction( ()[&game]{}) 
-    //     game.render() ; 
-    //     SDL_Delay (10) ;
-
-    static void inputThread(std::vector<nothingClass *> &hector, const Game &game ){
-    std::string terminalText;
-    SDL_MouseMotionEvent mouseEvent = game.mouseevent ; 
-    while (game.isRunning) {
-        std::getline(std::cin, terminalText); // Read input from the terminal
-
-        if (terminalText.empty()) break; // Stop reading input on second return/enter press
-
-        glm::vec3 orientationVector;
-
+static void inputThread(std::vector<nothingClass *> & hector, Game & game ){
+    std::string terminalText{"rotate 0"};
+    std::chrono::milliseconds tenMilliSeconds(10) ; 
+    SDL_MouseMotionEvent & mouseEvent = game.mouseevent ; //connecting the game.mouseevent 
+    glm::vec3 orientationVector = glm::vec3 (0.0f , 0.0f ,0.0f );
+    std::string stateText ; 
+    std::thread getTerminalTextThread( getTerminalText, std::ref(terminalText) , std::ref(game));
+    while (game.isRunning ){
+        
+        if (!terminalText.empty()){  
+        if (mouseEvent.state &  SDL_BUTTON_LMASK ){
         orientationVector.x += mouseEvent.xrel;
         orientationVector.y += mouseEvent.yrel;
-
+        orientationVector.z = 0 ;  
         // Convert degrees to radians
         orientationVector.x = glm::radians(orientationVector.x);
         orientationVector.y = glm::radians(orientationVector.y);
-
-        if (terminalText == "rotate 0" && !hector.empty()) {
+        if (terminalText == "rotate 0" && !hector.empty()) 
+        {
             hector[0]->rotate(orientationVector);
         }
+        if (terminalText == "end" ) 
+        {
+            game.isRunning = 0; 
+        }        
         // Add more cases as needed
+        }
     }
 }
+    //  getTerminalTextThread.join () ; 
+}
+static void getTerminalText(std::string  & terminalText , Game &game) {
+    std::chrono::milliseconds hunderedMilliSeconds(100) ;
+    while (game.isRunning){
+        std::getline(std::cin, terminalText); 
+        std::cout<< terminalText <<std::endl; 
+        if (terminalText.empty() ) {std::cout<<"empty" <<std::endl ; }
+        if (terminalText == "rotate 0"){std::cout<<terminalText<<endl ; }
+        std::this_thread::sleep_for(hunderedMilliSeconds) ;     
+     }    
+}
+ 

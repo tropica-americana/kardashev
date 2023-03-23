@@ -17,7 +17,7 @@ i have various shapes in my programme which are derived from nothing class eg py
 each of these shapes object have proccessInput methods 
 what i wanna do is create a 
 
-void inputThread (vector <nothingClass> hector , const SDL_MouseMotionEvent & mouseEvent) {} function 
+void inputThread (vector <nothingClass *> hector , const SDL_MouseMotionEvent & mouseEvent) {} function 
 which connect to vector of  shapes derived from objects derived from nothing class 
 
 what i wanna do is
@@ -34,6 +34,29 @@ which contains the x , y , z  angles of rotation in radians
 mouseEvent.xrel is taken as orientationVector.x  += (xrel is thought to be in degrees and converted to radians ) ;
 mouseEvent.yrel is taken as orientationVector.y += yrel( proceeses as the xrel was processed into radians  ) ; 
 convert both orientationVector.x and orientationVector.y into radians which were initially in degrees 
+
+
+i want the getTerminalTextThread to be a sepereate thread and it should take a refrence to a 
+string terminalText as shown in the code above 
+getTerminalText is while loop that changes the value of terminalText based on the userInput 
+is runs in its seperate thread so its no problem to wait for the userinput 
+chat gpt please check whether getTerminalTextThread does exactly that and when the user has 
+entered the text and pressed enter it should make the value of terminalText as the userInput 
+and the userInput stored in the terminalText should be proccessed by the inputThread accordingly 
+game.proccessInput is the  part where the game.mouseEvent gets updated every time 
+if there are any problems with the code then show me the problematic code and then the correct
+code but do not provide any explainations 
+
+
+i have written this code as shown in the parenthesis "" 
+the problem is the getTerminalText is showing abnormal behavior  and preventing the rest 
+of the code from working properly . 
+it might be the race phenomenon could you correct the above code using mutex so that abnormal 
+behavior disappears 
+
+
+
+
 
 
 
