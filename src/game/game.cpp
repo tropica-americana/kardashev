@@ -53,7 +53,10 @@ void Game ::processInput()
                 break ; 
                 
             case SDL_MOUSEWHEEL :
-                wheelEvent = event.wheel ; 
+                {
+                    std::unique_lock<std::mutex> lock (inputUploadMutex) ; 
+                    wheelEvent = event.wheel ; 
+                }
                 break ; 
             
             default :

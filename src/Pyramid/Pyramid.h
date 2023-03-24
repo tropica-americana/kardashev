@@ -8,9 +8,11 @@
 #include "../Vertex/vertex.h"
 #include "../Quadrant/Quadrant.h"
 #include "../nothingClass /nothingClass.h"
+#include <mutex>
 class Pyramid : public nothingClass {
 public :    
     std::array <Vertex,5> verticesArray ; 
+    std::mutex verticesArrayMutex ; 
     Pyramid (float length ) ; 
     ~Pyramid() = default ; 
     void renderMyself (SDL_Renderer * renderer ) override  ; 

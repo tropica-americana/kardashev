@@ -48,21 +48,42 @@ if there are any problems with the code then show me the problematic code and th
 code but do not provide any explainations 
 
 
-i have written this code as shown in the parenthesis "" 
 the problem is the getTerminalText is showing abnormal behavior  and preventing the rest 
 of the code from working properly . 
 it might be the race phenomenon could you correct the above code using mutex so that abnormal 
 behavior disappears 
 
+what is the difference between 
+std::cin >> stringVar ; 
+and
+std::getline (std::cin , stringVar ) ; 
+
+
+i have written this code as shown in the parenthesis "" 
+this is all of my pyramid.cpp code and the problem is that the first vertex of the pyramid is 
+not translating properly i dont know whats the problem 
+can you tell me 
 
 
 
+this is my excel sheet in between the parenthesis""
+my delegate section is pretty ugly can you correct it for me to make it look more presentable 
+and my do and delte section is also empty please insert two or three tasks which are 
+very human like in the delay and delete section also and 
+present me the final version which i can copy paste in my google sheets 
 
-
-
-
-
-
+make me a google sheet that  i can copy paste into my google sheets 
+in A column should be time zone ()
+and B column should be tasks to be done in the time zone 
+time zone characterstics should include 
+total time zones = 12 
+duration of time zone should be 2 hours
+use the tasks from the above spread sheet 
+8 - 12 should include the tasks of highest priority 
+9 PM to 1 PM should also include the tasks of highest priority  
+use AM and PM in the time zones 
+from 1PM to 8PM i sleep 
+allocate major time to skill development from the tasks above 
 
 
 

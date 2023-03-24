@@ -8,6 +8,7 @@
 #include <vector> 
 #include <map>
 #include <string> 
+#include <mutex>
 class Game {
     public: 
     bool isRunning ; 
@@ -15,6 +16,7 @@ class Game {
     SDL_MouseWheelEvent wheelEvent ;    
     SDL_Window * window ; 
     SDL_Renderer * renderer ; 
+    std::mutex inputUploadMutex ; 
     Game () ;  // calls the initialize method 
     ~Game () ; // calls the void destory () method 
     void initialize() ;  // creates a window and renderer 

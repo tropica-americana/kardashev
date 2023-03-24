@@ -10,7 +10,7 @@ Pyramid::Pyramid (float length ) {
 
 } 
 void Pyramid::rotate ( const glm::vec3 & orientationVec3  ) {
-
+    std::unique_lock<std::mutex> lock(verticesArrayMutex) ;
     // ------------------rotating along the xAxis ----------------------
     glm::vec3 axis {glm::vec3 (1.0f , 0.0f , 0.0f )} ; 
     float amount = orientationVec3.x ; 
@@ -53,12 +53,15 @@ void Pyramid::renderMyself (SDL_Renderer * renderer ) {
     }
 } 
 void Pyramid::processInput (const SDL_MouseMotionEvent & mouseEvent  ){
+    std::unique_lock<std::mutex> lock(verticesArrayMutex) ;
     float simultaneousMotionFactor {1.0f } ; 
     if (mouseEvent.state &  SDL_BUTTON_LMASK ){for (int i = 0 ; i < 5 ; i++)
     {verticesArray.at(i).translate (glm::vec3 (mouseEvent.xrel*simultaneousMotionFactor , mouseEvent.yrel*simultaneousMotionFactor  ,0.0f  )) ;  }}    
 }
 void Pyramid::translate (const glm::vec3 & vec3 ) {
-    for (int i = 0 ; i < 5 ; i++ ) 
+    std::unique_lock<std::mutex> lock(verticesArrayMutex) ; 
+    verticesArray.at(0).translate(vec3 ) ; 
+    for (int  i = 0 ; i < 5 ; i++ ) 
     {
     verticesArray.at(i).translate (vec3 ) ; 
     }
