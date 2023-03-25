@@ -23,10 +23,10 @@ int main() {
     Game game;
     Line line(200.0f);
     std::vector<nothingClass *> hector;
-    hector.push_back(new Pyramid(100.0f));
-    hector.push_back(new Pyramid(10.0f));
+    hector.push_back(new Pyramid(500.0f));
     std::mutex mtx;
-    std::thread processInput(inputThread, std::ref(hector), std::ref(game), std::ref(mtx));
+    std::thread getTerminalTextThread(&Game::getTerminalText, &game);
+
     while (game.isRunning) {
         game.processInput();
         game.update();
@@ -35,60 +35,54 @@ int main() {
         for (auto &item : hector) 
         { 
             item->renderMyself(game.renderer); 
-            item->processInput(game.mouseevent);// <-this line is somehow does some magic 
         }
         game.render();
         SDL_Delay(10);
     }
-    // processInput.join();
     return 0;
 }
 
-static void inputThread(std::vector<nothingClass *> &hector, Game &game, std::mutex &mtx) {
-    std::string terminalText{""};
-    std::chrono::milliseconds tenMilliSeconds(10);
-    SDL_MouseMotionEvent &mouseEvent = game.mouseevent;
-    glm::vec3 orientationVector = glm::vec3(0.0f, 0.0f, 0.0f);
-    std::string stateText;
-    std::thread getTerminalTextThread(getTerminalText, std::ref(terminalText), std::ref(game), std::ref(mtx));
-    while (game.isRunning) {
-        {
-            std::unique_lock<std::mutex> lock(mtx);
-            if (!terminalText.empty()) {
-                if (mouseEvent.state & SDL_BUTTON_LMASK) {
-                    orientationVector.x += mouseEvent.xrel;
-                    orientationVector.y += mouseEvent.yrel;
-                    orientationVector.z = 0;
-                    orientationVector.x = glm::radians(orientationVector.x)/100;
-                    orientationVector.y = glm::radians(orientationVector.y)/100;
-                    if (terminalText == "rotate 0" && !hector.empty()) {
-                        hector[0]->rotate(orientationVector);
-                    }
-                    if (terminalText == "end") {
-                        game.isRunning = 0;
-                    }
-                    if (terminalText == "translate 0" && !hector.empty()) {
-                        hector[0]->translate(glm::vec3 (0.01f ,0.0f ,0.0f));
-                        // hector[0]->translate(orientationVector);
-                        // hector[0]->processInput(game.mouseevent);
-                    }
-                }
-            }
-        }
-    }
-    // getTerminalTextThread.join();
-}
 
-static void getTerminalText(std::string &terminalText, Game &game, std::mutex &mtx) {
-    std::chrono::milliseconds hunderedMilliSeconds(100);
-    while (game.isRunning) {
-        std::string input;
-        std::getline(std::cin, input);
-        {
-            std::unique_lock<std::mutex> lock(mtx);
-            terminalText = input;
-            // after this block the lock gets deleted 
-        }
-        std::this_thread::sleep_for(hunderedMilliSeconds);
-    }
-}
+
+
+
+
+
+
+
+
+
+// static void inputThread(std::vector<nothingClass *> &hector, Game &game, std::mutex &mtx) {
+//     std::string terminalText{""};
+//     std::chrono::milliseconds tenMilliSeconds(10);
+//     SDL_MouseMotionEvent &mouseEvent = game.mouseevent;
+//     glm::vec3 orientationVector = glm::vec3(0.0f, 0.0f, 0.0f);
+//     std::string stateText;
+//     std::thread getTerminalTextThread(getTerminalText, std::ref(terminalText), std::ref(game), std::ref(mtx));
+//     while (game.isRunning == true || game.isRunning == 1 ) {
+//         {
+//             std::unique_lock<std::mutex> lock(mtx);
+//             if (!terminalText.empty()) {
+//                 if (mouseEvent.state & SDL_BUTTON_LMASK) {
+//                     orientationVector.x += mouseEvent.xrel;
+//                     orientationVector.y += mouseEvent.yrel;
+//                     orientationVector.z = 0;
+//                     orientationVector.x = glm::radians(orientationVector.x)/4000;
+//                     orientationVector.y = glm::radians(orientationVector.y)/4000;
+//                     if (terminalText == "rotate 0" && !hector.empty()) {
+//                         hector[0]->rotate(orientationVector);
+//                     }
+//                     if (terminalText == "end") {
+//                         game.isRunning = false;
+//                     }
+//                     if (terminalText == "translate 0" && !hector.empty()) {
+//                         orientationVector.x += mouseEvent.xrel;
+//                         orientationVector.y += mouseEvent.yrel;
+//                         hector[0]->translate(glm::vec3 (orientationVector));
+//                     }
+//                 }
+//             }
+//         }
+//     }
+//     // getTerminalTextThread.join();
+// }

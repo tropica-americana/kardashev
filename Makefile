@@ -4,6 +4,7 @@
 CC = g++
 LANG_STD = -std=c++17
 #COMPILER_FLAGS = -Wall  -Wfatal-errors
+DEBUGGING_SYMBOLS = -g
 COMPILER_FLAGS = -w -Wfatal-errors
 INCLUDE_PATH = -I"./libs/"
 SRC_FILES = ./src/*.cpp \
@@ -22,7 +23,7 @@ OBJ_NAME = gameengine
 # Declare some Makefile rules
 ################################################################################
 build:
-	$(CC) $(COMPILER_FLAGS) $(LANG_STD) $(INCLUDE_PATH) $(SRC_FILES) $(LINKER_FLAGS) -o $(OBJ_NAME)
+	$(CC) $(DEBUGGING_SYMBOLS) $(COMPILER_FLAGS) $(LANG_STD) $(INCLUDE_PATH) $(SRC_FILES) $(LINKER_FLAGS) -o $(OBJ_NAME)
 
 run:
 	./$(OBJ_NAME)

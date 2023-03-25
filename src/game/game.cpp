@@ -4,7 +4,6 @@
 #include <string>
 void Game ::initialize()
 {
-
     if (SDL_Init(SDL_INIT_EVERYTHING) != 0 )
     {
         std::cerr << "problem initializing everything " << std::endl;
@@ -22,11 +21,10 @@ void Game ::initialize()
     if (window == 0 ){isRunning = false ;std::cout<<"probleme windowe "<<std::endl; ;return ; }
     renderer = SDL_CreateRenderer(window, NULL, 0);
     if (renderer == 0 ){isRunning = false ; 
-    std::cout<<"probleme renderere "<<std::endl;
+    std::cout<<"probleme renderere"<<std::endl;
     SDL_SetWindowFullscreen(window  , SDL_WINDOW_FULLSCREEN) ; 
 
-    // --------------to render text -----------------------------------------------------
-     
+    // --------------to render text -----------------------------------------------------   
 }}
 
 void Game ::processInput()
@@ -92,7 +90,6 @@ void Game :: destroy () {
     
     if (TTF_Init() == -1 ) {std::cout << "problem rendering text "<<std::endl ; }
     SDL_Surface * surfaceText = TTF_RenderText_Solid (ourFont , "mike shah randwa" , {255 ,255,255})  ; 
-    
     SDL_Texture * textTexture = SDL_CreateTextureFromSurface(renderer , surfaceText) ; 
     SDL_FreeSurface (surfaceText) ; 
     SDL_Rect rectangle ; 
@@ -105,3 +102,17 @@ void Game :: destroy () {
     TTF_CloseFont ( ourFont ) ; 
 
  }
+void Game::getTerminalText() {
+    std::chrono::milliseconds hunderedMilliSeconds(100);
+    while (isRunning == true) {
+        std::string input;
+        std::getline(std::cin, input);
+        {
+            std::unique_lock<std::mutex> lock(terminalTextMutex);
+            terminalText = input;
+        }
+        std::this_thread::sleep_for(hunderedMilliSeconds);
+        std::cout<<terminalText << std::endl ; 
+    }
+    
+}

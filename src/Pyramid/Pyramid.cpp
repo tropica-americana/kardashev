@@ -60,10 +60,9 @@ void Pyramid::processInput (const SDL_MouseMotionEvent & mouseEvent  ){
 }
 void Pyramid::translate (const glm::vec3 & vec3 ) {
     std::unique_lock<std::mutex> lock(verticesArrayMutex) ; 
-    verticesArray.at(0).translate(vec3 ) ; 
-    for (int  i = 0 ; i < 5 ; i++ ) 
+    for (int  i = 0 ; i <= 4 ; i++ ) 
     {
-    verticesArray.at(i).translate (vec3 ) ; 
+    verticesArray.at(i).translate (vec3) ; 
     }
 }
 void Pyramid :: displaySelf () {
@@ -71,7 +70,7 @@ void Pyramid :: displaySelf () {
     display_model (verticesArray.at(1).verticeMatrix ) ; 
     display_model (verticesArray.at(2).verticeMatrix ) ; 
     display_model (verticesArray.at(3).verticeMatrix ) ;  
-    display_model (verticesArray.at(3).verticeMatrix ) ; 
+    display_model (verticesArray.at(4).verticeMatrix ) ; 
 } 
 
 

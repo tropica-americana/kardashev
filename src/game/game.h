@@ -9,6 +9,8 @@
 #include <map>
 #include <string> 
 #include <mutex>
+#include <chrono>
+#include <thread>
 class Game {
     public: 
     bool isRunning ; 
@@ -17,6 +19,8 @@ class Game {
     SDL_Window * window ; 
     SDL_Renderer * renderer ; 
     std::mutex inputUploadMutex ; 
+    std::mutex terminalTextMutex ; 
+    std::string terminalText ; 
     Game () ;  // calls the initialize method 
     ~Game () ; // calls the void destory () method 
     void initialize() ;  // creates a window and renderer 
@@ -25,6 +29,7 @@ class Game {
     void render () ;  // just paste everything on thhe renderrer 
     void destroy () ; // destroys the window and the renderer 
     void renderText (TTF_Font * ourFont ) ; 
+    void getTerminalText() ;
 } ; 
 ///
 #endif // !_GAME_H_
