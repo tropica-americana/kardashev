@@ -82,6 +82,7 @@
         "stop_token": "cpp",
         "cinttypes": "cpp",
         "*.h ": "cpp",
-        "*.cpp ": "cpp"
+        "*.cpp ": "cpp",
+        "regex": "cpp"
     }
 }
