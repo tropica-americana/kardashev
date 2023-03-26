@@ -14,11 +14,11 @@
 class Game {
     public: 
     bool isRunning ; 
+    std::mutex mouseeventMutex ; 
     SDL_MouseMotionEvent mouseevent ; 
     SDL_MouseWheelEvent wheelEvent ;    
     SDL_Window * window ; 
     SDL_Renderer * renderer ; 
-    std::mutex inputUploadMutex ; 
     std::mutex terminalTextMutex ; 
     std::string terminalText ; 
     Game () ;  // calls the initialize method 

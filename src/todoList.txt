@@ -87,3 +87,166 @@ allocate major time to skill development from the tasks above
 
 
 
+
+i am a complete and utter noob in vscode 
+and i plan to use for text editing 
+i want the english dictionary words to be recommended to me as i type them 
+but i want the priority be given to words i have already used before 
+can you suggest me a extension that does exactly that 
+and also tell me how do i enable it because i often have trouble 
+enabling the extensio 
+
+i have a Game class which is predominantly dealing with SDL 
+it has a member called terminalText 
+and method called getTerminalText which is used as a thread 
+i alse have a mutex called terminalTextMutex
+to guard against concurrent access to the terminalText
+
+the problem i am having is i have other classes methods  that take Game class 
+members as parameters for example processInput 
+the Game class has a member called mousevent which is a SDL_MouseMotionEvent
+when i pass the refrence to game.mouseevent to my other classes processInput
+there occurs a segmentation problem i dont seem to be able to understand
+the problem i am having . will you be able to help me with the problem . 
+
+
+
+can you tell me the difference between lock_guard and lock_unlock and unique_lock
+
+
+this is my pyramid.h file
+ "class Pyramid : public nothingClass {
+    public :    
+        std::array <Vertex,5> verticesArray ; 
+        std::mutex verticesArrayMutex ; 
+        Pyramid (float length ) ; 
+        ~Pyramid() = default ; 
+        void renderMyself (SDL_Renderer * renderer ) override  ; 
+        void translate (const glm::vec3 & vec3 ) override  ; 
+        void rotate(const glm::vec3 & orientationVec3   ) override  ; 
+        void processInput (const SDL_MouseMotionEvent & mouseEvent ) override ;    
+        void displaySelf () ; 
+    };
+    #end"
+and this is my pyramid.cpp file which uses the refrences of the game.mouseEvent
+"#include "./Pyramid.h"
+
+Pyramid::Pyramid (float length ) {
+    
+    verticesArray.at (0) = Vertex{0.0f , Quadrant::positiveUpperRight } ;
+    verticesArray.at (1) = Vertex{length , Quadrant::positiveUpperRight } ; 
+    verticesArray.at (2) = Vertex{length , Quadrant::positiveUpperLeft } ; 
+    verticesArray.at (3) = Vertex{length , Quadrant::positiveLowerLeft } ;   
+    verticesArray.at (4) = Vertex{length , Quadrant::positiveLowerRight  } ; 
+
+} 
+void Pyramid::rotate ( const glm::vec3 & orientationVec3  ) {
+    std::unique_lock<std::mutex> lock(verticesArrayMutex) ;
+    // ------------------rotating along the xAxis ----------------------
+    glm::vec3 axis {glm::vec3 (1.0f , 0.0f , 0.0f )} ; 
+    float amount = orientationVec3.x ; 
+    if (orientationVec3.x != 0.0f ) {
+    verticesArray.at(1).rotateVertexAlongAxis(axis , amount );
+    verticesArray.at(2).rotateVertexAlongAxis(axis , amount );
+    verticesArray.at(3).rotateVertexAlongAxis(axis , -amount );
+    verticesArray.at(4).rotateVertexAlongAxis(axis , -amount );}
+    // ------------------rotating along the yAxis -----------------------
+    if (orientationVec3.y != 0.0f ){
+    axis = glm::vec3 (0.0f ,1.0f  , 0.0f ) ; 
+    amount = orientationVec3.y ; 
+    verticesArray.at(1).rotateVertexAlongAxis(axis , amount );
+    verticesArray.at(2).rotateVertexAlongAxis(axis , -amount );
+    verticesArray.at(3).rotateVertexAlongAxis(axis , -amount );
+    verticesArray.at(4).rotateVertexAlongAxis(axis , amount );}
+    // ----------------rotating along the zAxis --------------------------
+    if (orientationVec3.z != 0.0f ) {
+    axis = glm::vec3 (0.0f ,0.0f  , 1.0f ) ; 
+    amount = orientationVec3.z ; 
+    verticesArray.at(1).rotateVertexAlongAxis(axis , amount );
+    verticesArray.at(2).rotateVertexAlongAxis(axis , -amount );
+    verticesArray.at(3).rotateVertexAlongAxis(axis , amount );
+    verticesArray.at(4).rotateVertexAlongAxis(axis , -amount ); }
+
+} 
+void Pyramid::renderMyself (SDL_Renderer * renderer ) {
+    SDL_SetRenderDrawColor (renderer , 255 ,255 ,255 ,255 ) ;
+    for (int i = 1 ; i < 4 ; i++) {
+    SDL_RenderDrawLine (renderer , verticesArray.at(i)[0] , verticesArray.at(i)[1], 
+    verticesArray.at(i+1)[0] , verticesArray.at(i+1)[1]) ; 
+    // print ("looping draw line ") ; 
+    }   
+    SDL_RenderDrawLine(renderer , verticesArray.at(1)[0] , verticesArray.at(1)[1], 
+    verticesArray.at(4)[0] , verticesArray.at(4)[1]);    
+    for (int i = 1 ; i < 5 ; i++)
+    {
+    SDL_RenderDrawLine (renderer , verticesArray.at(0)[0] , verticesArray.at(0)[1], 
+    verticesArray.at(i)[0] , verticesArray.at(i)[1]); 
+    }
+} 
+void Pyramid::processInput (const SDL_MouseMotionEvent & mouseEvent  ){
+    std::unique_lock<std::mutex> lock(verticesArrayMutex) ;
+    float simultaneousMotionFactor {0.1f } ; 
+    if (mouseEvent.state &  SDL_BUTTON_LMASK ){
+        // for (int i = 0 ; i <= 4 ; i++)
+    //     {
+    //         verticesArray.at(i).translate (glm::vec3 (mouseEvent.xrel*simultaneousMotionFactor , mouseEvent.yrel*simultaneousMotionFactor  ,0.0f  )) ; 
+
+    //     }
+        translate(glm::vec3 (mouseEvent.xrel*simultaneousMotionFactor , mouseEvent.yrel*simultaneousMotionFactor  ,0.0f  ));
+    }    
+}
+void Pyramid::translate (const glm::vec3 & vec3 ) {
+    std::unique_lock<std::mutex> lock(verticesArrayMutex) ; 
+    for (int  i = 0 ; i < 5 ; i++ ) 
+    {
+    verticesArray.at(i).translate (vec3) ; 
+    }
+}
+void Pyramid :: displaySelf () {
+    display_model (verticesArray.at(0).verticeMatrix ) ; 
+    display_model (verticesArray.at(1).verticeMatrix ) ; 
+    display_model (verticesArray.at(2).verticeMatrix ) ; 
+    display_model (verticesArray.at(3).verticeMatrix ) ;  
+    display_model (verticesArray.at(4).verticeMatrix ) ; 
+} 
+"
+tell me why is processInput not working but the rotate and translate functions are working 
+correctly 
+
+how can a indian invest in hong kong stock exchange and open account there 
+
+tell me the method which allows me to invest in the hong kong stock exchange using zerodha 
+
+
+
+when i copy the text from vscode to the gpt4 interface then i have to copy and paste the text 
+which i have to do with the mouse or the keyboard 
+most of the time what happens is that some of the part of the text field i am copying gets left 
+and i have to manually naviagte the copy through the keyboad so that i get the entire section 
+selected 
+what i wanna be able to do is that the part of the text field that is selected gets copied 
+including the part which is not selected but is the line of the selection 
+most of the time what happens is that some of the part of the text field i am copying gets left 
+and i have to manually naviagte the copy through the keyboad so that i get the entire section 
+selected 
+what i wanna be able to do is that the part of the text field that is selected gets copied 
+including the part which is not selected but is the line of the selection 
+do you get my point 
+basically i want to be able to copy the entire lines and not the text 
+i am using vs code and mac 
+can you show me a very fast method which alllows me exactly that 
+
+
+write me a fucntion that does the following 
+1. its name should be processTerminalText 
+2. using regex it should process patterns like 
+3. it should take a refrence to the  std::vector < nothingClass * > & vector ; 
+4. it should process the input such that when i type rotate 0  or translate 1  or processInput it should call the respective method 
+    at the number specified in the command line or just print out no such command found 
+
+    
+
+
+
+
+

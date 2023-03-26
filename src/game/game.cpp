@@ -46,15 +46,15 @@ void Game ::processInput()
                 break; 
             
             case SDL_MOUSEMOTION :
+                mouseeventMutex.lock() ; 
                 mouseevent = event.motion  ;  
-                // print<std::string> ("mouse motion event ") ; 
+                mouseeventMutex.unlock() ;
                 break ; 
                 
             case SDL_MOUSEWHEEL :
-                {
-                    std::unique_lock<std::mutex> lock (inputUploadMutex) ; 
-                    wheelEvent = event.wheel ; 
-                }
+                mouseeventMutex.lock() ; 
+                wheelEvent = event.wheel ; 
+                mouseeventMutex.unlock() ;
                 break ; 
             
             default :
@@ -102,7 +102,8 @@ void Game :: destroy () {
     TTF_CloseFont ( ourFont ) ; 
 
  }
-void Game::getTerminalText() {
+void Game::getTerminalText()
+{
     std::chrono::milliseconds hunderedMilliSeconds(100);
     while (isRunning == true) {
         std::string input;
@@ -112,7 +113,6 @@ void Game::getTerminalText() {
             terminalText = input;
         }
         std::this_thread::sleep_for(hunderedMilliSeconds);
-        std::cout<<terminalText << std::endl ; 
+        std::cout<<terminalText<< std::endl ; 
     }
-    
 }

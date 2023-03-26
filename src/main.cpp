@@ -14,16 +14,16 @@
 #include <thread>
 #include <chrono>
 #include <mutex>
-
+#include <regex>
 using namespace std;
-static void inputThread(std::vector<nothingClass *> &hector, Game &game, std::mutex &mtx);
-static void getTerminalText(std::string &textTerminal, Game &game, std::mutex &mtx);
 
+void processTerminalText(std::vector<nothingClass *> & vector) ; 
 int main() {
     Game game;
     Line line(200.0f);
     std::vector<nothingClass *> hector;
-    hector.push_back(new Pyramid(500.0f));
+    hector.push_back(new Pyramid(100.0f));
+    hector.push_back(new Pyramid(1000.0f));
     std::mutex mtx;
     std::thread getTerminalTextThread(&Game::getTerminalText, &game);
 
@@ -32,6 +32,13 @@ int main() {
         game.update();
         SDL_SetRenderDrawColor(game.renderer, 50, 50, 50, 255);
         SDL_RenderClear(game.renderer);
+        // for (auto & item : hector )
+        // {
+        //     item->processInput(game.mouseevent) ;
+        //     item->translate(glm::vec3 (1.0f));
+        //     item-> rotate(glm::vec3 (0.1f , 0.0f , 0.0f )) ;
+        // }
+        processTerminalText(hector );
         for (auto &item : hector) 
         { 
             item->renderMyself(game.renderer); 
@@ -42,6 +49,38 @@ int main() {
     return 0;
 }
 
+
+
+void processTerminalText(std::vector<nothingClass *> & vector , std::string & terminalText ) {
+    std::string & input = terminalText ; 
+    std::regex rotate_pattern(R"(rotate\s+(\d+))");
+    std::regex translate_pattern(R"(translate\s+(\d+))");
+    std::regex process_input_pattern("processInput");
+
+    std::smatch match;
+
+    if (std::regex_search(input, match, rotate_pattern)) {
+        int index = std::stoi(match[1].str());
+        if (index >= 0 && index < vector.size()) {
+            vector[index]->rotate();
+        } else {
+            std::cout << "No such command found." << std::endl;
+        }
+    } else if (std::regex_search(input, match, translate_pattern)) {
+        int index = std::stoi(match[1].str());
+        if (index >= 0 && index < vector.size()) {
+            vector[index]->translate();
+        } else {
+            std::cout << "No such command found." << std::endl;
+        }
+    } else if (std::regex_search(input, match, process_input_pattern)) {
+        for (nothingClass *obj : vector) {
+            obj->processInput();
+        }
+    } else {
+        std::cout << "No such command found." << std::endl;
+    }
+}
 
 
 

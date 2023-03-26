@@ -30,3 +30,6 @@ run:
 
 clean:
 	rm $(OBJ_NAME)
+
+git log:
+	git log --all --pretty=format:"%h - %an, %ar : %s"

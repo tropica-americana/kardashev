@@ -55,12 +55,13 @@ void Pyramid::renderMyself (SDL_Renderer * renderer ) {
 void Pyramid::processInput (const SDL_MouseMotionEvent & mouseEvent  ){
     std::unique_lock<std::mutex> lock(verticesArrayMutex) ;
     float simultaneousMotionFactor {1.0f } ; 
-    if (mouseEvent.state &  SDL_BUTTON_LMASK ){for (int i = 0 ; i < 5 ; i++)
-    {verticesArray.at(i).translate (glm::vec3 (mouseEvent.xrel*simultaneousMotionFactor , mouseEvent.yrel*simultaneousMotionFactor  ,0.0f  )) ;  }}    
+    if (mouseEvent.state &  SDL_BUTTON_LMASK ){
+        translate(glm::vec3 (mouseEvent.xrel*simultaneousMotionFactor , mouseEvent.yrel*simultaneousMotionFactor  ,0.0f  ));
+    }    
 }
 void Pyramid::translate (const glm::vec3 & vec3 ) {
-    std::unique_lock<std::mutex> lock(verticesArrayMutex) ; 
-    for (int  i = 0 ; i <= 4 ; i++ ) 
+    //---->  std::unique_lock<std::mutex> lock(verticesArrayMutex) ; -----> this was causing the dead lock situation  
+    for (int  i = 0 ; i < 5 ; i++ ) 
     {
     verticesArray.at(i).translate (vec3) ; 
     }
