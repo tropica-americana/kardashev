@@ -1,0 +1,42 @@
+
+make me a python code using matplot lib that does that following 
+1. that asks me the nameOfTheBa and the happinessIndex in the job  which it is going to draw , its cappedSalary which is basically the minimum amount of money i am going to make 
+2. it also asks me uncappedSalary which is the maximum amount of money i am going to make
+3.it shades the region below capped in light blue 
+4. it shades the region below the unCapped in light red therefore giving a lightRed region of uncappedSalary - cappedSalary
+5. on the top it displays " happinessIndex  {userEnteredNumber}" 
+6.it keeps asking about these bars 
+and at the end of each bar asks end [y/n] if the user enters n 
+then it termiantes and displays the graph 
+
+now gpt i want you to do a coupe of things for me 
+you see i want o create a 3d model designing system in c++ and using SDL 
+what i want you to do is 
+1. tell me which is the best method and database structure for me to save my models considerng my 
+my model has the following structure a. it can hold any amount of vertices 
+b. each verticee has a x y and z positon 
+c. the x y and z are always less than one 
+d. each model is saved with the name as string for example "pyramid" , "square"
+e.there can only be one model with the same name of the string 
+
+
+
+
+
+write me a pytho code that draws a bell curve using matplotlib 
+and asks the user the the standard deviation range 
+for example input 1 = 2  ,input 2 =  3 
+and then plots the bell curve and the curve is shaded in light blue curve 
+and shades the region between input1 and input2 in light red 
+
+
+make a python that does the following 
+it draws the bar graph that plots the efficiecy on the y axis and the number of cosecutive on the x-axis 
+and also label the x and y axis with their respective names 
+name of the graph should be efficiency against number of cosecutive days task is performed 
+and the there is 30 percent drop in efficiency with each cosecutive increase in the consecutive days number 
+
+
+also add this property that if in between there is a break in the y axis that is if the y axis goes to zero 
+there is 50 percent regeneration in the efficiency 
+and the efficiency goes to 100 percent after 2 day break 

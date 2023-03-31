@@ -48,7 +48,6 @@ int main() {
     return 0;
 }
 
-
 void processTerminalText(std::vector<nothingClass *> &hector, Game &game) {
     std::string input;
     input = game.terminalText ; 
