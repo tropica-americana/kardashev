@@ -18,7 +18,7 @@ SRC_FILES = ./src/*.cpp \
 			
 			
 			
-LINKER_FLAGS = -lSDL2 -lSDL2_image -lSDL2_ttf -lSDL2_mixer -llua5.4 
+LINKER_FLAGS = -lSDL2 -lSDL2_image -lSDL2_ttf -lSDL2_mixer -llua5.4 -lsqlite3
 OBJ_NAME = gameengine
 
 ################################################################################

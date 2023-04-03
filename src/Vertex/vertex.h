@@ -27,8 +27,8 @@ class Vertex {
     void rotateVertex (const glm::vec3 & orientationVec3) ; 
     void rotateVertexAlongAxis (const glm::vec3 & axis , float amount  ) ; 
     float operator [] (int index ) ;
-    Vertex operator - (const Vertex & vertex1  ) ; 
-    Vertex & operator = (float decimal_number )  ; 
+    Vertex operator - (const Vertex & vertex1 ) ; 
+    Vertex & operator = ( const Vertex & vertex )  ; 
     bool isTouchingVertex (float range , const SDL_MouseMotionEvent & mouseEvent )  ; 
 
 }  ; 

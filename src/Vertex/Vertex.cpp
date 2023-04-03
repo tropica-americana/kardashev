@@ -7,11 +7,9 @@ Vertex:: Vertex (float symetricDistanceFromOrigin , Quadrant quadrant ) {
     verticeMatrix  = glm::mat4 (1.0f) ; 
     scaleSymetrically( symetricDistanceFromOrigin , quadrant ) ; 
 } 
-
 void Vertex::scaleSymetrically (float length ) {
     myScale (verticeMatrix , glm::vec3 (length , length , length ) )   ; 
 }
-
 void Vertex::scaleAsymetrically (glm::vec3 scalingVec3 ) {
     myScale (verticeMatrix , scalingVec3 ) ; 
 } 
@@ -88,7 +86,6 @@ Vertex Vertex::operator - (const Vertex & vertex1  ){
     localVertex.verticeMatrix = (this->verticeMatrix )- (vertex1.verticeMatrix ) ;
     return  localVertex ;  
 } 
-
 float Vertex::operator [] (int index ) 
 {   
     float returnFloat{0.0f}  ; 
@@ -130,3 +127,7 @@ bool Vertex::isTouchingVertex (float range  , const SDL_MouseMotionEvent  & mous
   }
     else return false ; 
 }   
+Vertex & Vertex::operator = ( const Vertex & vertex ) {
+    this->verticeMatrix = vertex.verticeMatrix ; 
+    return *this ;
+ } ; 

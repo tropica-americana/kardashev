@@ -13,13 +13,13 @@
 class Model : nothingClass {
   public:
     std::vector<std::string> modelName ; 
-    std::vector<Vertex> vertices;
+    std::vector<Vertex * > vertices;
      Model () = default ; 
-    ~Model () = default ;
+    ~Model () ;
     virtual void renderMyself (SDL_Renderer * renderer )override ; 
     virtual void translate (const glm::vec3 & vec3 )override  ; 
     virtual void rotate(const glm::vec3 & orientationVec3   )override  ; 
     virtual void processInput (const SDL_MouseMotionEvent & mouseEvent )override ; 
-    void addVertex (const glm::vec3 & vertex ) ; 
+    void addVertex (const Vertex & vertex ) ; 
 };
 #endif

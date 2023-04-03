@@ -1,4 +1,4 @@
-// database.cpp
+ // database.cpp
 
 #include "./Database.h"
 #include <iostream>
@@ -68,7 +68,8 @@ int Database::insertModel( Model &model) {
     sql = "INSERT INTO vertices (model_id, x, y, z) VALUES (?, ?, ?, ?);";
     sqlite3_prepare_v2(db, sql, -1, &stmt, nullptr);
 
-    for ( Vertex &vertex : model.vertices) {
+    for ( Vertex * verticePointer : model.vertices) {
+        Vertex & vertex = (*verticePointer);
         sqlite3_bind_int(stmt, 1, modelID);
         sqlite3_bind_double(stmt, 2, vertex[0]);
         sqlite3_bind_double(stmt, 3, vertex[1]);
@@ -118,10 +119,10 @@ Model Database::getModelByName(std::string &name) {
         vertex.verticeMatrix[0][0] = sqlite3_column_double(stmt, 0);
         vertex.verticeMatrix[1][1] = sqlite3_column_double(stmt, 1);
         vertex.verticeMatrix[2][2] = sqlite3_column_double(stmt, 2);
-        model.vertices.push_back(vertex);
+        Vertex * verticePointer {new Vertex } ; 
+        *verticePointer = vertex ; 
+        model.vertices.push_back(verticePointer);
     }
-
     sqlite3_finalize(stmt);
-
     return model;
 }

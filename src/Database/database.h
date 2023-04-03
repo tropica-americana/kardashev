@@ -4,8 +4,8 @@
 
 #include <string>
 #include "../Model/Model.h"
-#include "../libs/sqlite3/sqlite3.h"
-
+// #include "../libs/sqlite3/sqlite3.h"
+#include <sqlite3.h>
 class Database {
 public:
     Database( std::string& filename);
