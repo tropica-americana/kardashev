@@ -11,6 +11,8 @@
 #include <mutex>
 #include <chrono>
 #include <thread>
+#include "../nothingClass /nothingClass.h"
+#include <regex>
 class Game {
     public: 
     bool isRunning ; 
