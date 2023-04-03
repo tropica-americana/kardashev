@@ -4,15 +4,14 @@
 
 #include <string>
 #include "../Model/Model.h"
-#include <sqlite3.h>
+#include "../libs/sqlite3/sqlite3.h"
 
 class Database {
 public:
-    Database(const std::string& filename);
+    Database( std::string& filename);
     ~Database();
-
-    int insertModel(const Model& model);
-    Model getModelByName(const std::string& name);
+    int insertModel( Model& model);
+    Model getModelByName( std::string& name);
 
 private:
     sqlite3* db;

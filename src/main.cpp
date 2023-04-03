@@ -11,6 +11,8 @@
 #include "./Line/Line.h"
 #include "./Pyramid/Pyramid.h"
 #include "./nothingClass /nothingClass.h" // do not change this 
+#include "./Database/Database.h"
+#include "./Model/Model.h"
 #include <thread>
 #include <chrono>
 #include <mutex>
