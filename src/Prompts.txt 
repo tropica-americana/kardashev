@@ -143,3 +143,41 @@ git log:
 ------------------------------------------------
 how should i make changes to makefile to use the sqlite3 inside my projects 
 
+
+draw me a picture of an investor  
+looking in to the far far future 
+but he not speculating 
+he is using maths and probabilites 
+so give the scene a mathematical background 
+
+
+draw me a picture of a person imagning 50 variations 
+and focusing on the variation which is the correct one 
+
+what happened is that 
+yesteraday i backed up my mac 
+and after backing it up i deleted a bunch of day 
+with that i think i also deleted SDL2 library 
+now i installed it using brew 
+and its installed but it is currently not in my default system path probably usr/local/bin 
+so i cannot get it inside my c++ game 
+i installed brew on m1 mac and its in opt/brew -- something like that 
+and cant seem to pinpint where the problem is 
+sdl2 -config --version is currently working 
+makefile is perfect with -lsdl2 linker flag 
+can you show me a better way the way it was before 
+where i could use sdl2 direcltly by linker flags -lsdl2 and 
+
+
+
+you described a method which used command line tools to 
+download libraires using CURL command 
+then you Tar to extract the archive 
+then you changed to the active directory 
+then you use configure and sudo make install 
+to install the library directory to usr/local/bin
+
+
+i have my macs previous version stored in time machine brave
+ 
+and i want my mac to eaxctly revert to the previous version is there method 

@@ -7,6 +7,14 @@ Vertex:: Vertex (float symetricDistanceFromOrigin , Quadrant quadrant ) {
     verticeMatrix  = glm::mat4 (1.0f) ; 
     scaleSymetrically( symetricDistanceFromOrigin , quadrant ) ; 
 } 
+Vertex::Vertex (glm::vec3 &postionVec3 ) {
+    verticeMatrix  = glm::mat4 (1.0f) ; 
+    scaleAsymetrically( postionVec3 ) ;
+} 
+Vertex::Vertex (glm::vec3 postionVec3 ) {
+    verticeMatrix  = glm::mat4 (1.0f) ; 
+    scaleAsymetrically( postionVec3 ) ;
+} 
 void Vertex::scaleSymetrically (float length ) {
     myScale (verticeMatrix , glm::vec3 (length , length , length ) )   ; 
 }
@@ -74,9 +82,9 @@ void Vertex::rotateVertexAlongAxis (const glm::vec3 & axis  , float amount)
 {
     verticeMatrix = glm::rotate (verticeMatrix , amount , axis ) ; 
 }  
-Vertex:: Vertex(glm::vec3 & positionVec3 ){
-    verticeMatrix =   vec4ToMat4( glm::vec4 (positionVec3 , 1.0f  )) ;  
-} 
+// Vertex:: Vertex(glm::vec3 & positionVec3 ){
+//     verticeMatrix =   vec4ToMat4( glm::vec4 (positionVec3 , 1.0f  )) ;  
+// } 
 Vertex::Vertex (glm::mat4 & matrix ){
     verticeMatrix = matrix ; 
 } 

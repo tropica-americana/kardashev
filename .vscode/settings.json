@@ -83,6 +83,7 @@
         "cinttypes": "cpp",
         "*.h ": "cpp",
         "*.cpp ": "cpp",
-        "regex": "cpp"
+        "regex": "cpp",
+        "stack": "cpp"
     }
 }

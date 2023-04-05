@@ -21,11 +21,14 @@ using namespace std;
 void processTerminalText(std::vector<nothingClass *> &hector, Game &game) ; 
 int main() {
     Game game;
-    Line line(200.0f);
-    std::vector<nothingClass *> hector;
-    hector.push_back(new Pyramid(100.0f));
-    hector.push_back(new Pyramid(1000.0f));
-    std::mutex mtx;
+    Model model;
+    std::vector<nothingClass * > hector ; 
+    model.addVertex(Vertex(glm::vec3 (100.0f , 200.0f ,300.0f )));
+    model.addVertex(Vertex(glm::vec3 (150.0f , 250.0f ,350.0f )));
+    model.addVertex(Vertex(glm::vec3 (12.0f , 180.0f ,220.0f )));
+    model.addVertex(Vertex(glm::vec3 (800.0f , 160.0f ,280.0f )));
+    model.addVertex(Vertex(glm::vec3 (50.0f , 100.0 , 130.0f )));
+    // hector.emplace_back(&model);
     std::thread getTerminalTextThread(&Game::getTerminalText, &game);
 
     while (game.isRunning) {
@@ -33,17 +36,11 @@ int main() {
         game.update();
         SDL_SetRenderDrawColor(game.renderer, 50, 50, 50, 255);
         SDL_RenderClear(game.renderer);
-        for (auto & item : hector )
-        {
-            // item->processInput(game.mouseevent) ;
-            // item->translate(glm::vec3 (1.0f));
-            item-> rotate(glm::vec3 (0.1f , 0.0f , 0.0f )) ;
-        }
-        processTerminalText(hector , game  );
-        for (auto &item : hector) 
-        { 
-            item->renderMyself(game.renderer); 
-        }
+        //------------------------------------------------ write the code here for modifying ----------------------------
+        model.rotate(glm::vec3 (0.01f, 0.01f,0.00f)) ; 
+        model.processInput(game.mouseevent);
+        model.renderMyself(game.renderer);
+        // processTerminalText(hector , game  );
         game.render();
         SDL_Delay(10);
     }

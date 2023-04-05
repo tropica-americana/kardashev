@@ -3,7 +3,7 @@
 ################################################################################
 CC = g++
 LANG_STD = -std=c++17
-#COMPILER_FLAGS = -Wall  -Wfatal-errors
+COMPILER_FLAGS = -Wall  -Wfatal-errors 
 DEBUGGING_SYMBOLS = -g
 COMPILER_FLAGS = -w -Wfatal-errors
 INCLUDE_PATH = -I"./libs/"
@@ -35,3 +35,7 @@ clean:
 
 git log:
 	git log --all --pretty=format:"%h - %an, %ar : %s"
+
+
+
+	
