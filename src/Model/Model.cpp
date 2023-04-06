@@ -1,25 +1,39 @@
 #include "Model.h"
 
-
+Model::Model () {
+    addVertex(Vertex(glm::vec3(0.01f)));
+    addVertex(Vertex(glm::vec3(150.0f, 250.0f, 350.0f)));
+    addVertex(Vertex(glm::vec3(12.0f, 180.0f, 220.0f)));
+    addVertex(Vertex(glm::vec3(800.0f, 160.0f, 280.0f)));
+    addVertex(Vertex(glm::vec3(50.0f, 100.0, 130.0f)));
+    addVertex(Vertex(glm::vec3(400.0f, 300.0f, 150.0f)));
+    addVertex(Vertex(glm::vec3(650.0f, 120.0f, 280.0f)));
+    addVertex(Vertex(glm::vec3(300.0f, 400.0f, 500.0f)));
+    addVertex(Vertex(glm::vec3(70.0f, 280.0f, 400.0f)));
+    addVertex(Vertex(glm::vec3(900.0f, 200.0f, 350.0f)));
+    addVertex(Vertex(glm::vec3(250.0f, 50.0f, 180.0f)));
+    addVertex(Vertex(glm::vec3(600.0f, 450.0f, 220.0f)));
+    addVertex(Vertex(glm::vec3(150.0f, 500.0f, 300.0f)));
+    addVertex(Vertex(glm::vec3(50.0f, 80.0f, 420.0f)));
+    createMesh();
+}
 Model::~Model() {
     for (Vertex * vertex : vertices) {
         delete vertex; 
     }
 }
 void Model::renderMyself(SDL_Renderer* renderer) {
-    if (vertices.size() < 2) {
-        // Not enough vertices to draw lines
+    if (vertices.size() < 9) {
+       std::cout <<"not enough vertices to render " << std::endl;
         return;
     }
-    SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
-    for (size_t i = 0; i < vertices.size() - 1; i++) {
-        SDL_RenderDrawLine(renderer, (*vertices.at(i))[0], (*vertices.at(i))[1],
-                           (*vertices.at(i + 1))[0], (*vertices.at(i + 1))[1]);
+    SDL_SetRenderDrawColor(renderer , 250, 250, 250, 255);
+    for ( auto & meshLine : Mesh ) {
+        int meshIndex1 = std::get<0>(meshLine) ;
+        int meshIndex2 = std::get<1>(meshLine) ;
+        SDL_RenderDrawLine(renderer , (*(vertices[meshIndex1]))[0] , (*(vertices[meshIndex1]))[1] , (*(vertices[meshIndex2]))[0] , (*(vertices[meshIndex2]))[1] ) ; 
     }
-    // Connect the last vertex to the first
-    SDL_RenderDrawLine(renderer, (*vertices.at(0))[0], (*vertices.at(0))[1],
-                       (*vertices.at(vertices.size() - 1))[0],
-                       (*vertices.at(vertices.size() - 1))[1]);
+
 }
 
 void Model::translate(const glm::vec3& vec3) {
@@ -51,7 +65,7 @@ void Model::addVertex(const Vertex & vertex) {
 void Model :: createMesh () {
 
     for (size_t i = 0; i < vertices.size(); i++){
-        std::vector <std::tuple <int index , float distance >> focusedVertexDistanceFromVerticesMemberTupleVector  ; 
+        std::vector <std::tuple <int  , float>> focusedVertexDistanceFromVerticesMemberTupleVector  ; 
 
         //making a for loop for calculating the distance of each item from the focused vertex and then sorting out
         // top 5 smallest distances from the focused vertex 
@@ -75,11 +89,12 @@ void Model :: createMesh () {
             }
         }
         //sorting out the smallest distances from the focused vertex
-        std::sort (focusedVertexDistanceFromVerticesMemberTupleVector.begin(),focusedVertexDistanceFromVerticesMemberTupleVector.end() , [](auto const & v1, auto const & v2) {
+        std::sort (focusedVertexDistanceFromVerticesMemberTupleVector.begin(),focusedVertexDistanceFromVerticesMemberTupleVector.end() 
+        , [](auto const & v1, auto const & v2) {
             return std::get<1>(v1) < std::get<1>(v2);
         }) ; 
         for (int z = 0; z < 4 ; z++){
-            Mesh.push_back(make_tuple( i , std::get<0>focusedVertexDistanceFromVerticesMemberTupleVector[z] ))
+            Mesh.push_back(std::make_tuple( i , std::get<0>(focusedVertexDistanceFromVerticesMemberTupleVector[z]) )) ; 
         }
 
 
