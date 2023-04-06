@@ -10,16 +10,20 @@
 #include "../Quadrant/Quadrant.h"
 #include "../nothingClass /nothingClass.h"
 #include <mutex>
+#include <tuple>
+#include <cmath>
 class Model : nothingClass {
   public:
     std::vector<std::string> modelName ; 
     std::vector<Vertex * > vertices;
-     Model () = default ; 
+    std::vector < std::tuple <int , int > > Mesh ; 
+    Model () = default ; 
     ~Model () ;
     virtual void renderMyself (SDL_Renderer * renderer )override ; 
     virtual void translate (const glm::vec3 & vec3 )override  ; 
     virtual void rotate(const glm::vec3 & orientationVec3   )override  ; 
     virtual void processInput (const SDL_MouseMotionEvent & mouseEvent )override ; 
     void addVertex (const Vertex & vertex ) ; 
+    void createMesh ()
 };
 #endif
