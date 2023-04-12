@@ -2,18 +2,23 @@
 #include "../glmHandler/glmHandler.h"
 Vertex:: Vertex() {
     verticeMatrix  = glm::mat4 (1.0f ) ;  
+    setQuadrant() ;
 }
 Vertex:: Vertex (float symetricDistanceFromOrigin , Quadrant quadrant ) {
     verticeMatrix  = glm::mat4 (1.0f) ; 
     scaleSymetrically( symetricDistanceFromOrigin , quadrant ) ; 
+    quadrant = quadrant ; 
+
 } 
 Vertex::Vertex (glm::vec3 &postionVec3 ) {
     verticeMatrix  = glm::mat4 (1.0f) ; 
     scaleAsymetrically( postionVec3 ) ;
+    setQuadrant() ; 
 } 
 Vertex::Vertex (glm::vec3 postionVec3 ) {
     verticeMatrix  = glm::mat4 (1.0f) ; 
     scaleAsymetrically( postionVec3 ) ;
+    setQuadrant() ; 
 } 
 void Vertex::scaleSymetrically (float length ) {
     myScale (verticeMatrix , glm::vec3 (length , length , length ) )   ; 
@@ -78,6 +83,7 @@ void Vertex::rotateVertex ( const glm::vec3 & orientationVec3) {
     orientationVec3.z ,glm::vec3 ( 0.0f , 0.0f , 1.0f));  
     return ;
 }
+
 void Vertex::rotateVertexAlongAxis (const glm::vec3 & axis  , float amount) 
 {
     verticeMatrix = glm::rotate (verticeMatrix , amount , axis ) ; 
@@ -139,3 +145,90 @@ Vertex & Vertex::operator = ( const Vertex & vertex ) {
     this->verticeMatrix = vertex.verticeMatrix ; 
     return *this ;
  } ; 
+
+
+ void Vertex::rotateVertexGpt( float angleX, float angleY, float angleZ) {
+    if (quadrant == Quadrant::positiveUpperRight) {
+        // std::cout<<"comparison done"<<std::endl;
+    } 
+    //above line of code is hyperactive 
+    if (quadrant == Quadrant::positiveUpperLeft ) {
+        angleY = -angleY ; 
+        angleZ = -angleZ ;
+        std::cout<<"comparison done  "<<std::endl;
+    }
+    if (quadrant == Quadrant::positiveLowerLeft ) {
+        angleX = -angleX ;
+        angleY = -angleY ;
+        std::cout<<"comparison done  "<<std::endl;
+    }
+    if (quadrant == Quadrant::positiveLowerRight) {
+        angleZ = -angleZ ;
+        angleX = -angleX ; 
+        std::cout<<"comparison done  "<<std::endl;
+    } 
+        
+    float radX = glm::radians(angleX);
+    float radY = glm::radians(angleY);
+    float radZ = glm::radians(angleZ);
+
+    glm::mat4 rotationX = {
+        {1, 0, 0, 0},
+        {0, cos(radX), -sin(radX), 0},
+        {0, sin(radX), cos(radX), 0},
+        {0, 0, 0, 1}
+    };
+    glm::mat4 rotationY = {
+        {cos(radY), 0, sin(radY), 0},
+        {0, 1, 0, 0},
+        {-sin(radY), 0, cos(radY), 0},
+        {0, 0, 0, 1}
+    };
+    glm::mat4 rotationZ = {
+        {cos(radZ), -sin(radZ), 0, 0},
+        {sin(radZ), cos(radZ), 0, 0},
+        {0, 0, 1, 0},
+        {0, 0, 0, 1}
+    };
+    verticeMatrix  = verticeMatrix * rotationX * rotationY * rotationZ;
+}
+void Vertex:: setQuadrant () {
+    if (getAtIndexExcludingTranslate(2) > 0 ) {
+        if (getAtIndexExcludingTranslate(1) > 0) {
+            if (getAtIndexExcludingTranslate(0) > 0 ) {
+                quadrant = Quadrant::positiveUpperRight ;
+
+            }
+            if (getAtIndexExcludingTranslate(0) < 0) {
+                quadrant = Quadrant::positiveUpperLeft ; 
+            }
+        }
+        if (getAtIndexExcludingTranslate(1) < 0) {
+            if (getAtIndexExcludingTranslate(0) > 0 ) {
+                quadrant = Quadrant::positiveLowerRight ;
+            }
+            if (getAtIndexExcludingTranslate(0) < 0) {
+                quadrant = Quadrant::positiveLowerLeft ; 
+            }
+        }
+    }
+    if (getAtIndexExcludingTranslate(2) < 0 ) {
+        if (getAtIndexExcludingTranslate(1) > 0) {
+            if (getAtIndexExcludingTranslate(0) > 0 ) {
+                quadrant = Quadrant::negativeUpperRight ; 
+            }
+            if (getAtIndexExcludingTranslate(0) < 0) {
+                quadrant = Quadrant::negativeUpperLeft ; 
+            }
+        }
+        if (getAtIndexExcludingTranslate(1) < 0) {
+            if (getAtIndexExcludingTranslate(0) > 0 ) {
+                quadrant = Quadrant::negativeLowerRight ; 
+            }
+            if (getAtIndexExcludingTranslate(0) < 0) {
+                quadrant = Quadrant::negativeLowerLeft ; 
+            }
+        }
+    }
+    // std::cout << quadrant << std::endl;  // the very essential operator overloading for ouputing enumerated class 
+}

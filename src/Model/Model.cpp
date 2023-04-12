@@ -1,20 +1,19 @@
 #include "Model.h"
 
 Model::Model () {
-    addVertex(Vertex(glm::vec3(0.01f)));
-    addVertex(Vertex(glm::vec3(150.0f, 250.0f, 350.0f)));
+    addVertex(Vertex(glm::vec3(150.0f, -250.0f, 350.0f)));
     addVertex(Vertex(glm::vec3(12.0f, 180.0f, 220.0f)));
-    addVertex(Vertex(glm::vec3(800.0f, 160.0f, 280.0f)));
-    addVertex(Vertex(glm::vec3(50.0f, 100.0, 130.0f)));
-    addVertex(Vertex(glm::vec3(400.0f, 300.0f, 150.0f)));
+    addVertex(Vertex(glm::vec3(-800.0f, 160.0f, 280.0f)));
+    addVertex(Vertex(glm::vec3(50.0f, -100.0, 130.0f)));
+    addVertex(Vertex(glm::vec3(-400.0f, 300.0f, 150.0f)));
     addVertex(Vertex(glm::vec3(650.0f, 120.0f, 280.0f)));
-    addVertex(Vertex(glm::vec3(300.0f, 400.0f, 500.0f)));
-    addVertex(Vertex(glm::vec3(70.0f, 280.0f, 400.0f)));
-    addVertex(Vertex(glm::vec3(900.0f, 200.0f, 350.0f)));
-    addVertex(Vertex(glm::vec3(250.0f, 50.0f, 180.0f)));
-    addVertex(Vertex(glm::vec3(600.0f, 450.0f, 220.0f)));
+    addVertex(Vertex(glm::vec3(300.0f, -400.0f, 500.0f)));
+    addVertex(Vertex(glm::vec3(-70.0f, 280.0f, 400.0f)));
+    addVertex(Vertex(glm::vec3(900.0f, -200.0f, 350.0f)));
+    addVertex(Vertex(glm::vec3(-250.0f, 50.0f, 180.0f)));
+    addVertex(Vertex(glm::vec3(600.0f, -450.0f, 220.0f)));
     addVertex(Vertex(glm::vec3(150.0f, 500.0f, 300.0f)));
-    addVertex(Vertex(glm::vec3(50.0f, 80.0f, 420.0f)));
+    addVertex(Vertex(glm::vec3(-50.0f, 80.0f, 420.0f)));
     createMesh();
 }
 Model::~Model() {
@@ -22,6 +21,7 @@ Model::~Model() {
         delete vertex; 
     }
 }
+
 void Model::renderMyself(SDL_Renderer* renderer) {
     if (vertices.size() < 9) {
        std::cout <<"not enough vertices to render " << std::endl;
@@ -42,11 +42,14 @@ void Model::translate(const glm::vec3& vec3) {
     }
 }
 
+
 void Model::rotate(const glm::vec3& orientationVec3) {
-    for (Vertex * vertex : vertices) {
-        vertex->rotateVertex(orientationVec3);
+    for (auto * vertex : vertices) {
+        vertex->rotateVertexGpt(orientationVec3.x , orientationVec3.y , orientationVec3.z);
+
     }
 }
+
 
 void Model::processInput(const SDL_MouseMotionEvent& mouseEvent) {
     float simultaneousMotionFactor{1.0f};

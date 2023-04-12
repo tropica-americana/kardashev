@@ -11,6 +11,7 @@ class Vertex {
     public:
     float distanceFromObserver {500.0f };  
     glm::mat4 verticeMatrix ;  
+    Quadrant quadrant ; 
     Vertex() ; 
     Vertex (float symetricDistanceFromOrigin , Quadrant quadrant ) ; 
     Vertex (glm::vec3 & positionVec3 )  ;
@@ -25,11 +26,13 @@ class Vertex {
     void translate (const glm::vec3 & movementVec3 ) ; 
     void translate (glm::mat4 & modelToBeAdded ) ; // can take model as an input 
     void rotateVertex (const glm::vec3 & orientationVec3) ; 
+    void rotateVertexGpt( float angleX, float angleY, float angleZ) ; 
     void rotateVertexAlongAxis (const glm::vec3 & axis , float amount  ) ; 
     float operator [] (int index ) ;
     Vertex operator - (const Vertex & vertex1 ) ; 
     Vertex & operator = ( const Vertex & vertex )  ; 
     bool isTouchingVertex (float range , const SDL_MouseMotionEvent & mouseEvent )  ; 
+    void setQuadrant () ; 
 
 }  ; 
 #endif // !_VERTEX_H_

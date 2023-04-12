@@ -186,22 +186,23 @@ what is the best way to render 3d surfaces which is comprised of vertices which 
 
 
 
+make the rotate function such that 
+during x axis rotation 
+if z positive {
+	negative y leads to negative anglex 
+}
+if z negative {
+	positive y leads to negative anglex 
+}
+during y axis rotation 
+if z positive {
+	negative x leads to negative angley 
+}
+if z negative {
+	positive y leads to negative anglex 
+}
 
+ac is the best thing on the planet earth 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+or is it not the best thing in the world 
 
