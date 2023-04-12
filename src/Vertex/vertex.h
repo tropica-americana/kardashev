@@ -30,7 +30,7 @@ class Vertex {
     void rotateVertexAlongAxis (const glm::vec3 & axis , float amount  ) ; 
     float operator [] (int index ) ;
     Vertex operator - (const Vertex & vertex1 ) ; 
-    Vertex & operator = ( const Vertex & vertex )  ; 
+    Vertex & operator = ( const Vertex & vertex )  ; //bug here for quadrant 
     bool isTouchingVertex (float range , const SDL_MouseMotionEvent & mouseEvent )  ; 
     void setQuadrant () ; 
 

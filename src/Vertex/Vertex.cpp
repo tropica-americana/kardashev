@@ -143,29 +143,27 @@ bool Vertex::isTouchingVertex (float range  , const SDL_MouseMotionEvent  & mous
 }   
 Vertex & Vertex::operator = ( const Vertex & vertex ) {
     this->verticeMatrix = vertex.verticeMatrix ; 
+    this -> quadrant = vertex.quadrant ;
     return *this ;
  } ; 
 
 
  void Vertex::rotateVertexGpt( float angleX, float angleY, float angleZ) {
+    std::cout << quadrant <<std::endl;
     if (quadrant == Quadrant::positiveUpperRight) {
-        // std::cout<<"comparison done"<<std::endl;
     } 
     //above line of code is hyperactive 
     if (quadrant == Quadrant::positiveUpperLeft ) {
         angleY = -angleY ; 
         angleZ = -angleZ ;
-        std::cout<<"comparison done  "<<std::endl;
     }
     if (quadrant == Quadrant::positiveLowerLeft ) {
         angleX = -angleX ;
         angleY = -angleY ;
-        std::cout<<"comparison done  "<<std::endl;
     }
     if (quadrant == Quadrant::positiveLowerRight) {
         angleZ = -angleZ ;
         angleX = -angleX ; 
-        std::cout<<"comparison done  "<<std::endl;
     } 
         
     float radX = glm::radians(angleX);
