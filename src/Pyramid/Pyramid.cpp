@@ -26,7 +26,8 @@ void Pyramid::rotate ( const glm::vec3 & orientationVec3  ) {
     verticesArray.at(1).rotateVertexAlongAxis(axis , amount );
     verticesArray.at(2).rotateVertexAlongAxis(axis , -amount );
     verticesArray.at(3).rotateVertexAlongAxis(axis , -amount );
-    verticesArray.at(4).rotateVertexAlongAxis(axis , amount );}
+    verticesArray.at(4).rotateVertexAlongAxis(axis , amount );
+    }
     // ----------------rotating along the zAxis --------------------------
     if (orientationVec3.z != 0.0f ) {
     axis = glm::vec3 (0.0f ,0.0f  , 1.0f ) ; 

@@ -88,9 +88,11 @@ void Vertex::rotateVertexAlongAxis (const glm::vec3 & axis  , float amount)
 {
     verticeMatrix = glm::rotate (verticeMatrix , amount , axis ) ; 
 }  
+
 // Vertex:: Vertex(glm::vec3 & positionVec3 ){
 //     verticeMatrix =   vec4ToMat4( glm::vec4 (positionVec3 , 1.0f  )) ;  
-// } 
+// }
+
 Vertex::Vertex (glm::mat4 & matrix ){
     verticeMatrix = matrix ; 
 } 
@@ -152,7 +154,6 @@ Vertex & Vertex::operator = ( const Vertex & vertex ) {
     std::cout << quadrant <<std::endl;
     if (quadrant == Quadrant::positiveUpperRight) {
     } 
-    //above line of code is hyperactive 
     if (quadrant == Quadrant::positiveUpperLeft ) {
         angleY = -angleY ; 
         angleZ = -angleZ ;
@@ -170,26 +171,26 @@ Vertex & Vertex::operator = ( const Vertex & vertex ) {
     float radY = glm::radians(angleY);
     float radZ = glm::radians(angleZ);
 
-    glm::mat4 rotationX = {
-        {1, 0, 0, 0},
-        {0, cos(radX), -sin(radX), 0},
-        {0, sin(radX), cos(radX), 0},
-        {0, 0, 0, 1}
-    };
-    glm::mat4 rotationY = {
-        {cos(radY), 0, sin(radY), 0},
-        {0, 1, 0, 0},
-        {-sin(radY), 0, cos(radY), 0},
-        {0, 0, 0, 1}
-    };
-    glm::mat4 rotationZ = {
-        {cos(radZ), -sin(radZ), 0, 0},
-        {sin(radZ), cos(radZ), 0, 0},
-        {0, 0, 1, 0},
-        {0, 0, 0, 1}
-    };
-    verticeMatrix  = verticeMatrix * rotationX * rotationY * rotationZ;
-}
+    float amount ; 
+    glm::vec3 axis ; 
+    if (angleX != 0.0f ) {
+    glm::vec3 axis {glm::vec3 (1.0f , 0.0f , 0.0f )} ; 
+    amount = radX ;
+    rotateVertexAlongAxis(axis , amount );
+
+    }
+    // ------------------rotating along the yAxis -----------------------
+    if (angleY != 0.0f ){
+    axis = glm::vec3 (0.0f ,1.0f  , 0.0f ) ; 
+    amount = radY ; 
+    rotateVertexAlongAxis(axis , amount );
+    }
+    // ----------------rotating along the zAxis --------------------------
+    if (angleZ != 0.0f ) {
+    axis = glm::vec3 (0.0f ,0.0f  , 1.0f ) ; 
+    amount = radZ; 
+    rotateVertexAlongAxis(axis , amount );
+}}
 void Vertex:: setQuadrant () {
     if (getAtIndexExcludingTranslate(2) > 0 ) {
         if (getAtIndexExcludingTranslate(1) > 0) {
