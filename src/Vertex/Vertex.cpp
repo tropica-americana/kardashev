@@ -89,10 +89,6 @@ void Vertex::rotateVertexAlongAxis (const glm::vec3 & axis  , float amount)
     verticeMatrix = glm::rotate (verticeMatrix , amount , axis ) ; 
 }  
 
-// Vertex:: Vertex(glm::vec3 & positionVec3 ){
-//     verticeMatrix =   vec4ToMat4( glm::vec4 (positionVec3 , 1.0f  )) ;  
-// }
-
 Vertex::Vertex (glm::mat4 & matrix ){
     verticeMatrix = matrix ; 
 } 
@@ -151,12 +147,12 @@ Vertex & Vertex::operator = ( const Vertex & vertex ) {
 
 
  void Vertex::rotateVertexGpt( float angleX, float angleY, float angleZ) {
-    std::cout << quadrant <<std::endl;
+    // std::cout << quadrant <<std::endl;
     if (quadrant == Quadrant::positiveUpperRight) {
     } 
     if (quadrant == Quadrant::positiveUpperLeft ) {
-        angleY = -angleY ; 
-        angleZ = -angleZ ;
+        angleY = angleY ; 
+        angleZ = angleZ ;
     }
     if (quadrant == Quadrant::positiveLowerLeft ) {
         angleX = -angleX ;
@@ -164,20 +160,19 @@ Vertex & Vertex::operator = ( const Vertex & vertex ) {
     }
     if (quadrant == Quadrant::positiveLowerRight) {
         angleZ = -angleZ ;
-        angleX = -angleX ; 
+        angleY = -angleY ; 
     } 
         
     float radX = glm::radians(angleX);
     float radY = glm::radians(angleY);
     float radZ = glm::radians(angleZ);
-
+// ---------------------rotating along the x axis --------------------
     float amount ; 
     glm::vec3 axis ; 
     if (angleX != 0.0f ) {
     glm::vec3 axis {glm::vec3 (1.0f , 0.0f , 0.0f )} ; 
     amount = radX ;
     rotateVertexAlongAxis(axis , amount );
-
     }
     // ------------------rotating along the yAxis -----------------------
     if (angleY != 0.0f ){

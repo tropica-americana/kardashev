@@ -14,6 +14,8 @@ SRC_FILES = ./src/*.cpp \
 			./src/Pyramid/*.cpp \
 			./src/Database/*.cpp \
 			./src/Model/*.cpp \
+			./src/myVertex/*.cpp \
+			./src/myModel/*.cpp \
 			./src/Line/*.cpp 
 			
 			

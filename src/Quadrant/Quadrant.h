@@ -12,6 +12,9 @@ enum class Quadrant {
     negativeUpperLeft 
 
 };
+enum class Axis {
+    x , y ,z , negativeX , negativeY , negativeZ 
+};
 template<typename T>
 std::ostream& operator<<(typename std::enable_if<std::is_enum<T>::value, std::ostream>::type& stream,  const T& e)
 {

@@ -117,7 +117,7 @@ void Game::getTerminalText()
     }
 }
 
-void processTerminalText(std::vector<nothingClass *> &hector, Game &game) {
+void processTerminalText(std::vector<myNothingClass *> &hector, Game &game) {
     std::string input;
     input = game.terminalText ; 
     SDL_MouseMotionEvent &mouseEvent = game.mouseevent ; 
@@ -141,7 +141,7 @@ void processTerminalText(std::vector<nothingClass *> &hector, Game &game) {
                 if (std::regex_search(input, match, rotate_pattern)) {
                     int index = std::stoi(match[1].str());
                     if (index >= 0 && index < hector.size()) {
-                        hector[index]->rotate(orientationVector);
+                        hector[index]->rotate(orientationVector.x , orientationVector.y , orientationVector.z);
                     } 
                     else 
                     {
@@ -152,12 +152,12 @@ void processTerminalText(std::vector<nothingClass *> &hector, Game &game) {
                     if (index >= 0 && index < hector.size()) {
                         orientationVector.x += mouseEvent.xrel;
                         orientationVector.y += mouseEvent.yrel;
-                        hector[index]->translate(orientationVector);
+                        hector[index]->translate(orientationVector.x , orientationVector.y , orientationVector.z);
                     } else {
                         std::cout << "No such command found." << std::endl;
                     }
                 } else if (std::regex_search(input, match, process_input_pattern)) {
-                    for (nothingClass *obj : hector) {
+                    for (myNothingClass * obj : hector) {
                         obj->processInput(mouseEvent);
                     }
                 } else if (std::regex_search(input, match, end_pattern)) {
