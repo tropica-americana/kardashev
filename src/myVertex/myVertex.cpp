@@ -3,7 +3,7 @@ myVertex::myVertex(float xDistance , float yDistance , float zDistance){
     x = xDistance; y = yDistance; z = zDistance;
     xRotate = 0.0f; yRotate = 0.0f; zRotate = 0.0f;
 }  
-void myVertex::scaleSymetrically (float length ) {
+void myVertex::scale(float length ) {
     x = length   * x ; y = length * y ; z = length * z ;
 }
 void myVertex::translate ( float xTranslate , float yTranslate , float zTranslate) {

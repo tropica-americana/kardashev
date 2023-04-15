@@ -24,7 +24,6 @@ void myModel::renderMyself(SDL_Renderer *renderer) {
         int meshIndex1 = std::get<0>(meshLine);
         int meshIndex2 = std::get<1>(meshLine);
         SDL_RenderDrawLine(renderer, vertices[meshIndex1]->getOnScreenX(), vertices[meshIndex1]->getOnScreenY(), vertices[meshIndex2]->getOnScreenX(), vertices[meshIndex2]->getOnScreenY());
-        std::cout<<vertices[meshIndex1]->z <<std::endl; 
     }
 }
 
@@ -93,3 +92,9 @@ void myModel::createMesh(){
     return ; 
             
         }
+
+void myModel :: scale(float length ) {
+    for (auto * vertex : vertices ) {
+        vertex->scale(length);
+    }
+}        

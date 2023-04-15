@@ -26,6 +26,7 @@ public:
     void processInput(const SDL_MouseMotionEvent &mouseEvent) override;
     void addVertex (float xAmount , float yAmount , float zAmount) override;
     void createMesh() override;
+    void scale (float lenght ) ;
 };
 
 #endif 

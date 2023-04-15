@@ -20,7 +20,7 @@ class myVertex {
     float zTranslate = 0.0f; 
     myVertex(float xDistance , float yDistance , float zDistance) ; 
     ~myVertex()  = default ;
-    void scaleSymetrically (float length ) ;  
+    void scale(float length ) ;  
     void translate ( float xTranslate , float yTranslate , float zTranslate) ; 
     void rotateMyVertex (float xR , float yR , float zR ) ; 
     void rotateMyVertexAlongAxis (float amount , Axis axis ) ; 
