@@ -29,7 +29,7 @@ void myVertex::rotateMyVertexAlongAxis (float amount , Axis axis ) {
         z = z * cos (amount) + y * sin (amount) ;
     }
 }
-float myVertex::getOnSCreenX() {
+float myVertex::getOnScreenX() {
     float relativeX ; 
     float percentageOfFarness = z  / distanceFromObserver ; 
     relativeX = (x  + x * percentageOfFarness );

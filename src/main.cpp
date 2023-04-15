@@ -24,14 +24,14 @@ int main() {
     Game game;
     myModel model;
     std::vector<myNothingClass * > hector ; 
-    std::thread getTerminalTextThread(&Game::getTerminalText, &game);
+    // std::thread getTerminalTextThread(&Game::getTerminalText, &game);
     while (game.isRunning) {
         game.processInput();
         game.update();
         SDL_SetRenderDrawColor(game.renderer, 50, 50, 50, 255);
         SDL_RenderClear(game.renderer);
         //------------------------------------------------ write the code here for modifying ----------------------------
-        model.rotate(0.0f, 1.0f,0.0f) ; 
+        model.rotate(0.0f, 0.01f,0.0f) ; 
         model.processInput(game.mouseevent);
         model.renderMyself(game.renderer);
         // processTerminalText(hector , game  );

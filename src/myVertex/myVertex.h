@@ -24,7 +24,7 @@ class myVertex {
     void translate ( float xTranslate , float yTranslate , float zTranslate) ; 
     void rotateMyVertex (float xR , float yR , float zR ) ; 
     void rotateMyVertexAlongAxis (float amount , Axis axis ) ; 
-    float getOnSCreenX () ; 
+    float getOnScreenX () ; 
     float getOnScreenY () ; 
     myVertex & operator = ( const myVertex & vertex )  ; 
 }  ; 
