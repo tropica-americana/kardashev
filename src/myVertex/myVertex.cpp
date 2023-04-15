@@ -6,8 +6,8 @@ myVertex::myVertex(float xDistance , float yDistance , float zDistance){
 void myVertex::scale(float length ) {
     x = length   * x ; y = length * y ; z = length * z ;
 }
-void myVertex::translate ( float xTranslate , float yTranslate , float zTranslate) {
-    x += xTranslate ; y += yTranslate ; z += zTranslate ; 
+void myVertex::translate ( float xT , float yT , float zT) {
+     xTranslate += xT ; yTranslate += yT ; zTranslate += zT ;
 }
 void myVertex::rotateMyVertex (float xR , float yR , float zR )  {
     rotateMyVertexAlongAxis (xR , Axis :: x ) ; 
