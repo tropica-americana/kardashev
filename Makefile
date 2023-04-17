@@ -9,14 +9,8 @@ COMPILER_FLAGS = -w -Wfatal-errors
 INCLUDE_PATH = -I"./libs/"
 SRC_FILES = ./src/*.cpp \
 			./src/game/*.cpp \
-			./src/square/*.cpp \
-			./src/Vertex/*.cpp \
-			./src/Pyramid/*.cpp \
-			./src/Database/*.cpp \
-			./src/Model/*.cpp \
 			./src/myVertex/*.cpp \
-			./src/myModel/*.cpp \
-			./src/Line/*.cpp 
+			./src/myModel/*.cpp 
 			
 			
 			

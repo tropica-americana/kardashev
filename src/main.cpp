@@ -2,17 +2,12 @@
 #include <SDL2/SDL.h>
 #include <vector> 
 #include <map>
-#include "./square/square.h"
 #include "./game/game.h"
 #include <glm/glm.hpp>
 #include "glm/gtc/matrix_transform.hpp"
 #include <glm/gtx/string_cast.hpp>
 #include <SDL2/SDL.h>
-#include "./Line/Line.h"
-#include "./Pyramid/Pyramid.h"
 #include "./nothingClass /nothingClass.h" // do not change this 
-#include "./Database/Database.h"
-#include "./Model/Model.h"
 #include "./myModel/MyModel.h"
 #include <thread>
 #include <chrono>
