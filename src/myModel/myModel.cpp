@@ -1,5 +1,5 @@
 #include "./myModel.h"
-
+#include <cstdio>
 myModel::myModel () {
     addVertex(212.5, 675.1, 833.0);  // Given vertex
     addVertex(-90.1, 148.0, 340.1);   // Quadrant II
@@ -37,6 +37,10 @@ void myModel::rotate(float xRotateParameter, float yRotateParameter, float zRota
     for (auto &item : vertices) {
         item->rotateMyVertex(xRotateParameter, yRotateParameter, zRotateParameter);
     }
+    //  printf("%.2f\n"vertices[0]->x) ; 
+    //z stable 
+    //x unstable
+    //y unstable
 }
 
 void myModel::processInput(const SDL_MouseMotionEvent &mouseEvent) {

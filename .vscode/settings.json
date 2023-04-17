@@ -84,6 +84,7 @@
         "*.h ": "cpp",
         "*.cpp ": "cpp",
         "regex": "cpp",
-        "stack": "cpp"
+        "stack": "cpp",
+        "set": "cpp"
     }
 }

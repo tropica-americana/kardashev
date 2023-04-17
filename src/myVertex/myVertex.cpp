@@ -10,24 +10,40 @@ void myVertex::translate ( float xT , float yT , float zT) {
      xTranslate += xT ; yTranslate += yT ; zTranslate += zT ;
 }
 void myVertex::rotateMyVertex (float xR , float yR , float zR )  {
-    rotateMyVertexAlongAxis (xR , Axis :: x ) ; 
-    rotateMyVertexAlongAxis (yR , Axis :: y ) ;
-    rotateMyVertexAlongAxis (zR , Axis :: z ) ;
+    if (xR != 0 )rotateMyVertexAlongAxis (xR , Axis :: x ) ; 
+    if (yR != 0 )rotateMyVertexAlongAxis (yR , Axis :: y ) ;
+    if (zR != 0 )rotateMyVertexAlongAxis (zR , Axis :: z ) ;
 }
 void myVertex::rotateMyVertexAlongAxis (float amount , Axis axis ) {
-    if (axis ==  Axis :: z ) {
-        x = x *  cos (amount ) - y * sin (amount );
-        y = y *  cos (amount)  +  x * sin (amount )  ; 
-    } 
-    if (axis == Axis :: y ) {
-        
-        x = x * cos (amount ) + z * sin (amount ) ;
-        z = z * cos (amount) - x * sin (amount )  ; 
+    // float initialX = x ; 
+    // float initialY = y ;
+    // float initialZ = z ;
+    if (axis == Axis::z) {
+    float tempX = x;
+    float tempY = y;
+    x = tempX * cos(amount) - tempY * sin(amount);
+    y = tempY * cos(amount) + tempX * sin(amount);
+    }   
+    if (axis == Axis::y) {
+        float tempX = x;
+        float tempZ = z;
+        x = tempX * cos(amount) + tempZ * sin(amount);
+        z = tempZ * cos(amount) - tempX * sin(amount);
     }
-    if (axis == Axis :: x ) {
-        y = y * cos (amount) - z * sin (amount) ; 
-        z = z * cos (amount) + y * sin (amount) ;
+    if (axis == Axis::x) {
+        float tempY = y;
+        float tempZ = z;
+        y = tempY * cos(amount) - tempZ * sin(amount);
+        z = tempZ * cos(amount) + tempY * sin(amount);
     }
+
+    // float lossOfX = initialX - x ; 
+    // float lossOfY = initialY - y ;
+    // float lossOfZ = initialZ - z ;
+    // std::cout <<"loss of x " << " " << lossOfX << std::endl;
+    // std::cout <<"loss of y " << " " << lossOfY<< std::endl;
+    // std::cout <<"loss of z " << " " << lossOfZ << std::endl;
+    
 }
 float myVertex::getOnScreenX() {
     float relativeX ; 

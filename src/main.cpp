@@ -23,16 +23,18 @@ void processTerminalText(std::vector<myNothingClass *> &hector, Game &game) ;
 int main() {
     Game game;
     myModel model;
-    model.scale(0.1) ; 
+    model.scale(0.3) ; 
     std::vector<myNothingClass * > hector ; 
     // std::thread getTerminalTextThread(&Game::getTerminalText, &game);
+    float radian = 0.1 ; 
     while (game.isRunning) {
+        // radian += 0.001; 
         game.processInput();
         game.update();
         SDL_SetRenderDrawColor(game.renderer, 50, 50, 50, 255);
         SDL_RenderClear(game.renderer);
         //------------------------------------------------ write the code here for modifying ----------------------------
-        model.rotate(0.0, 0.0,0.01) ; 
+        model.rotate(0.0, 0.0,radian) ; 
         model.processInput(game.mouseevent);
         model.renderMyself(game.renderer);
         // processTerminalText(hector , game  );
