@@ -1,5 +1,6 @@
 #include "./myModel.h"
 #include <cstdio>
+#include <sstream>
 myModel::myModel () {
     addVertex(212.5, 675.1, 833.0);  // Given vertex
     addVertex(-90.1, 148.0, 340.1);   // Quadrant II
@@ -102,3 +103,72 @@ void myModel :: scale(float length ) {
         vertex->scale(length);
     }
 }        
+
+void myModel :: saveModel (std::string filename , std::string modelName  ) {
+    std::ofstream out (filename)  ; 
+    out << modelName <<" " ;  
+    for (int i = 0 ; i < vertices.size()  ; i++){
+        out << vertices [i] -> x <<" ";
+        out << vertices [i] -> y <<" ";
+        out << vertices [i] -> z <<" ";
+        out << vertices [i] -> xRotate <<" ";
+        out << vertices [i] -> yRotate <<" ";
+        out << vertices [i] -> zRotate <<" ";
+        out << vertices [i] -> xTranslate <<" ";
+        out << vertices [i] -> yTranslate  <<" ";
+        out << vertices [i] -> zTranslate  <<" ";
+      
+    }
+      out << std::endl ; 
+}
+    
+void  myModel :: loadModel (std::string filename , std::string modelName )  {
+        std::ifstream in ; 
+        std::string currentStringLine ;  
+        std::string currentWord ; 
+        float currentFloat ; 
+        std::smatch match ; 
+        bool stringMatchedOrNot = false ; 
+        // std::regex matchAFloat("^[+-]?[0-9]+(\\.[0-9]+)?$");
+        // std::regex matchAString ("^[A-Za-z]+[\\s]+([A-Za-z]+[\\s]?)+$"); 
+        in.open(filename ) ; // opening the file 
+        if (!in.is_open () ) // chekcing if file is opened succesfully  
+        {
+            std::cerr << "Failed to open the file: " << filename << std::endl;
+        }
+        while ( ! in.eof() ){
+            // iterating through the file till the end of the file arrives 
+            std::getline ( in , currentStringLine) ;
+            // std::cout<<currentStringLine<<std::endl; // ---> a good breakpoint
+            std::istringstream iss (currentStringLine);
+            iss >> currentWord ; 
+            int currentIndex = 0 ; 
+            int numberOfTimesWhileLoopIterated = 0 ; 
+            if (currentWord == modelName) {
+            while ( iss >> currentFloat ){
+                int moduloIndex = numberOfTimesWhileLoopIterated % 9  ;
+                if (moduloIndex == 0 && numberOfTimesWhileLoopIterated > 0 ){
+                    currentIndex += 1 ; 
+                    }  
+                if (moduloIndex == 0) vertices[currentIndex]->x = currentFloat ; 
+                if (moduloIndex == 1) vertices[currentIndex]->y = currentFloat ; 
+                if (moduloIndex == 2) vertices[currentIndex]->z = currentFloat ; 
+                if (moduloIndex == 3) vertices[currentIndex]->xRotate = currentFloat ; 
+                if (moduloIndex == 4) vertices[currentIndex]->yRotate = currentFloat ; 
+                if (moduloIndex == 5) vertices[currentIndex]->zRotate = currentFloat ; 
+                if (moduloIndex == 6) vertices[currentIndex]->xTranslate = currentFloat ; 
+                if (moduloIndex == 7) vertices[currentIndex]->yTranslate = currentFloat ; 
+                if (moduloIndex == 8) vertices[currentIndex]->zTranslate = currentFloat ; 
+                numberOfTimesWhileLoopIterated += 1 ; 
+                // std::cout << currentFloat << std::endl; // --> a good breakpoint
+                // vertices[currentIndex]->
+            }
+
+            }
+           
+            else if ( currentWord != modelName ) {
+                    std::cout << "model not found "<<std::endl;
+                }
+        return  ; 
+    
+} }

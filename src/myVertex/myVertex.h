@@ -26,6 +26,7 @@ class myVertex {
     void rotateMyVertexAlongAxis (float amount , Axis axis ) ; 
     float getOnScreenX () ; 
     float getOnScreenY () ; 
+    void displayVertexOnTerminal () ; 
     myVertex & operator = ( const myVertex & vertex )  ; 
 }  ; 
 #endif 

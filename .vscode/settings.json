@@ -85,6 +85,7 @@
         "*.cpp ": "cpp",
         "regex": "cpp",
         "stack": "cpp",
-        "set": "cpp"
+        "set": "cpp",
+        "fstream": "cpp"
     }
 }

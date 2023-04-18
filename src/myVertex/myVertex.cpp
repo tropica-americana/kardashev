@@ -74,6 +74,18 @@ myVertex& myVertex::operator=(const myVertex& vertex) {
     zTranslate = vertex.zTranslate;
     return *this;
 }
+ void myVertex::displayVertexOnTerminal() {
+    std::cout << "distanceFromObserver: " << distanceFromObserver << std::endl;
+    std::cout << "x: " << x << std::endl;
+    std::cout << "y: " << y << std::endl;
+    std::cout << "z: " << z << std::endl;
+    std::cout << "xRotate: " << xRotate << std::endl;
+    std::cout << "yRotate: " << yRotate << std::endl;
+    std::cout << "zRotate: " << zRotate << std::endl;
+    std::cout << "xTranslate: " << xTranslate << std::endl;
+    std::cout << "yTranslate: " << yTranslate << std::endl;
+    std::cout << "zTranslate: " << zTranslate << std::endl;
+}
 
 // z axis directed away from the observor 
 // Positive rotation is usually considered to be counterclockwise

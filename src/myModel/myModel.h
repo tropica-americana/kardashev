@@ -12,6 +12,8 @@
 #include <mutex>
 #include <tuple>
 #include <cmath>
+#include <fstream>
+#include <regex>
 class myModel : public myNothingClass {
 public:
     std::vector<std::string> modelName;
@@ -26,6 +28,8 @@ public:
     void addVertex (float xAmount , float yAmount , float zAmount) override;
     void createMesh() override;
     void scale (float lenght ) ;
+    void saveModel(std::string filename , std::string modelName ) ;
+    void loadModel (std::string filename , std::string modelName ) ;  
 };
 
 #endif 
