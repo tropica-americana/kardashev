@@ -20,7 +20,7 @@ public:
     std::vector<myVertex *> vertices;
     std::vector<std::tuple<int, int>> Mesh;
     myModel () ;  
-    ~myModel() = default;
+    ~myModel() ;
     void renderMyself(SDL_Renderer *renderer) override;
     void translate(float xTranslateParameter, float yTranslateParameter, float zTranslateParameter) override;
     void rotate(float xRotateParameter, float yRotateParameter, float zRotateParameter) override;

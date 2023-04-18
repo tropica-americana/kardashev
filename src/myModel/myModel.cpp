@@ -2,19 +2,24 @@
 #include <cstdio>
 #include <sstream>
 myModel::myModel () {
-    addVertex(212.5, 675.1, 833.0);  // Given vertex
-    addVertex(-90.1, 148.0, 340.1);   // Quadrant II
-    addVertex(-278.8, -207.4, 557.6);  // Quadrant III
-    addVertex(139.2, -436.1, 204.3);  // Quadrant IV
-    addVertex(293.2, 366.2, 683.5);  // Quadrant I
-    addVertex(-221.1, 259.8, 369.9);  // Quadrant II
-    addVertex(-393.6, -319.2, 612.6);  // Quadrant III
-    addVertex(75.0, -514.1, 149.3);  // Quadrant IV
-    addVertex(395.1, 188.7, 765.0);  // Quadrant I
-    addVertex(-122.4, 486.2, 327.1);  // Quadrant II
-    createMesh();
+    // addVertex(212.5, 675.1, 833.0);  // Given vertex
+    // addVertex(-90.1, 148.0, 340.1);   // Quadrant II
+    // addVertex(-278.8, -207.4, 557.6);  // Quadrant III
+    // addVertex(139.2, -436.1, 204.3);  // Quadrant IV
+    // addVertex(293.2, 366.2, 683.5);  // Quadrant I
+    // addVertex(-221.1, 259.8, 369.9);  // Quadrant II
+    // addVertex(-393.6, -319.2, 612.6);  // Quadrant III
+    // addVertex(75.0, -514.1, 149.3);  // Quadrant IV
+    // addVertex(395.1, 188.7, 765.0);  // Quadrant I
+    // addVertex(-122.4, 486.2, 327.1);  // Quadrant II
+    // createMesh();
 }
-
+myModel:: ~myModel() {
+    for (auto * pointerToVertice : vertices ) {
+        delete pointerToVertice ; 
+    }
+    //atleast these pointers must be destroyed
+}
 void myModel::renderMyself(SDL_Renderer *renderer) {
     if (vertices.size() < 5) {
         std::cout << "not enough vertices to render " << std::endl;
@@ -120,9 +125,11 @@ void myModel :: saveModel (std::string filename , std::string modelName  ) {
       
     }
       out << std::endl ; 
+    out.close() ; 
 }
     
 void  myModel :: loadModel (std::string filename , std::string modelName )  {
+
         std::ifstream in ; 
         std::string currentStringLine ;  
         std::string currentWord ; 
@@ -144,11 +151,13 @@ void  myModel :: loadModel (std::string filename , std::string modelName )  {
             iss >> currentWord ; 
             int currentIndex = 0 ; 
             int numberOfTimesWhileLoopIterated = 0 ; 
-            if (currentWord == modelName) {
+            vertices.push_back( new myVertex ) ; // adding the first vertex to the vertices 
+            if (currentWord == modelName) { //----------------------------------------------------------------
             while ( iss >> currentFloat ){
                 int moduloIndex = numberOfTimesWhileLoopIterated % 9  ;
                 if (moduloIndex == 0 && numberOfTimesWhileLoopIterated > 0 ){
                     currentIndex += 1 ; 
+                    vertices.push_back( new myVertex ) ; 
                     }  
                 if (moduloIndex == 0) vertices[currentIndex]->x = currentFloat ; 
                 if (moduloIndex == 1) vertices[currentIndex]->y = currentFloat ; 
@@ -159,16 +168,16 @@ void  myModel :: loadModel (std::string filename , std::string modelName )  {
                 if (moduloIndex == 6) vertices[currentIndex]->xTranslate = currentFloat ; 
                 if (moduloIndex == 7) vertices[currentIndex]->yTranslate = currentFloat ; 
                 if (moduloIndex == 8) vertices[currentIndex]->zTranslate = currentFloat ; 
-                numberOfTimesWhileLoopIterated += 1 ; 
-                // std::cout << currentFloat << std::endl; // --> a good breakpoint
-                // vertices[currentIndex]->
+                numberOfTimesWhileLoopIterated += 1 ;
+               
             }
 
-            }
+            } // ----------------------------------------------------------------
            
             else if ( currentWord != modelName ) {
                     std::cout << "model not found "<<std::endl;
                 }
+            createMesh() ; // ---------very important to create a mesh to render 
         return  ; 
     
 } }

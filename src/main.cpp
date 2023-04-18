@@ -19,11 +19,11 @@ int main() {
     Game game;
     myModel model;
     // model.scale(0.1) ; // --> do not remove 
+    // model.saveModel("data.txt" , "myFirstModel") ; 
     std::vector<myNothingClass * > hector ; 
     // std::thread getTerminalTextThread(&Game::getTerminalText, &game);
     float radian = 0.01 ; 
     model.loadModel("data.txt" , "myFirstModel") ; 
-    // model.saveModel("data.txt" , "myFirstModel") ; 
     
     while (game.isRunning) {
         game.processInput();

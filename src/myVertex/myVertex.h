@@ -19,6 +19,7 @@ class myVertex {
     float yTranslate = 0.0f; 
     float zTranslate = 0.0f; 
     myVertex(float xDistance , float yDistance , float zDistance) ; 
+    myVertex() = default; 
     ~myVertex()  = default ;
     void scale(float length ) ;  
     void translate ( float xTranslate , float yTranslate , float zTranslate) ; 
