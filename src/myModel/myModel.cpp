@@ -110,22 +110,70 @@ void myModel :: scale(float length ) {
 }        
 
 void myModel :: saveModel (std::string filename , std::string modelName  ) {
-    std::ofstream out (filename)  ; 
-    out << modelName <<" " ;  
-    for (int i = 0 ; i < vertices.size()  ; i++){
-        out << vertices [i] -> x <<" ";
-        out << vertices [i] -> y <<" ";
-        out << vertices [i] -> z <<" ";
-        out << vertices [i] -> xRotate <<" ";
-        out << vertices [i] -> yRotate <<" ";
-        out << vertices [i] -> zRotate <<" ";
-        out << vertices [i] -> xTranslate <<" ";
-        out << vertices [i] -> yTranslate  <<" ";
-        out << vertices [i] -> zTranslate  <<" ";
-      
+    // loading all the models and finding if the model with the similar name exists and also storing the model in seperate stirngs 
+    std::ifstream input_file (filename) ; 
+    std::vector<std::string> dataAsLinesInAVector ; 
+    std::string currentStringStoringGetLine ; 
+    std::string extractedModelNameFromTheFile ; 
+    std::string stringContainingModifiedModelData ; 
+    bool found = false ;
+    while ( !input_file.eof()){
+        std::getline(input_file , currentStringStoringGetLine) ; 
+        std::istringstream iss(currentStringStoringGetLine) ;
+        iss >>  extractedModelNameFromTheFile ; 
+        if (extractedModelNameFromTheFile == modelName) {
+            found = true ; 
+            stringContainingModifiedModelData += extractedModelNameFromTheFile ; 
+            for (int i = 0 ; i < vertices.size () ; i++ ){
+            stringContainingModifiedModelData += " " ; 
+            stringContainingModifiedModelData += std::to_string (vertices [i] ->x  ) + " ";
+            stringContainingModifiedModelData += std::to_string (vertices [i] ->y  ) + " ";
+            stringContainingModifiedModelData += std::to_string (vertices [i] ->z  ) + " ";
+            stringContainingModifiedModelData += std::to_string (vertices [i] ->xRotate  ) + " ";
+            stringContainingModifiedModelData += std::to_string (vertices [i] ->yRotate  ) + " ";
+            stringContainingModifiedModelData += std::to_string (vertices [i] ->zRotate  ) + " ";
+            stringContainingModifiedModelData += std::to_string (vertices [i] ->xTranslate  ) + " ";
+            stringContainingModifiedModelData += std::to_string (vertices [i] ->yTranslate   ) + " ";
+            stringContainingModifiedModelData += std::to_string (vertices [i] ->zTranslate   ) + " ";
+            }
+            dataAsLinesInAVector.push_back(stringContainingModifiedModelData);
+            std::cout << "unnecessary " << std::endl;
+        }
+        if (extractedModelNameFromTheFile != modelName) {
+            dataAsLinesInAVector.push_back(currentStringStoringGetLine) ; 
+        }
     }
-      out << std::endl ; 
-    out.close() ; 
+
+        input_file.close () ; 
+
+    // -------- ------------------------------------------------------------
+        std::ofstream out (filename)  ; 
+        for (auto item : dataAsLinesInAVector) {
+            out << item ; 
+            // std::cout << item << std::endl ; 
+            out << std::endl ; 
+        }
+        std::cout << found << std::endl ; 
+        if (found != 1  ) {
+            std::cout << "saving model without permission " <<std::endl; 
+            stringContainingModifiedModelData = "" ; 
+            stringContainingModifiedModelData += modelName  ; 
+            for (int i = 0 ; i < vertices.size () ; i++ ){
+            stringContainingModifiedModelData += " " ; 
+            stringContainingModifiedModelData += std::to_string (vertices [i] ->x  ) + " ";
+            stringContainingModifiedModelData += std::to_string (vertices [i] ->y  ) + " ";
+            stringContainingModifiedModelData += std::to_string (vertices [i] ->z  ) + " ";
+            stringContainingModifiedModelData += std::to_string (vertices [i] ->xRotate  ) + " ";
+            stringContainingModifiedModelData += std::to_string (vertices [i] ->yRotate  ) + " ";
+            stringContainingModifiedModelData += std::to_string (vertices [i] ->zRotate  ) + " ";
+            stringContainingModifiedModelData += std::to_string (vertices [i] ->xTranslate  ) + " ";
+            stringContainingModifiedModelData += std::to_string (vertices [i] ->yTranslate   ) + " ";
+            stringContainingModifiedModelData += std::to_string (vertices [i] ->zTranslate   ) + " ";
+            }
+            out << stringContainingModifiedModelData ; 
+        }
+       
+        out.close() ; 
 }
     
 void  myModel :: loadModel (std::string filename , std::string modelName )  {
@@ -169,7 +217,7 @@ void  myModel :: loadModel (std::string filename , std::string modelName )  {
                 if (moduloIndex == 7) vertices[currentIndex]->yTranslate = currentFloat ; 
                 if (moduloIndex == 8) vertices[currentIndex]->zTranslate = currentFloat ; 
                 numberOfTimesWhileLoopIterated += 1 ;
-               
+
             }
 
             } // ----------------------------------------------------------------

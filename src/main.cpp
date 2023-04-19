@@ -18,12 +18,12 @@ void processTerminalText(std::vector<myNothingClass *> &hector, Game &game) ;
 int main() {
     Game game;
     myModel model;
-    // model.scale(0.1) ; // --> do not remove 
-    // model.saveModel("data.txt" , "myFirstModel") ; 
     std::vector<myNothingClass * > hector ; 
     // std::thread getTerminalTextThread(&Game::getTerminalText, &game);
     float radian = 0.01 ; 
     model.loadModel("data.txt" , "myFirstModel") ; 
+    model.scale(0.3) ; // --> do not remove 
+    model.saveModel("data.txt" , "myScaledFirstModel") ; 
     
     while (game.isRunning) {
         game.processInput();
