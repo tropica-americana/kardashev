@@ -121,6 +121,7 @@ void myModel :: saveModel (std::string filename , std::string modelName  ) {
         std::getline(input_file , currentStringStoringGetLine) ; 
         std::istringstream iss(currentStringStoringGetLine) ;
         iss >>  extractedModelNameFromTheFile ; 
+        std::cout << extractedModelNameFromTheFile << " is the extracted model name from the line  " << std::endl; 
         if (extractedModelNameFromTheFile == modelName) {
             found = true ; 
             stringContainingModifiedModelData += extractedModelNameFromTheFile ; 
@@ -137,11 +138,13 @@ void myModel :: saveModel (std::string filename , std::string modelName  ) {
             stringContainingModifiedModelData += std::to_string (vertices [i] ->zTranslate   ) + " ";
             }
             dataAsLinesInAVector.push_back(stringContainingModifiedModelData);
-            std::cout << "unnecessary " << std::endl;
+            std::cout << "model name matched in the first half of the save model function  " << std::endl;
         }
         if (extractedModelNameFromTheFile != modelName) {
             dataAsLinesInAVector.push_back(currentStringStoringGetLine) ; 
         }
+        extractedModelNameFromTheFile = "" ; 
+        
     }
 
         input_file.close () ; 
@@ -154,8 +157,8 @@ void myModel :: saveModel (std::string filename , std::string modelName  ) {
             out << std::endl ; 
         }
         std::cout << found << std::endl ; 
-        if (found != 1  ) {
-            std::cout << "saving model without permission " <<std::endl; 
+        if (found  != 1  ) {
+            std::cout << "creating new model and saving it because found is false " <<std::endl; 
             stringContainingModifiedModelData = "" ; 
             stringContainingModifiedModelData += modelName  ; 
             for (int i = 0 ; i < vertices.size () ; i++ ){
