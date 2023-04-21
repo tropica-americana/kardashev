@@ -23,7 +23,7 @@ int main() {
     float radian = 0.01 ; 
     model.loadModel("data.txt" , "mySphereVertices") ; 
     model.scale(200.0) ; // --> do not remove 
-    model.saveModel("data.txt" , "myScaledSecondModel") ; 
+    // model.saveModel("data.txt" , "myScaledSecondModel") ; 
     
     while (game.isRunning) {
         game.processInput();

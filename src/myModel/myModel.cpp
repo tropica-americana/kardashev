@@ -22,7 +22,7 @@ myModel:: ~myModel() {
 }
 void myModel::renderMyself(SDL_Renderer *renderer) {
     if (vertices.size() < 5) {
-        std::cout << "not enough vertices to render " << std::endl;
+        // std::cout << "not enough vertices to render " << std::endl;
         return;
     }
     SDL_SetRenderDrawColor(renderer, 250, 250, 250, 255);
@@ -121,7 +121,7 @@ void myModel :: saveModel (std::string filename , std::string modelName  ) {
         std::getline(input_file , currentStringStoringGetLine) ; 
         std::istringstream iss(currentStringStoringGetLine) ;
         iss >>  extractedModelNameFromTheFile ; 
-        std::cout << extractedModelNameFromTheFile << " is the extracted model name from the line  " << std::endl; 
+        // std::cout << extractedModelNameFromTheFile << " is the extracted model name from the line  " << std::endl; 
         if (extractedModelNameFromTheFile == modelName) {
             found = true ; 
             stringContainingModifiedModelData += extractedModelNameFromTheFile ; 
@@ -138,12 +138,13 @@ void myModel :: saveModel (std::string filename , std::string modelName  ) {
             stringContainingModifiedModelData += std::to_string (vertices [i] ->zTranslate   ) + " ";
             }
             dataAsLinesInAVector.push_back(stringContainingModifiedModelData);
-            std::cout << "model name matched in the first half of the save model function  " << std::endl;
+            // std::cout << "model name matched in the first half of the save model function  " << std::endl;
         }
         if (extractedModelNameFromTheFile != modelName) {
             dataAsLinesInAVector.push_back(currentStringStoringGetLine) ; 
         }
         extractedModelNameFromTheFile = "" ; 
+        // apparently iss>> extractModelNameFromTheFile does not work properly and does not nullify the string when the line is empty 
         
     }
 
@@ -156,9 +157,9 @@ void myModel :: saveModel (std::string filename , std::string modelName  ) {
             // std::cout << item << std::endl ; 
             out << std::endl ; 
         }
-        std::cout << found << std::endl ; 
+        // std::cout << found << std::endl ; 
         if (found  != 1  ) {
-            std::cout << "creating new model and saving it because found is false " <<std::endl; 
+            // std::cout << "creating new model and saving it because found is false " <<std::endl; 
             stringContainingModifiedModelData = "" ; 
             stringContainingModifiedModelData += modelName  ; 
             for (int i = 0 ; i < vertices.size () ; i++ ){
@@ -186,7 +187,7 @@ void  myModel :: loadModel (std::string filename , std::string modelName )  {
         std::string currentWord ; 
         float currentFloat ; 
         std::smatch match ; 
-        bool stringMatchedOrNot = false ; 
+        bool found = false ;
         // std::regex matchAFloat("^[+-]?[0-9]+(\\.[0-9]+)?$");
         // std::regex matchAString ("^[A-Za-z]+[\\s]+([A-Za-z]+[\\s]?)+$"); 
         in.open(filename ) ; // opening the file 
@@ -194,7 +195,7 @@ void  myModel :: loadModel (std::string filename , std::string modelName )  {
         {
             std::cerr << "Failed to open the file: " << filename << std::endl;
         }
-        while ( ! in.eof() ){
+        while ( ! in.eof() && !found ){
             // iterating through the file till the end of the file arrives 
             std::getline ( in , currentStringLine) ;
             // std::cout<<currentStringLine<<std::endl; // ---> a good breakpoint
@@ -203,7 +204,9 @@ void  myModel :: loadModel (std::string filename , std::string modelName )  {
             int currentIndex = 0 ; 
             int numberOfTimesWhileLoopIterated = 0 ; 
             vertices.push_back( new myVertex ) ; // adding the first vertex to the vertices 
+            std::cout << currentWord << std::endl;
             if (currentWord == modelName) { //----------------------------------------------------------------
+            found = true ; 
             while ( iss >> currentFloat ){
                 int moduloIndex = numberOfTimesWhileLoopIterated % 9  ;
                 if (moduloIndex == 0 && numberOfTimesWhileLoopIterated > 0 ){
@@ -222,13 +225,17 @@ void  myModel :: loadModel (std::string filename , std::string modelName )  {
                 numberOfTimesWhileLoopIterated += 1 ;
 
             }
+            createMesh() ; // ---------very important to create a mesh to render 
 
-            } // ----------------------------------------------------------------
+            } 
            
             else if ( currentWord != modelName ) {
-                    std::cout << "model not found "<<std::endl;
+                    // std::cout << "model not found "<<std::endl;
                 }
-            createMesh() ; // ---------very important to create a mesh to render 
-        return  ; 
+           
     
-} }
+       
+        }  
+            if (found == false) {std::cout << "model not found "<<std::endl;}
+            return  ;
+             }
