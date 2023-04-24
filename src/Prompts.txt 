@@ -270,3 +270,7 @@ void processTerminalText(std::vector<myNothingClass *> &hector, Game &game) {
 in bionic text the first the letters of each word is in bold and in red color 
 can you find me or write me a vscode extension that does exactly that and also tell me 
 how to implement it in the vscode 
+
+
+i want to iterate through the vector 
+and i want to remove elements that follow a certain condition 

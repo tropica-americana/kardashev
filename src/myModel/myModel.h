@@ -19,17 +19,20 @@ public:
     std::vector<std::string> modelName;
     std::vector<myVertex *> vertices;
     std::vector<std::tuple<int, int>> Mesh;
+    std::string currentMode  = "translate" ; 
+    bool vertexFinalized = true ; 
     myModel () ;  
     ~myModel() ;
     void renderMyself(SDL_Renderer *renderer) override;
     void translate(float xTranslateParameter, float yTranslateParameter, float zTranslateParameter) override;
     void rotate(float xRotateParameter, float yRotateParameter, float zRotateParameter) override;
-    void processInput(const SDL_MouseMotionEvent &mouseEvent) override;
+    void processInput(const SDL_MouseMotionEvent &mouseEvent , const SDL_KeyboardEvent & keyboardEvent ) override;
     void addVertex (float xAmount , float yAmount , float zAmount) override;
     void createMesh() override;
     void scale (float lenght ) ;
     void saveModel(std::string filename , std::string modelName ) ;
-    void loadModel (std::string filename , std::string modelName ) ;  
+    bool loadModel (std::string filename , std::string modelName ) ;  
+    myModel & operator = (const myModel & other) ;
 };
 
 #endif 

@@ -2,17 +2,7 @@
 #include <cstdio>
 #include <sstream>
 myModel::myModel () {
-    // addVertex(212.5, 675.1, 833.0);  // Given vertex
-    // addVertex(-90.1, 148.0, 340.1);   // Quadrant II
-    // addVertex(-278.8, -207.4, 557.6);  // Quadrant III
-    // addVertex(139.2, -436.1, 204.3);  // Quadrant IV
-    // addVertex(293.2, 366.2, 683.5);  // Quadrant I
-    // addVertex(-221.1, 259.8, 369.9);  // Quadrant II
-    // addVertex(-393.6, -319.2, 612.6);  // Quadrant III
-    // addVertex(75.0, -514.1, 149.3);  // Quadrant IV
-    // addVertex(395.1, 188.7, 765.0);  // Quadrant I
-    // addVertex(-122.4, 486.2, 327.1);  // Quadrant II
-    // createMesh();
+
 }
 myModel:: ~myModel() {
     for (auto * pointerToVertice : vertices ) {
@@ -43,21 +33,59 @@ void myModel::rotate(float xRotateParameter, float yRotateParameter, float zRota
     for (auto &item : vertices) {
         item->rotateMyVertex(xRotateParameter, yRotateParameter, zRotateParameter);
     }
-    //  printf("%.2f\n"vertices[0]->x) ; 
-    //z stable 
-    //x unstable
-    //y unstable
 }
 
-void myModel::processInput(const SDL_MouseMotionEvent &mouseEvent) {
-    float simultaneousMotionFactor{ 1.0f };
-    if (mouseEvent.state & SDL_BUTTON_LMASK) {
-        translate(mouseEvent.xrel * simultaneousMotionFactor,
-            mouseEvent.yrel * simultaneousMotionFactor, 0.0f);
+void myModel::processInput(const SDL_MouseMotionEvent &mouseEvent , const SDL_KeyboardEvent &keyboardEvent) {
+    if (currentMode == "translate"){
+        float simultaneousMotionFactor{ 1.0f };
+        if (mouseEvent.state & SDL_BUTTON_LMASK) {
+            translate(mouseEvent.xrel * simultaneousMotionFactor,
+                mouseEvent.yrel * simultaneousMotionFactor, 0.0f);
+    }}
+    if (currentMode == "modify") {
+        std::cout << "modify mode" << std::endl;
+        float simultaneousMotionFactor{ 1.0f };
+        // check wheater the t key is being pressed 
+        if (keyboardEvent.keysym.sym == SDLK_t) {  
+             if (mouseEvent.state & SDL_BUTTON_LMASK) {
+            translate(mouseEvent.xrel * simultaneousMotionFactor,
+                mouseEvent.yrel * simultaneousMotionFactor, 0.0f);
+             }
+        }     
+        // check wheter is r key is being pressed 
+        if (keyboardEvent.keysym.sym == SDLK_r) {
+            simultaneousMotionFactor = 0.1f; 
+            if (mouseEvent.state & SDL_BUTTON_LMASK) {
+                rotate(mouseEvent.yrel * simultaneousMotionFactor,
+                    mouseEvent.xrel * simultaneousMotionFactor, 0.0f);
+            }
+        }  
+        // check wheater a key is being pressed 
+        if (keyboardEvent.keysym.sym == SDLK_a) {
+            simultaneousMotionFactor = 1.0f; 
+            
+            if (mouseEvent.state & SDL_BUTTON_LMASK) {
+                // check wheter the vertex was finalized or not to check if its the first time user pressed a 
+                if (vertexFinalized == true) {
+                    vertices.push_back( new myVertex(mouseEvent.x * simultaneousMotionFactor , mouseEvent.y * simultaneousMotionFactor , 0.0f) ) ;
+                    createMesh() ; 
+                }
+                if ( vertexFinalized == false ) {
+                    vertices[vertices.size() - 1]->x = mouseEvent.x * simultaneousMotionFactor ; 
+                    vertices[vertices.size() - 1]->y = mouseEvent.y * simultaneousMotionFactor ; 
+                    vertices[vertices.size() - 1]->z = 0.0f ; 
+                }
+                // check wheater the user pressed f key to finalize the vertex
+                if (keyboardEvent.keysym.sym == SDLK_f) {
+                    vertexFinalized = true ; 
+                }
+            }
+        }
     }
+    
 }
 
-void myModel::addVertex(float xAmount, float yAmount, float zAmount) {
+void myModel::addVertex (float xAmount, float yAmount, float zAmount) {
     myVertex* newVertex = new myVertex(xAmount, yAmount, zAmount);
     vertices.push_back(newVertex);
 }
@@ -93,15 +121,33 @@ void myModel::createMesh(){
         , [](auto const & v1, auto const & v2) {
             return std::get<1>(v1) < std::get<1>(v2);
         }) ; 
-        for (int z = 0; z < 4 ; z++){
+        for (int z = 0; z < 5 ; z++){
             Mesh.push_back(std::make_tuple( i , std::get<0>(focusedVertexDistanceFromVerticesMemberTupleVector[z]) )) ; 
         }
-
+        // above code joins the 5 closest vertices 
 
     }
-    return ; 
-            
-        }
+    // removing the similar contents from the mesh vector is undone for now 
+    std::vector<std::tuple<int , int >> modifiedMesh  ; 
+    std::copy_if (Mesh.begin () , Mesh.end () , std::back_inserter(modifiedMesh) , [&modifiedMesh](auto const & v1) {
+       bool found ; 
+         for (auto const & v2 : modifiedMesh ) {
+              if (std::get<0>(v1) == std::get<1>(v2) && std::get<1>(v1) == std::get<0>(v2)) {
+                found = true ; 
+                break ; 
+              }
+              if (std::get<0>(v1) == std::get<1>(v2) && std::get<0>(v1) == std::get<1>(v2)) {
+                found = true ; 
+                break ; 
+              }
+         }
+        //  if (found == true) {
+        //      std::cout << "removing the similar contents from the mesh vector " << std::endl ;
+        //   } // this is a sample code 
+        return !found ;
+         
+    }) ;
+} 
 
 void myModel :: scale(float length ) {
     for (auto * vertex : vertices ) {
@@ -180,7 +226,7 @@ void myModel :: saveModel (std::string filename , std::string modelName  ) {
         out.close() ; 
 }
     
-void  myModel :: loadModel (std::string filename , std::string modelName )  {
+bool myModel :: loadModel (std::string filename , std::string modelName )  {
 
         std::ifstream in ; 
         std::string currentStringLine ;  
@@ -232,10 +278,24 @@ void  myModel :: loadModel (std::string filename , std::string modelName )  {
             else if ( currentWord != modelName ) {
                     // std::cout << "model not found "<<std::endl;
                 }
-           
-    
-       
         }  
-            if (found == false) {std::cout << "model not found "<<std::endl;}
-            return  ;
-             }
+        if (found == true ) {
+             std::cout << "model found "<<std::endl; 
+            return true ;  
+            }
+        if (found == false) {
+            std::cout << "model not found "<<std::endl;
+            return  false  ;
+            }
+          
+            }
+
+myModel & myModel :: operator = (const myModel & other ) {
+        modelName = other.modelName ; 
+        for ( const auto & item : other.vertices ) {
+            vertices.push_back ( new myVertex ( * item ) ) ; 
+        }
+        Mesh = other.Mesh ;
+        
+        return *this ; 
+}

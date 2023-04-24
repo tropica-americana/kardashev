@@ -18,7 +18,8 @@ class Game {
     bool isRunning ; 
     std::mutex mouseeventMutex ; 
     SDL_MouseMotionEvent mouseevent ; 
-    SDL_MouseWheelEvent wheelEvent ;    
+    SDL_MouseWheelEvent wheelEvent ;   
+    SDL_KeyboardEvent keyboardEvent ; 
     SDL_Window * window ; 
     SDL_Renderer * renderer ; 
     std::mutex terminalTextMutex ; 

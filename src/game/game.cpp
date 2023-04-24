@@ -40,10 +40,13 @@ void Game ::processInput()
             
             case SDL_KEYDOWN  :
                 if ((event.key.keysym.sym ) == SDLK_ESCAPE) {
-
                     isRunning = false ; 
                 }
+                keyboardEvent = event.key ;
                 break; 
+            case SDL_KEYUP :
+                keyboardEvent = event.key ;
+                break ;
             
             case SDL_MOUSEMOTION :
                 mouseeventMutex.lock() ; 
@@ -121,6 +124,7 @@ void processTerminalText(std::vector<myNothingClass *> &hector, Game &game) {
     std::string input;
     input = game.terminalText ; 
     SDL_MouseMotionEvent &mouseEvent = game.mouseevent ; 
+    SDL_KeyboardEvent &keyboardEvent = game.keyboardEvent ;
     std::regex rotate_pattern(R"(rotate\s+(\d+))");
     std::regex translate_pattern(R"(translate\s+(\d+))");
     std::regex process_input_pattern("processInput");
@@ -158,7 +162,7 @@ void processTerminalText(std::vector<myNothingClass *> &hector, Game &game) {
                     }
                 } else if (std::regex_search(input, match, process_input_pattern)) {
                     for (myNothingClass * obj : hector) {
-                        obj->processInput(mouseEvent);
+                        obj->processInput(mouseEvent , keyboardEvent);
                     }
                 } else if (std::regex_search(input, match, end_pattern)) {
                     game.isRunning = false;

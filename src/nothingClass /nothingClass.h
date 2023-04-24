@@ -18,7 +18,7 @@ public:
     virtual void renderMyself(SDL_Renderer *renderer) = 0;
     virtual void translate(float xTranslateParameter, float yTranslateParameter, float zTranslateParameter) = 0;
     virtual void rotate(float xRotateParameter, float yRotateParameter, float zRotateParameter) = 0;
-    virtual void processInput(const SDL_MouseMotionEvent &mouseEvent) = 0;
+    virtual void processInput(const SDL_MouseMotionEvent &mouseEvent , const SDL_KeyboardEvent & keyboardEvent ) = 0;
     virtual void addVertex (float xAmount , float yAmount , float zAmount)  = 0;
     virtual void createMesh() = 0;
 };

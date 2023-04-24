@@ -1,0 +1,10 @@
+this is how my data.txt looks like 
+myFirstModel 21.25 67.51 83.3 0 0 0 0 0 0 -9.01 14.8 34.01 0 0 0 0 0 0 -27.88 -20.74 55.76 0 0 0 0 0 0 13.92 -43.61 20.43 0 0 0 0 0 0 29.32 36.62 68.35 0 0 0 0 0 0 -22.11 25.98 36.99 0 0 0 0 0 0 -39.36 -31.92 61.26 0 0 0 0 0 0 7.5 -51.41 14.93 0 0 0 0 0 0 39.51 18.87 76.5 0 0 0 0 0 0 -12.24 48.62 32.71 0 0 0 0 0 0 
+mySphereVertices 1.000 0.000 0.000 0 0 0 0 0 0 0.447 0.894 0.000 0 0 0 0 0 0 0.447 -0.894 0.000 0 0 0 0 0 0 -0.553 0.525 0.447 0 0 0 0 0 0 -0.553 -0.525 0.447 0 0 0 0 0 0 -0.553 0.525 -0.447 0 0 0 0 0 0 -0.553 -0.525 -0.447 0 0 0 0 0 0 1.000 0.000 0.000 0 0 0 0 0 0 0.553 0.525 0.447 0 0 0 0 0 0 0.553 -0.525 0.447 0 0 0 0 0 0 0.553 0.525 -0.447 0 0 0 0 0 0 0.553 -0.525 -0.447 0 0 0 0 0 0
+
+first is the model name 
+and the x y z coordinates of the vertices 
+and the rest 0 are the other usefufll latter changable info about each vertice of the model 
+
+in the similar pattern of the data.txt create a cuboid model for me 
+is it possible 
