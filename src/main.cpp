@@ -21,7 +21,7 @@ int main() {
     std::vector<myNothingClass * > hector ; 
     // std::thread getTerminalTextThread(&Game::getTerminalText, &game);
     float radian = 0.01 ; 
-    model.loadModel("data.txt" , "myNoseModel") ; 
+    model.loadModel("data.txt" , "myCuboidModel") ; 
     model.scale(200.0) ;
     model.currentMode = "modify"  ; // --> do not remove 
     // model.saveModel("data.txt" , "myScaledSecondModel") ; 
@@ -32,7 +32,7 @@ int main() {
         SDL_SetRenderDrawColor(game.renderer, 50, 50, 50, 255);
         SDL_RenderClear(game.renderer);
         //------------------------------------------------ write the code here for modifying ----------------------------
-        model.rotate(0.0 , radian, 0.0 )  ; 
+        // model.rotate(0.0 , radian, 0.0 )  ; 
         model.processInput(game.mouseevent , game.keyboardEvent );
         model.renderMyself(game.renderer);
         // processTerminalText(hector , game  );

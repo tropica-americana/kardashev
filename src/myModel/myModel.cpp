@@ -36,6 +36,7 @@ void myModel::rotate(float xRotateParameter, float yRotateParameter, float zRota
 }
 
 void myModel::processInput(const SDL_MouseMotionEvent &mouseEvent , const SDL_KeyboardEvent &keyboardEvent) {
+    bool keyPressed = true ; 
     if (currentMode == "translate"){
         float simultaneousMotionFactor{ 1.0f };
         if (mouseEvent.state & SDL_BUTTON_LMASK) {
@@ -43,44 +44,57 @@ void myModel::processInput(const SDL_MouseMotionEvent &mouseEvent , const SDL_Ke
                 mouseEvent.yrel * simultaneousMotionFactor, 0.0f);
     }}
     if (currentMode == "modify") {
-        std::cout << "modify mode" << std::endl;
         float simultaneousMotionFactor{ 1.0f };
+        // check whether user is not pressing any key 
+        if (keyboardEvent.type == SDL_KEYUP) {
+            keyPressed = false ;
+        }
+        if (keyboardEvent.type == SDL_KEYDOWN) {
+            keyPressed = true ;
+        }
         // check wheater the t key is being pressed 
-        if (keyboardEvent.keysym.sym == SDLK_t) {  
+        if (keyboardEvent.keysym.sym == SDLK_t && keyPressed == true) {  
              if (mouseEvent.state & SDL_BUTTON_LMASK) {
             translate(mouseEvent.xrel * simultaneousMotionFactor,
                 mouseEvent.yrel * simultaneousMotionFactor, 0.0f);
              }
-        }     
+        }
+        
         // check wheter is r key is being pressed 
-        if (keyboardEvent.keysym.sym == SDLK_r) {
-            simultaneousMotionFactor = 0.1f; 
+        if (keyboardEvent.keysym.sym == SDLK_r && keyPressed == true) {
+            simultaneousMotionFactor = 0.01f; 
             if (mouseEvent.state & SDL_BUTTON_LMASK) {
                 rotate(mouseEvent.yrel * simultaneousMotionFactor,
                     mouseEvent.xrel * simultaneousMotionFactor, 0.0f);
             }
         }  
         // check wheater a key is being pressed 
-        if (keyboardEvent.keysym.sym == SDLK_a) {
+        if (keyboardEvent.keysym.sym == SDLK_a && keyPressed == true) {
             simultaneousMotionFactor = 1.0f; 
+             
             
             if (mouseEvent.state & SDL_BUTTON_LMASK) {
                 // check wheter the vertex was finalized or not to check if its the first time user pressed a 
                 if (vertexFinalized == true) {
                     vertices.push_back( new myVertex(mouseEvent.x * simultaneousMotionFactor , mouseEvent.y * simultaneousMotionFactor , 0.0f) ) ;
+                    vertexFinalized = false ;
                     createMesh() ; 
                 }
                 if ( vertexFinalized == false ) {
                     vertices[vertices.size() - 1]->x = mouseEvent.x * simultaneousMotionFactor ; 
                     vertices[vertices.size() - 1]->y = mouseEvent.y * simultaneousMotionFactor ; 
                     vertices[vertices.size() - 1]->z = 0.0f ; 
+                    createMesh() ;
                 }
                 // check wheater the user pressed f key to finalize the vertex
-                if (keyboardEvent.keysym.sym == SDLK_f) {
-                    vertexFinalized = true ; 
-                }
+             
             }
         }
+         if (keyboardEvent.keysym.sym == SDLK_f && keyPressed == true) {
+                    vertexFinalized = true ; 
+                }
+        
+         
     }
     
 }
