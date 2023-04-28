@@ -14,10 +14,10 @@ class myVertex {
     float z ; 
     float xRotate = 0.0f ; 
     float yRotate  = 0.0f; 
-    float zRotate = 0.0f ; 
+    float zRotate = 0.01f ; 
     float xTranslate = 0.0f ; 
     float yTranslate = 0.0f; 
-    float zTranslate = 0.0f; 
+    float zTranslate = 0.01f; 
     myVertex(float xDistance , float yDistance , float zDistance) ; 
     myVertex() = default; 
     ~myVertex()  = default ;
@@ -27,7 +27,10 @@ class myVertex {
     void rotateMyVertexAlongAxis (float amount , Axis axis ) ; 
     float getOnScreenX () ; 
     float getOnScreenY () ; 
+    float convertOnScreenXtoAbsoluteX (float x ) ;
+    float convertOnScreenYtoAbsoluteY (float y ) ;
     void displayVertexOnTerminal () ; 
     myVertex & operator = ( const myVertex & vertex )  ; 
+    myVertex operator - (const myVertex & vertex ) ;
 }  ; 
 #endif 

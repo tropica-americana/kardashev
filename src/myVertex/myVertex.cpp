@@ -2,6 +2,7 @@
 myVertex::myVertex(float xDistance , float yDistance , float zDistance){
     x = xDistance; y = yDistance; z = zDistance;
     xRotate = 0.0f; yRotate = 0.0f; zRotate = 0.0f;
+    xTranslate = 0.0f; yTranslate = 0.0f; zTranslate = 0.0f;
 }  
 void myVertex::scale(float length ) {
     x = length   * x ; y = length * y ; z = length * z ;
@@ -47,7 +48,7 @@ void myVertex::rotateMyVertexAlongAxis (float amount , Axis axis ) {
 }
 float myVertex::getOnScreenX() {
     float relativeX ; 
-    float percentageOfFarness = z  / distanceFromObserver ; 
+    float percentageOfFarness = (z + zTranslate)  / distanceFromObserver ; 
     relativeX = (x  + x * percentageOfFarness );
     relativeX += xTranslate ; 
     return relativeX ; 
@@ -55,10 +56,17 @@ float myVertex::getOnScreenX() {
         
 float myVertex::getOnScreenY() {
     float relativeY ; 
-    float percentageOfFarness = z  / distanceFromObserver ; 
+    float percentageOfFarness = (z + zTranslate) / distanceFromObserver ; 
     relativeY = (y  + y * percentageOfFarness );
     relativeY += yTranslate ; 
     return relativeY ; 
+}
+float myVertex::convertOnScreenXtoAbsoluteX (float onScreenX ) {
+    return (onScreenX - xTranslate - ( 1 + ((z + zTranslate) / distanceFromObserver)) ); 
+}
+
+float myVertex::convertOnScreenYtoAbsoluteY (float onScreenY ) {
+    return (onScreenY - yTranslate - ( 1 + ((z + zTranslate) / distanceFromObserver))) ; 
 }
 myVertex& myVertex::operator=(const myVertex& vertex) {
     // copy all member variables from the 'vertex' parameter
@@ -89,3 +97,14 @@ myVertex& myVertex::operator=(const myVertex& vertex) {
 
 // z axis directed away from the observor 
 // Positive rotation is usually considered to be counterclockwise
+
+myVertex myVertex::operator-(const myVertex& vertex) {
+    myVertex temp;
+    temp.x = x - vertex.x;
+    temp.y = y - vertex.y;
+    temp.z = z - vertex.z;
+    temp.xTranslate = xTranslate - vertex.xTranslate;
+    temp.yTranslate = yTranslate - vertex.yTranslate;
+    temp.zTranslate = zTranslate - vertex.zTranslate;
+    return temp;
+}

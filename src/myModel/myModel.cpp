@@ -42,7 +42,8 @@ void myModel::processInput(const SDL_MouseMotionEvent &mouseEvent , const SDL_Ke
         if (mouseEvent.state & SDL_BUTTON_LMASK) {
             translate(mouseEvent.xrel * simultaneousMotionFactor,
                 mouseEvent.yrel * simultaneousMotionFactor, 0.0f);
-    }}
+    }
+    }
     if (currentMode == "modify") {
         float simultaneousMotionFactor{ 1.0f };
         // check whether user is not pressing any key 
@@ -76,15 +77,24 @@ void myModel::processInput(const SDL_MouseMotionEvent &mouseEvent , const SDL_Ke
             if (mouseEvent.state & SDL_BUTTON_LMASK) {
                 // check wheter the vertex was finalized or not to check if its the first time user pressed a 
                 if (vertexFinalized == true) {
-                    vertices.push_back( new myVertex(mouseEvent.x * simultaneousMotionFactor , mouseEvent.y * simultaneousMotionFactor , 0.0f) ) ;
+                    myVertex newVertex ; 
+                    //copying the trasnlation values of the first vertex to new vertex
+                    newVertex.translate( vertices[0]->x , vertices[0]->y , 0.01f ) ;
+                    // making a subtracted vertex from the center of mass 
+                    newVertex.x = newVertex.convertOnScreenXtoAbsoluteX(mouseEvent.x - newVertex.xTranslate) ;
+                    newVertex.y = newVertex.convertOnScreenYtoAbsoluteY(mouseEvent.y - newVertex.yTranslate) ;
+                    newVertex.z = 0.01f ;
+                    vertices.push_back( new myVertex{newVertex} ) ;
                     vertexFinalized = false ;
                     createMesh() ; 
+                    std::cout << "last vertice "<<std::endl;
+                    vertices[vertices.size() - 1]->displayVertexOnTerminal() ; 
+                    std::cout << "first vertice "<<std::endl;
+                    vertices[0]->displayVertexOnTerminal() ;
                 }
                 if ( vertexFinalized == false ) {
-                    vertices[vertices.size() - 1]->x = mouseEvent.x * simultaneousMotionFactor ; 
-                    vertices[vertices.size() - 1]->y = mouseEvent.y * simultaneousMotionFactor ; 
-                    vertices[vertices.size() - 1]->z = 0.0f ; 
-                    createMesh() ;
+                    vertices[vertices.size() - 1]->translate( mouseEvent.xrel * simultaneousMotionFactor , mouseEvent.yrel * simultaneousMotionFactor , 0.0f ) ; 
+                   
                 }
                 // check wheater the user pressed f key to finalize the vertex
              
@@ -94,7 +104,41 @@ void myModel::processInput(const SDL_MouseMotionEvent &mouseEvent , const SDL_Ke
                     vertexFinalized = true ; 
                 }
         
-         
+         // check whetther the user pressed the 1 key 
+        if (keyboardEvent.keysym.sym == SDLK_1 && keyPressed == true){
+            //check whether the user is pressing the right mouse button
+            if (mouseEvent.state & SDL_BUTTON_RMASK) {
+                rotate(-0.01f, 0.0f, 0.0f);
+            }
+            else rotate(0.01f, 0.0f, 0.0f);
+         }
+         // check whetther the user pressed the 2 key
+        if (keyboardEvent.keysym.sym == SDLK_2 && keyPressed == true){
+            // check whether the user is pressing the right mouse button
+            if (mouseEvent.state & SDL_BUTTON_RMASK) {
+                rotate(0.0f, -0.01f, 0.0f);
+            }
+            else rotate(0.0f, 0.01f, 0.0f);
+          
+        }
+        // check whetther the user pressed the 3 key
+        if (keyboardEvent.keysym.sym == SDLK_3 && keyPressed == true){
+            // check whether the user is pressing the right mouse button
+            if (mouseEvent.state & SDL_BUTTON_RMASK) {
+               rotate(0.0f, 0.0f, -0.01f);
+            }
+            else rotate(0.0f, 0.0f, 0.01f);
+           
+        }
+        // check whether down arrow key was pressed 
+        if (keyboardEvent.keysym.sym == SDLK_DOWN && keyPressed == true){
+            scale(0.9) ; 
+        }
+        // check whether up arrow key was pressed
+        if (keyboardEvent.keysym.sym == SDLK_UP && keyPressed == true){
+            scale(1.1) ; 
+        }
+        
     }
     
 }
@@ -167,6 +211,7 @@ void myModel :: scale(float length ) {
     for (auto * vertex : vertices ) {
         vertex->scale(length);
     }
+
 }        
 
 void myModel :: saveModel (std::string filename , std::string modelName  ) {
@@ -313,3 +358,19 @@ myModel & myModel :: operator = (const myModel & other ) {
         
         return *this ; 
 }
+// myVertex * myModel :: getCenterOfMass( ) {
+//     // std::cout << "getting center of mass " << std::endl ; 
+//     float x = 0 ; 
+//     float y = 0 ; 
+//     float z = 0 ; 
+//     for (int i = 0 ; i < vertices.size () ; i++ ) {
+//         x += vertices [i] -> x ; 
+//         y += vertices [i] -> y ; 
+//         z += vertices [i] -> z ; 
+//     }
+//     x /= vertices.size () ; 
+//     y /= vertices.size () ; 
+//     z /= vertices.size () ; 
+//     // std::cout << "center of mass is " << x << " " << y << " " << z << std::endl ; 
+//     return new myVertex (x , y , z ) ; 
+// }   
