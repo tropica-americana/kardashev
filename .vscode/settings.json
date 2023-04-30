@@ -86,6 +86,7 @@
         "regex": "cpp",
         "stack": "cpp",
         "set": "cpp",
-        "fstream": "cpp"
+        "fstream": "cpp",
+        "__verbose_abort": "cpp"
     }
 }

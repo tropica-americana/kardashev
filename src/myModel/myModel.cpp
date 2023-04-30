@@ -79,7 +79,9 @@ void myModel::processInput(const SDL_MouseMotionEvent &mouseEvent , const SDL_Ke
                 if (vertexFinalized == true) {
                     myVertex newVertex ; 
                     //copying the trasnlation values of the first vertex to new vertex
-                    newVertex.translate( vertices[0]->x , vertices[0]->y , 0.01f ) ;
+                    newVertex.xTranslate = vertices[0]->xTranslate ;
+                    newVertex.yTranslate = vertices[0]->yTranslate ;
+                    newVertex.zTranslate = vertices[0]->zTranslate ;
                     // making a subtracted vertex from the center of mass 
                     newVertex.x = newVertex.convertOnScreenXtoAbsoluteX(mouseEvent.x - newVertex.xTranslate) ;
                     newVertex.y = newVertex.convertOnScreenYtoAbsoluteY(mouseEvent.y - newVertex.yTranslate) ;
@@ -93,10 +95,13 @@ void myModel::processInput(const SDL_MouseMotionEvent &mouseEvent , const SDL_Ke
                     vertices[0]->displayVertexOnTerminal() ;
                 }
                 if ( vertexFinalized == false ) {
-                    vertices[vertices.size() - 1]->translate( mouseEvent.xrel * simultaneousMotionFactor , mouseEvent.yrel * simultaneousMotionFactor , 0.0f ) ; 
-                   
+                    vertices[vertices.size() - 1]->x += mouseEvent.xrel * simultaneousMotionFactor ;
+                    vertices[vertices.size() - 1]->y += mouseEvent.yrel * simultaneousMotionFactor ;
+                    // std::cout<<mouseEvent.x<<std::endl;
+                    // std::cout<<mouseEvent.y<<std::endl;
+                    
                 }
-                // check wheater the user pressed f key to finalize the vertex
+            
              
             }
         }
