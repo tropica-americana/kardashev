@@ -82,23 +82,17 @@ void myModel::processInput(const SDL_MouseMotionEvent &mouseEvent , const SDL_Ke
                     newVertex.xTranslate = vertices[0]->xTranslate ;
                     newVertex.yTranslate = vertices[0]->yTranslate ;
                     newVertex.zTranslate = vertices[0]->zTranslate ;
-                    // making a subtracted vertex from the center of mass 
-                    newVertex.x = newVertex.convertOnScreenXtoAbsoluteX(mouseEvent.x - newVertex.xTranslate) ;
-                    newVertex.y = newVertex.convertOnScreenYtoAbsoluteY(mouseEvent.y - newVertex.yTranslate) ;
+                    newVertex.x = mouseEvent.x - newVertex.xTranslate ;
+                    newVertex.y = mouseEvent.y - newVertex.yTranslate ;
                     newVertex.z = 0.01f ;
                     vertices.push_back( new myVertex{newVertex} ) ;
                     vertexFinalized = false ;
                     createMesh() ; 
-                    std::cout << "last vertice "<<std::endl;
-                    vertices[vertices.size() - 1]->displayVertexOnTerminal() ; 
-                    std::cout << "first vertice "<<std::endl;
-                    vertices[0]->displayVertexOnTerminal() ;
                 }
                 if ( vertexFinalized == false ) {
                     vertices[vertices.size() - 1]->x += mouseEvent.xrel * simultaneousMotionFactor ;
                     vertices[vertices.size() - 1]->y += mouseEvent.yrel * simultaneousMotionFactor ;
-                    // std::cout<<mouseEvent.x<<std::endl;
-                    // std::cout<<mouseEvent.y<<std::endl;
+                    createMesh() ;
                     
                 }
             

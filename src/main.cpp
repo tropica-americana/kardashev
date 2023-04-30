@@ -35,10 +35,6 @@ int main() {
         // model.rotate(0.0 , radian, 0.0 )  ; 
         model.processInput(game.mouseevent , game.keyboardEvent );
         model.renderMyself(game.renderer);
-        std::cout << " second last " << std::endl ;
-        model.vertices[model.vertices.size() - 2]->displayVertexOnTerminal() ;
-        std::cout << " last " << std::endl ;
-        model.vertices[model.vertices.size() - 1]->displayVertexOnTerminal() ;
         game.render();
         SDL_Delay(10);
     }
