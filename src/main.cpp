@@ -21,11 +21,10 @@ int main() {
     std::vector<myNothingClass * > hector ; 
     // std::thread getTerminalTextThread(&Game::getTerminalText, &game);
     float radian = 0.01 ; 
-    model.loadModel("data.txt" , "myCuboidModel") ; 
+    model.loadModel("data.txt" , "biPointedCuboid") ; 
     model.scale(200.0) ;
     model.currentMode = "modify"  ; // --> do not remove 
     // model.saveModel("data.txt" , "myScaledSecondModel") ; 
-    
     while (game.isRunning) {
         game.processInput();
         game.update();
@@ -40,5 +39,7 @@ int main() {
     }
     return 0;
 }
+
+
 
 

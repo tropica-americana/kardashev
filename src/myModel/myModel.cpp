@@ -2,7 +2,7 @@
 #include <cstdio>
 #include <sstream>
 myModel::myModel () {
-
+        
 }
 myModel:: ~myModel() {
     for (auto * pointerToVertice : vertices ) {
@@ -37,6 +37,14 @@ void myModel::rotate(float xRotateParameter, float yRotateParameter, float zRota
 
 void myModel::processInput(const SDL_MouseMotionEvent &mouseEvent , const SDL_KeyboardEvent &keyboardEvent) {
     bool keyPressed = true ; 
+    bool invertedRotation = false ;
+    // iterating through all the events of sdl events 
+    // check wheter the user is pressing the e key 
+    
+    if (keyboardEvent.keysym.sym == SDLK_e && keyPressed == true){
+        invertedRotation = true ;
+    }
+    else { invertedRotation = false ; }
     if (currentMode == "translate"){
         float simultaneousMotionFactor{ 1.0f };
         if (mouseEvent.state & SDL_BUTTON_LMASK) {
@@ -45,99 +53,110 @@ void myModel::processInput(const SDL_MouseMotionEvent &mouseEvent , const SDL_Ke
     }
     }
     if (currentMode == "modify") {
-        float simultaneousMotionFactor{ 1.0f };
-        // check whether user is not pressing any key 
-        if (keyboardEvent.type == SDL_KEYUP) {
-            keyPressed = false ;
-        }
-        if (keyboardEvent.type == SDL_KEYDOWN) {
-            keyPressed = true ;
-        }
-        // check wheater the t key is being pressed 
-        if (keyboardEvent.keysym.sym == SDLK_t && keyPressed == true) {  
-             if (mouseEvent.state & SDL_BUTTON_LMASK) {
-            translate(mouseEvent.xrel * simultaneousMotionFactor,
-                mouseEvent.yrel * simultaneousMotionFactor, 0.0f);
-             }
-        }
-        
-        // check wheter is r key is being pressed 
-        if (keyboardEvent.keysym.sym == SDLK_r && keyPressed == true) {
-            simultaneousMotionFactor = 0.01f; 
-            if (mouseEvent.state & SDL_BUTTON_LMASK) {
-                rotate(mouseEvent.yrel * simultaneousMotionFactor,
-                    mouseEvent.xrel * simultaneousMotionFactor, 0.0f);
+        float simultaneousMotionFactor{ 1.0f }; 
+            // check whether user is not pressing any key 
+            if (keyboardEvent.type == SDL_KEYUP) {
+                keyPressed = false ;
             }
-        }  
-        // check wheater a key is being pressed 
-        if (keyboardEvent.keysym.sym == SDLK_a && keyPressed == true) {
-            simultaneousMotionFactor = 1.0f; 
-             
+            if (keyboardEvent.type == SDL_KEYDOWN) {
+                keyPressed = true ;
+            }
+            // check wheater the t key is being pressed 
+            if (keyboardEvent.keysym.sym == SDLK_t && keyPressed == true) {  
+                if (mouseEvent.state & SDL_BUTTON_LMASK) {
+                translate(mouseEvent.xrel * simultaneousMotionFactor,
+                    mouseEvent.yrel * simultaneousMotionFactor, 0.0f);
+                }
+            }
             
-            if (mouseEvent.state & SDL_BUTTON_LMASK) {
-                // check wheter the vertex was finalized or not to check if its the first time user pressed a 
-                if (vertexFinalized == true) {
-                    myVertex newVertex ; 
-                    //copying the trasnlation values of the first vertex to new vertex
-                    newVertex.xTranslate = vertices[0]->xTranslate ;
-                    newVertex.yTranslate = vertices[0]->yTranslate ;
-                    newVertex.zTranslate = vertices[0]->zTranslate ;
-                    newVertex.x = mouseEvent.x - newVertex.xTranslate ;
-                    newVertex.y = mouseEvent.y - newVertex.yTranslate ;
-                    newVertex.z = 0.01f ;
-                    vertices.push_back( new myVertex{newVertex} ) ;
-                    vertexFinalized = false ;
-                    createMesh() ; 
+            // check wheter is r key is being pressed 
+            if (keyboardEvent.keysym.sym == SDLK_r && keyPressed == true) {
+                simultaneousMotionFactor = 0.01f; 
+                if (mouseEvent.state & SDL_BUTTON_LMASK) {
+                    rotate(mouseEvent.yrel * simultaneousMotionFactor,
+                        mouseEvent.xrel * simultaneousMotionFactor, 0.0f);
                 }
-                if ( vertexFinalized == false ) {
-                    vertices[vertices.size() - 1]->x += mouseEvent.xrel * simultaneousMotionFactor ;
-                    vertices[vertices.size() - 1]->y += mouseEvent.yrel * simultaneousMotionFactor ;
-                    createMesh() ;
-                    
+            }  
+            // check wheater a key is being pressed 
+            if (keyboardEvent.keysym.sym == SDLK_a && keyPressed == true) {
+                simultaneousMotionFactor = 1.0f; 
+                
+                
+                if (mouseEvent.state & SDL_BUTTON_LMASK) {
+                    // check wheter the vertex was finalized or not to check if its the first time user pressed a 
+                    if (vertexFinalized == true) {
+                        myVertex newVertex ; 
+                        //copying the trasnlation values of the first vertex to new vertex
+                        newVertex.xTranslate = vertices[0]->xTranslate ;
+                        newVertex.yTranslate = vertices[0]->yTranslate ;
+                        newVertex.zTranslate = vertices[0]->zTranslate ;
+                        newVertex.x = mouseEvent.x - newVertex.xTranslate ;
+                        newVertex.y = mouseEvent.y - newVertex.yTranslate ;
+                        newVertex.z = 0.01f ;
+                        vertices.push_back( new myVertex{newVertex} ) ;
+                        vertexFinalized = false ;
+                        createMesh() ; 
+                    }
+                    if ( vertexFinalized == false ) {
+                        vertices[vertices.size() - 1]->x += mouseEvent.xrel * simultaneousMotionFactor ;
+                        vertices[vertices.size() - 1]->y += mouseEvent.yrel * simultaneousMotionFactor ;
+                        // createMesh() ;
+                        
+                    }
+                
+                
                 }
+            }
+            if (keyboardEvent.keysym.sym == SDLK_f && keyPressed == true) {
+                        vertexFinalized = true ; 
+                    }
+            float amountToRotate = 0.1f  ; 
+            // check whetther the user pressed the 1 key 
+            if (keyboardEvent.keysym.sym == SDLK_1 && keyPressed == true){
+                //check whether the user is pressing the right mouse button
+                std::cout << invertedRotation << std::endl ;
+                if (invertedRotation == true) {
+                    rotate(-amountToRotate, 0.0f, 0.0f);
+                }
+                else rotate(amountToRotate, 0.0f, 0.0f);
+            }
+            // check whetther the user pressed the 2 key
+            if (keyboardEvent.keysym.sym == SDLK_2 && keyPressed == true){
+                // check whether the user is pressing the right mouse button
+                if (invertedRotation == true) {
+                    rotate(0.0f,-amountToRotate, 0.0f);
+                }
+                else rotate(0.0f, amountToRotate, 0.0f);
             
-             
             }
-        }
-         if (keyboardEvent.keysym.sym == SDLK_f && keyPressed == true) {
-                    vertexFinalized = true ; 
+            // check whetther the user pressed the 3 key
+            if (keyboardEvent.keysym.sym == SDLK_3 && keyPressed == true){
+                // check whether the user is pressing the right mouse button
+                if (invertedRotation == true) {
+                rotate(0.0f, 0.0f, amountToRotate);
                 }
-        
-         // check whetther the user pressed the 1 key 
-        if (keyboardEvent.keysym.sym == SDLK_1 && keyPressed == true){
-            //check whether the user is pressing the right mouse button
-            if (mouseEvent.state & SDL_BUTTON_RMASK) {
-                rotate(-0.01f, 0.0f, 0.0f);
+                else rotate(0.0f, 0.0f, -amountToRotate);
+            
             }
-            else rotate(0.01f, 0.0f, 0.0f);
-         }
-         // check whetther the user pressed the 2 key
-        if (keyboardEvent.keysym.sym == SDLK_2 && keyPressed == true){
-            // check whether the user is pressing the right mouse button
-            if (mouseEvent.state & SDL_BUTTON_RMASK) {
-                rotate(0.0f, -0.01f, 0.0f);
+            // check whether down arrow key was pressed 
+            if (keyboardEvent.keysym.sym == SDLK_DOWN && keyPressed == true){
+                scale(0.9) ; 
             }
-            else rotate(0.0f, 0.01f, 0.0f);
-          
-        }
-        // check whetther the user pressed the 3 key
-        if (keyboardEvent.keysym.sym == SDLK_3 && keyPressed == true){
-            // check whether the user is pressing the right mouse button
-            if (mouseEvent.state & SDL_BUTTON_RMASK) {
-               rotate(0.0f, 0.0f, -0.01f);
+            // check whether up arrow key was pressed
+            if (keyboardEvent.keysym.sym == SDLK_UP && keyPressed == true){
+                scale(1.1) ; 
             }
-            else rotate(0.0f, 0.0f, 0.01f);
-           
-        }
-        // check whether down arrow key was pressed 
-        if (keyboardEvent.keysym.sym == SDLK_DOWN && keyPressed == true){
-            scale(0.9) ; 
-        }
-        // check whether up arrow key was pressed
-        if (keyboardEvent.keysym.sym == SDLK_UP && keyPressed == true){
-            scale(1.1) ; 
-        }
-        
+
+            // check if user pressed the s key to save the model 
+            if (keyboardEvent.keysym.sym == SDLK_s && keyPressed == true){
+                std::string modelName ; 
+                std::cout << "Enter the name of the model you want to save" << std::endl ;
+                std::cin >> modelName ;
+                if (modelName == "" || modelName == " " || modelName == "\n"){
+                    return ; 
+                }
+                saveModel( "data.txt", modelName) ;
+            }
     }
     
 }
@@ -213,7 +232,7 @@ void myModel :: scale(float length ) {
 
 }        
 
-void myModel :: saveModel (std::string filename , std::string modelName  ) {
+void myModel :: saveModel (std::string filename , std::string modelName ) {
     // loading all the models and finding if the model with the similar name exists and also storing the model in seperate stirngs 
     std::ifstream input_file (filename) ; 
     std::vector<std::string> dataAsLinesInAVector ; 
@@ -284,69 +303,63 @@ void myModel :: saveModel (std::string filename , std::string modelName  ) {
         out.close() ; 
 }
     
-bool myModel :: loadModel (std::string filename , std::string modelName )  {
+bool myModel::loadModel(std::string filename, std::string modelName) {
+    std::ifstream inFile(filename);
 
-        std::ifstream in ; 
-        std::string currentStringLine ;  
-        std::string currentWord ; 
-        float currentFloat ; 
-        std::smatch match ; 
-        bool found = false ;
-        // std::regex matchAFloat("^[+-]?[0-9]+(\\.[0-9]+)?$");
-        // std::regex matchAString ("^[A-Za-z]+[\\s]+([A-Za-z]+[\\s]?)+$"); 
-        in.open(filename ) ; // opening the file 
-        if (!in.is_open () ) // chekcing if file is opened succesfully  
-        {
-            std::cerr << "Failed to open the file: " << filename << std::endl;
-        }
-        while ( ! in.eof() && !found ){
-            // iterating through the file till the end of the file arrives 
-            std::getline ( in , currentStringLine) ;
-            // std::cout<<currentStringLine<<std::endl; // ---> a good breakpoint
-            std::istringstream iss (currentStringLine);
-            iss >> currentWord ; 
-            int currentIndex = 0 ; 
-            int numberOfTimesWhileLoopIterated = 0 ; 
-            vertices.push_back( new myVertex ) ; // adding the first vertex to the vertices 
-            std::cout << currentWord << std::endl;
-            if (currentWord == modelName) { //----------------------------------------------------------------
-            found = true ; 
-            while ( iss >> currentFloat ){
-                int moduloIndex = numberOfTimesWhileLoopIterated % 9  ;
-                if (moduloIndex == 0 && numberOfTimesWhileLoopIterated > 0 ){
-                    currentIndex += 1 ; 
-                    vertices.push_back( new myVertex ) ; 
-                    }  
-                if (moduloIndex == 0) vertices[currentIndex]->x = currentFloat ; 
-                if (moduloIndex == 1) vertices[currentIndex]->y = currentFloat ; 
-                if (moduloIndex == 2) vertices[currentIndex]->z = currentFloat ; 
-                if (moduloIndex == 3) vertices[currentIndex]->xRotate = currentFloat ; 
-                if (moduloIndex == 4) vertices[currentIndex]->yRotate = currentFloat ; 
-                if (moduloIndex == 5) vertices[currentIndex]->zRotate = currentFloat ; 
-                if (moduloIndex == 6) vertices[currentIndex]->xTranslate = currentFloat ; 
-                if (moduloIndex == 7) vertices[currentIndex]->yTranslate = currentFloat ; 
-                if (moduloIndex == 8) vertices[currentIndex]->zTranslate = currentFloat ; 
-                numberOfTimesWhileLoopIterated += 1 ;
+    if (!inFile.is_open()) {
+        std::cerr << "Failed to open the file: " << filename << std::endl;
+        return false;
+    }
 
-            }
-            createMesh() ; // ---------very important to create a mesh to render 
+    std::string line;
+    bool found = false;
+    while (std::getline(inFile, line) && !found) {
+        std::istringstream iss(line);
+        std::string currentModelName;
+        iss >> currentModelName;
 
-            } 
-           
-            else if ( currentWord != modelName ) {
-                    // std::cout << "model not found "<<std::endl;
+        if (currentModelName == modelName) {
+            found = true;
+            vertices.clear(); // Clear existing vertices before loading new model
+
+            int index = 0;
+            float value;
+            vertices.push_back(new myVertex());
+
+            while (iss >> value) {
+                int moduloIndex = index % 9;
+
+                switch (moduloIndex) {
+                    case 0: vertices.back()->x = value; break;
+                    case 1: vertices.back()->y = value; break;
+                    case 2: vertices.back()->z = value; break;
+                    case 3: vertices.back()->xRotate = value; break;
+                    case 4: vertices.back()->yRotate = value; break;
+                    case 5: vertices.back()->zRotate = value; break;
+                    case 6: vertices.back()->xTranslate = value; break;
+                    case 7: vertices.back()->yTranslate = value; break;
+                    case 8:
+                        vertices.back()->zTranslate = value;
+                        vertices.push_back(new myVertex());
+                        break;
                 }
-        }  
-        if (found == true ) {
-             std::cout << "model found "<<std::endl; 
-            return true ;  
+                index++;
             }
-        if (found == false) {
-            std::cout << "model not found "<<std::endl;
-            return  false  ;
-            }
-          
-            }
+            vertices.pop_back(); // Remove the last unused vertex
+            createMesh();
+        }
+    }
+
+    inFile.close();
+
+    if (found) {
+        std::cout << "Model found." << std::endl;
+        return true;
+    } else {
+        std::cout << "Model not found." << std::endl;
+        return false;
+    }
+}
 
 myModel & myModel :: operator = (const myModel & other ) {
         modelName = other.modelName ; 
