@@ -197,7 +197,7 @@ void myModel::createMesh(){
         , [](auto const & v1, auto const & v2) {
             return std::get<1>(v1) < std::get<1>(v2);
         }) ; 
-        for (int z = 0; z < 5 ; z++){
+        for (int z = 0; z < 4 ; z++){
             Mesh.push_back(std::make_tuple( i , std::get<0>(focusedVertexDistanceFromVerticesMemberTupleVector[z]) )) ; 
         }
         // above code joins the 5 closest vertices 
@@ -386,3 +386,30 @@ myModel & myModel :: operator = (const myModel & other ) {
 //     // std::cout << "center of mass is " << x << " " << y << " " << z << std::endl ; 
 //     return new myVertex (x , y , z ) ; 
 // }   
+
+void myModel::joinWithMyModel ( myModel & anotherModel  ) { 
+        auto & anotherVertices = anotherModel.vertices ;
+        for (int i = 0 ; i < anotherVertices.size() ; i++ ) {
+                auto pointerToCurrentVertice = anotherVertices[i] ;
+                //deleting the value of anotherVertices[i] 
+                anotherVertices[i] = nullptr ;
+                float x = pointerToCurrentVertice -> x + pointerToCurrentVertice -> xTranslate - vertices [0] -> xTranslate ;
+                float y = pointerToCurrentVertice -> y + pointerToCurrentVertice -> yTranslate - vertices [0] -> yTranslate ;
+                float z = pointerToCurrentVertice -> z + pointerToCurrentVertice -> zTranslate  - vertices [0] -> zTranslate ;
+                pointerToCurrentVertice -> xTranslate  =  vertices [0] -> xTranslate ;
+                pointerToCurrentVertice -> yTranslate  =  vertices [0] -> yTranslate ;
+                pointerToCurrentVertice -> zTranslate  =  vertices [0] -> zTranslate ;
+                pointerToCurrentVertice -> xRotate =  vertices [0] -> xRotate ;
+                pointerToCurrentVertice -> yRotate =  vertices [0] -> yRotate ;
+                pointerToCurrentVertice -> zRotate =  vertices [0] -> zRotate ;
+                pointerToCurrentVertice -> x = x ;
+                pointerToCurrentVertice -> y = y ;
+                pointerToCurrentVertice -> z = z ;
+                vertices.push_back (pointerToCurrentVertice) ;
+                }
+            createMesh () ;
+
+                        }
+
+
+

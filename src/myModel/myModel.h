@@ -32,6 +32,7 @@ public:
     void scale (float lenght ) ;
     void saveModel(std::string filename , std::string modelName ) ;
     bool loadModel (std::string filename , std::string modelName ) ;  
+    void  joinWithMyModel ( myModel  & anotherModel  ) ; 
     myVertex * getCenterOfMass() ;
     myModel & operator = (const myModel & other) ;
 };
