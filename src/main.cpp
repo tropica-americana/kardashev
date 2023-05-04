@@ -15,24 +15,12 @@
 #include <regex>
 using namespace std;
 void processTerminalText(std::vector<myNothingClass *> &hector, Game &game) ; 
+myModel createSphere() ; 
 int main() {
     Game game;
-    myModel model1;
-    myModel model2;
-    myModel model3;
     std::vector<myNothingClass * > hector ; 
-    // std::thread getTerminalTextThread(&Game::getTerminalText, &game);
-    float radian = 0.01 ; 
-    float scalingNumber = 100.0f ; 
-    model1.loadModel("data.txt" , "myCuboidModel") ; 
-    model1.currentMode = "modify"  ; 
-    model1.scale(scalingNumber) ;
-    // model2.loadModel("data.txt" , "tetraPointedCuboid") ;
-    model2.loadModel("data.txt" , "myCuboidModel") ;
-    model2.currentMode = "modify"  ;
-    model2.scale(scalingNumber) ;
-    model2.translate(0.0 , 1000.0f , 0.0) ;
-    model1.joinWithMyModel(model2) ;
+    myModel model1 = createSphere () ; 
+
     while (game.isRunning) {
         game.processInput();
         game.update();

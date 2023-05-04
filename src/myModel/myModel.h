@@ -5,7 +5,6 @@
 #include <array>
 #include <SDL2/SDL.h>
 #include <glm/glm.hpp>
-
 #include "../Quadrant/Quadrant.h"
 #include "../nothingClass /nothingClass.h"
 #include "../myVertex/myVertex.h"
@@ -28,6 +27,7 @@ public:
     void rotate(float xRotateParameter, float yRotateParameter, float zRotateParameter) override;
     void processInput(const SDL_MouseMotionEvent &mouseEvent , const SDL_KeyboardEvent & keyboardEvent ) override;
     void addVertex (float xAmount , float yAmount , float zAmount) override;
+    void addVertex (myVertex vertex) ; 
     void createMesh() override;
     void scale (float lenght ) ;
     void saveModel(std::string filename , std::string modelName ) ;

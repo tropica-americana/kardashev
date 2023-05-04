@@ -2,7 +2,6 @@
 #include <array>
 #include <SDL2/SDL.h>
 #include <glm/glm.hpp>
-
 #include "../Quadrant/Quadrant.h"
 #include "../nothingClass /nothingClass.h"
 #include "../myVertex/myVertex.h"

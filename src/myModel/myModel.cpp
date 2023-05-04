@@ -2,7 +2,7 @@
 #include <cstdio>
 #include <sstream>
 myModel::myModel () {
-        
+        vertices.clear() ;  
 }
 myModel:: ~myModel() {
     for (auto * pointerToVertice : vertices ) {
@@ -163,9 +163,15 @@ void myModel::processInput(const SDL_MouseMotionEvent &mouseEvent , const SDL_Ke
 
 void myModel::addVertex (float xAmount, float yAmount, float zAmount) {
     myVertex* newVertex = new myVertex(xAmount, yAmount, zAmount);
+    newVertex->xTranslate = 0.0f ; 
+    newVertex->yTranslate = 0.0f ; 
+    newVertex->zTranslate = 0.0f ; 
     vertices.push_back(newVertex);
-}
+}// bug prone area 
 
+void myModel::addVertex (myVertex vertex) {
+    addVertex( vertex.x , vertex.y , vertex.z) ; 
+}// bug prone area 
 void myModel::createMesh(){
 
     for (size_t i = 0; i < vertices.size(); i++){
@@ -197,7 +203,7 @@ void myModel::createMesh(){
         , [](auto const & v1, auto const & v2) {
             return std::get<1>(v1) < std::get<1>(v2);
         }) ; 
-        for (int z = 0; z < 4 ; z++){
+        for (int z = 0; z < 8 ; z++){
             Mesh.push_back(std::make_tuple( i , std::get<0>(focusedVertexDistanceFromVerticesMemberTupleVector[z]) )) ; 
         }
         // above code joins the 5 closest vertices 

@@ -2,7 +2,7 @@
 # Declare some Makefile variables
 ################################################################################
 CC = g++
-LANG_STD = -std=c++17
+LANG_STD = -std=c++20
 COMPILER_FLAGS = -Wall  -Wfatal-errors 
 DEBUGGING_SYMBOLS = -g
 COMPILER_FLAGS = -w -Wfatal-errors
