@@ -1,6 +1,6 @@
 #include <iostream>
 #include "game.h"
-#include "../glmHandler/glmHandler.h"
+
 #include <string>
 void Game ::initialize()
 {

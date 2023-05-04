@@ -32,19 +32,13 @@ int main() {
     model2.currentMode = "modify"  ;
     model2.scale(scalingNumber) ;
     model2.translate(0.0 , 1000.0f , 0.0) ;
-    // model3.loadModel("data.txt" , "biPointedCuboid") ;
-    // model3.currentMode = "modify"  ;
-    // model3.scale(scalingNumber) ;
-    // model3.translate(1000.0 , 0.0f , 0.0) ;
     model1.joinWithMyModel(model2) ;
-    // model1.joinWithMyModel(model3) ;
     while (game.isRunning) {
         game.processInput();
         game.update();
         SDL_SetRenderDrawColor(game.renderer, 50, 50, 50, 255);
         SDL_RenderClear(game.renderer);
         //------------------------------------------------ write the code here for modifying ----------------------------
-        // model.rotate(0.0 , radian, 0.0 )  ; 
         model1.processInput(game.mouseevent , game.keyboardEvent );
         model1.renderMyself(game.renderer);
         game.render();
