@@ -24,19 +24,20 @@ int main() {
     // std::thread getTerminalTextThread(&Game::getTerminalText, &game);
     float radian = 0.01 ; 
     float scalingNumber = 100.0f ; 
-    model1.loadModel("data.txt" , "hexaPointedCuboid") ; 
+    model1.loadModel("data.txt" , "myCuboidModel") ; 
     model1.currentMode = "modify"  ; 
     model1.scale(scalingNumber) ;
-    model2.loadModel("data.txt" , "tetraPointedCuboid") ;
+    // model2.loadModel("data.txt" , "tetraPointedCuboid") ;
+    model2.loadModel("data.txt" , "myCuboidModel") ;
     model2.currentMode = "modify"  ;
     model2.scale(scalingNumber) ;
     model2.translate(0.0 , 1000.0f , 0.0) ;
-    model3.loadModel("data.txt" , "biPointedCuboid") ;
-    model3.currentMode = "modify"  ;
-    model3.scale(scalingNumber) ;
-    model3.translate(1000.0 , 0.0f , 0.0) ;
+    // model3.loadModel("data.txt" , "biPointedCuboid") ;
+    // model3.currentMode = "modify"  ;
+    // model3.scale(scalingNumber) ;
+    // model3.translate(1000.0 , 0.0f , 0.0) ;
     model1.joinWithMyModel(model2) ;
-    model1.joinWithMyModel(model3) ;
+    // model1.joinWithMyModel(model3) ;
     while (game.isRunning) {
         game.processInput();
         game.update();

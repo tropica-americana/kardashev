@@ -233,7 +233,7 @@ void myModel :: scale(float length ) {
 }        
 
 void myModel :: saveModel (std::string filename , std::string modelName ) {
-    // loading all the models and finding if the model with the similar name exists and also storing the model in seperate stirngs 
+    // lowing all the models and finding if the model with the similar name exists and also storing the model in seperate stirngs 
     std::ifstream input_file (filename) ; 
     std::vector<std::string> dataAsLinesInAVector ; 
     std::string currentStringStoringGetLine ; 
@@ -407,9 +407,9 @@ void myModel::joinWithMyModel ( myModel & anotherModel  ) {
                 pointerToCurrentVertice -> z = z ;
                 vertices.push_back (pointerToCurrentVertice) ;
                 }
-            createMesh () ;
+                createMesh () ;
 
-                        }
+                }
 
 
 
