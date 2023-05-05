@@ -1,7 +1,7 @@
 #include "./myVertex.h"
 myVertex::myVertex(float xDistance , float yDistance , float zDistance){
     x = xDistance; y = yDistance; z = zDistance;
-    xRotate = 0.0f; yRotate = 0.0f; zRotate = 0.0f;
+   
     xTranslate = 0.0f; yTranslate = 0.0f; zTranslate = 0.0f;
 }  
 void myVertex::scale(float length ) {
@@ -74,9 +74,6 @@ myVertex& myVertex::operator=(const myVertex& vertex) {
     x = vertex.x;
     y = vertex.y;
     z = vertex.z;
-    xRotate = vertex.xRotate;
-    yRotate = vertex.yRotate;
-    zRotate = vertex.zRotate;
     xTranslate = vertex.xTranslate;
     yTranslate = vertex.yTranslate;
     zTranslate = vertex.zTranslate;
@@ -87,9 +84,6 @@ myVertex& myVertex::operator=(const myVertex& vertex) {
     std::cout << "x: " << x << std::endl;
     std::cout << "y: " << y << std::endl;
     std::cout << "z: " << z << std::endl;
-    std::cout << "xRotate: " << xRotate << std::endl;
-    std::cout << "yRotate: " << yRotate << std::endl;
-    std::cout << "zRotate: " << zRotate << std::endl;
     std::cout << "xTranslate: " << xTranslate << std::endl;
     std::cout << "yTranslate: " << yTranslate << std::endl;
     std::cout << "zTranslate: " << zTranslate << std::endl;

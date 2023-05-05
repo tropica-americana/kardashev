@@ -12,9 +12,6 @@ class myVertex {
     float x ; 
     float y ; 
     float z ; 
-    float xRotate = 0.0f ; 
-    float yRotate  = 0.0f; 
-    float zRotate = 0.00f ; 
     float xTranslate = 0.0f ; 
     float yTranslate = 0.0f; 
     float zTranslate = 0.00f; 

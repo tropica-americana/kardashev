@@ -259,9 +259,6 @@ void myModel :: saveModel (std::string filename , std::string modelName ) {
             stringContainingModifiedModelData += std::to_string (vertices [i] ->x  ) + " ";
             stringContainingModifiedModelData += std::to_string (vertices [i] ->y  ) + " ";
             stringContainingModifiedModelData += std::to_string (vertices [i] ->z  ) + " ";
-            stringContainingModifiedModelData += std::to_string (vertices [i] ->xRotate  ) + " ";
-            stringContainingModifiedModelData += std::to_string (vertices [i] ->yRotate  ) + " ";
-            stringContainingModifiedModelData += std::to_string (vertices [i] ->zRotate  ) + " ";
             stringContainingModifiedModelData += std::to_string (vertices [i] ->xTranslate  ) + " ";
             stringContainingModifiedModelData += std::to_string (vertices [i] ->yTranslate   ) + " ";
             stringContainingModifiedModelData += std::to_string (vertices [i] ->zTranslate   ) + " ";
@@ -296,9 +293,6 @@ void myModel :: saveModel (std::string filename , std::string modelName ) {
             stringContainingModifiedModelData += std::to_string (vertices [i] ->x  ) + " ";
             stringContainingModifiedModelData += std::to_string (vertices [i] ->y  ) + " ";
             stringContainingModifiedModelData += std::to_string (vertices [i] ->z  ) + " ";
-            stringContainingModifiedModelData += std::to_string (vertices [i] ->xRotate  ) + " ";
-            stringContainingModifiedModelData += std::to_string (vertices [i] ->yRotate  ) + " ";
-            stringContainingModifiedModelData += std::to_string (vertices [i] ->zRotate  ) + " ";
             stringContainingModifiedModelData += std::to_string (vertices [i] ->xTranslate  ) + " ";
             stringContainingModifiedModelData += std::to_string (vertices [i] ->yTranslate   ) + " ";
             stringContainingModifiedModelData += std::to_string (vertices [i] ->zTranslate   ) + " ";
@@ -333,18 +327,15 @@ bool myModel::loadModel(std::string filename, std::string modelName) {
             vertices.push_back(new myVertex());
 
             while (iss >> value) {
-                int moduloIndex = index % 9;
-
+                int moduloIndex = index % 6;
+                // bug prone area above 
                 switch (moduloIndex) {
                     case 0: vertices.back()->x = value; break;
                     case 1: vertices.back()->y = value; break;
                     case 2: vertices.back()->z = value; break;
-                    case 3: vertices.back()->xRotate = value; break;
-                    case 4: vertices.back()->yRotate = value; break;
-                    case 5: vertices.back()->zRotate = value; break;
-                    case 6: vertices.back()->xTranslate = value; break;
-                    case 7: vertices.back()->yTranslate = value; break;
-                    case 8:
+                    case 3: vertices.back()->xTranslate = value; break;
+                    case 4: vertices.back()->yTranslate = value; break;
+                    case 5:
                         vertices.back()->zTranslate = value;
                         vertices.push_back(new myVertex());
                         break;
@@ -405,9 +396,6 @@ void myModel::joinWithMyModel ( myModel & anotherModel  ) {
                 pointerToCurrentVertice -> xTranslate  =  vertices [0] -> xTranslate ;
                 pointerToCurrentVertice -> yTranslate  =  vertices [0] -> yTranslate ;
                 pointerToCurrentVertice -> zTranslate  =  vertices [0] -> zTranslate ;
-                pointerToCurrentVertice -> xRotate =  vertices [0] -> xRotate ;
-                pointerToCurrentVertice -> yRotate =  vertices [0] -> yRotate ;
-                pointerToCurrentVertice -> zRotate =  vertices [0] -> zRotate ;
                 pointerToCurrentVertice -> x = x ;
                 pointerToCurrentVertice -> y = y ;
                 pointerToCurrentVertice -> z = z ;

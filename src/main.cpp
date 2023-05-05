@@ -19,7 +19,10 @@ myModel createSphere() ;
 int main() {
     Game game;
     std::vector<myNothingClass * > hector ; 
-    myModel model1 = createSphere () ; 
+    // myModel model1 = createSphere () ; 
+    myModel model1 ; 
+    model1.loadModel( "data.txt" , "sphere") ; 
+    model1.currentMode =  "modify" ; 
 
     while (game.isRunning) {
         game.processInput();
