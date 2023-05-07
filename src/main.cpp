@@ -30,7 +30,11 @@ int main() {
         SDL_SetRenderDrawColor(game.renderer, 50, 50, 50, 255);
         SDL_RenderClear(game.renderer);
         //------------------------------------------------ write the code here for modifying ----------------------------
-        model1.processInput(game.mouseevent , game.keyboardEvent );
+        if ( model1.isTouchingModel( game.mouseevent) ) {
+            model1.processInput(game.mouseevent , game.keyboardEvent );
+            std::cout << "mouse on model " << model1.isTouchingModel( game.mouseevent) << std::endl ;  
+        }
+        // model1.processInput(game.mouseevent , game.keyboardEvent );
         model1.renderMyself(game.renderer);
         game.render();
         SDL_Delay(10);

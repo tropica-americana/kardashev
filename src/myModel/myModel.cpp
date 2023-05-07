@@ -405,5 +405,30 @@ void myModel::joinWithMyModel ( myModel & anotherModel  ) {
 
                 }
 
-
+bool myModel :: isTouchingModel (const SDL_MouseMotionEvent & mousevent ) {
+    float yMax = 0  ; 
+    float yMin = 0 ;
+    float xMax = 0 ;
+    float xMin = 0 ;
+    for (myVertex * vertex : vertices  ) {
+        if (vertex -> getOnScreenY()> yMax ) {
+            yMax = vertex -> getOnScreenY() ; 
+        }
+        if (vertex -> getOnScreenY() < yMin ) {
+            yMin = vertex -> getOnScreenY() ;       
+        }
+        if (vertex -> getOnScreenX() > xMax ) {
+            xMax = vertex -> getOnScreenX() ;
+        }
+        if (vertex -> getOnScreenX() < xMin ) {
+            xMin = vertex -> getOnScreenX() ;
+        }
+    }
+    if (mousevent.y > yMin && mousevent.y < yMax && mousevent.x > xMin && mousevent.x < xMax ) {
+        return  true ; 
+    }
+    else {
+        return  false ; 
+    }
+}
 

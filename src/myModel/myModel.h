@@ -33,6 +33,7 @@ public:
     void saveModel(std::string filename , std::string modelName ) ;
     bool loadModel (std::string filename , std::string modelName ) ;  
     void  joinWithMyModel ( myModel  & anotherModel  ) ; 
+    bool isTouchingModel ( const SDL_MouseMotionEvent & mouseEvent ) ;
     myVertex * getCenterOfMass() ;
     myModel & operator = (const myModel & other) ;
 };
