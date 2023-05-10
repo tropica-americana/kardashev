@@ -15,14 +15,9 @@
 #include <sstream>
 #include <unordered_map>
 #include <../myModel/myModel.h>
-
-class System
+#include "../game/game.h"
+class System : Game
 {
-      /*in  this class we will try to use std::unorderedmap to store the data 
-      which is supposed to be the fastest way to access data */
-      std::unordered_map<int , myModel> systemData;
-      void addEntity ()  ; 
-      void removeEntity () ; 
-      void updateEntity () ; 
-      myModel * getEntity () ; 
+      std::vector <myModel> models;
+      void renderWorld ( SDL_Renderer * renderer ) ; 
 };

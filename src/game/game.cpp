@@ -4,6 +4,7 @@
 #include <string>
 void Game ::initialize()
 {
+    models.clear () ; 
     if (SDL_Init(SDL_INIT_EVERYTHING) != 0 )
     {
         std::cerr << "problem initializing everything " << std::endl;
@@ -67,12 +68,24 @@ void Game ::processInput()
 
 }
 
-void Game :: update () {
+void Game :: update (size_t time_in_milliseconds ) {
+
+    for (auto & item : models ) {
+        item->move(time_in_milliseconds) ; 
+    }
 } 
 // ---------------------------- render and destroying ----------------------------
 
 void Game :: render () //where function is of the type function object 
 {
+    SDL_SetRenderDrawColor(renderer, 50, 50, 50, 255);
+    SDL_RenderClear(renderer);
+    
+    for (auto & item : models ) {
+        auto position = item->getPosition() ;
+        if (std::get<0>(position) > -10000 && std::get<0>(position) < 10000 && std::get<1>(position) > -10000 && std::get<1>(position) < 10000 && std::get<2>(position) > -10000 && std::get<2>(position) < 10000) 
+        item->renderMyself (renderer ) ;
+    }    
     SDL_RenderPresent(renderer ) ; 
 } 
 

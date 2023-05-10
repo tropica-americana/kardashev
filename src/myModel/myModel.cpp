@@ -432,3 +432,34 @@ bool myModel :: isTouchingModel (const SDL_MouseMotionEvent & mousevent ) {
     }
 }
 
+void myModel::accelerate ( float x , float y , float z , size_t timeInMilliseconds) {
+    std::get<0> ( velocity )  = std::get<0> ( acceleration) *   static_cast<float> (timeInMilliseconds)   ;
+    std::get<1> ( velocity )  = std::get<1> ( acceleration) *   static_cast<float> (timeInMilliseconds)   ;
+    std::get<2> ( velocity )  = std::get<2> ( acceleration) *   static_cast<float> (timeInMilliseconds)   ;
+     
+}
+
+void myModel :: move ( size_t timeInMilliseconds ) {
+    for ( myVertex * vertex : vertices ) {
+        vertex -> xTranslate += std::get<0> ( velocity ) * static_cast<float> (timeInMilliseconds)  ;
+        vertex -> yTranslate += std::get<1> ( velocity ) * static_cast<float> (timeInMilliseconds)  ;
+        vertex -> zTranslate += std::get<2> ( velocity ) * static_cast<float> (timeInMilliseconds)  ;
+    }
+    accelerate ( std::get<0> ( acceleration) , std::get<1> ( acceleration) , std::get<2> ( acceleration) , timeInMilliseconds ) ;
+}
+
+void myModel :: moveTo ( float x , float y , float z ) {
+   
+    for ( myVertex * item: vertices ) {
+      
+            item -> xTranslate = x ; 
+            item -> yTranslate = y ;
+            item -> zTranslate = z ; 
+        }
+}
+
+std::tuple<float , float , float > myModel :: getPosition (){
+    return std::make_tuple ( vertices [0] -> xTranslate , vertices [0] -> yTranslate , vertices [0] -> zTranslate ) ; 
+} 
+
+

@@ -15,9 +15,12 @@
 #include <regex>
 class myModel : public myNothingClass {
 public:
-    std::vector<std::string> modelName;
+    std::string modelName;
     std::vector<myVertex *> vertices;
     std::vector<std::tuple<int, int>> Mesh;
+    std::tuple<float , float  , float > velocity ; 
+    std::tuple<float , float  , float > acceleration ;
+    float mass ; 
     std::string currentMode  = "translate" ; 
     bool vertexFinalized = true ; 
     myModel () ;  
@@ -34,6 +37,10 @@ public:
     bool loadModel (std::string filename , std::string modelName ) ;  
     void  joinWithMyModel ( myModel  & anotherModel  ) ; 
     bool isTouchingModel ( const SDL_MouseMotionEvent & mouseEvent ) ;
+    void accelerate ( float xAcceleration , float yAcceleration , float zAcceleration  , size_t time_in_milliseconds) ;
+    void move (size_t timeInMilliseconds) ;
+    void moveTo ( float x , float y , float z ) ; 
+    std::tuple<float , float , float > getPosition () ; 
     myVertex * getCenterOfMass() ;
     myModel & operator = (const myModel & other) ;
 };
