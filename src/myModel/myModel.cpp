@@ -22,7 +22,18 @@ void myModel::renderMyself(SDL_Renderer *renderer) {
         SDL_RenderDrawLine(renderer, vertices[meshIndex1]->getOnScreenX(), vertices[meshIndex1]->getOnScreenY(), vertices[meshIndex2]->getOnScreenX(), vertices[meshIndex2]->getOnScreenY());
     }
 }
-
+void myModel :: renderMyselfAccordingToZoomLevelAndScreePixelResolution ( SDL_Renderer * renderer , float zoomLevel , float horizontalPixelResolution  , float verticalPixelResolution){
+     if (vertices.size() < 5) {
+        // std::cout << "not enough vertices to render " << std::endl;
+        return;
+    }
+    SDL_SetRenderDrawColor(renderer, 250, 250, 250, 255);
+    for (auto &meshLine : Mesh) {
+        int meshIndex1 = std::get<0>(meshLine);
+        int meshIndex2 = std::get<1>(meshLine);
+        SDL_RenderDrawLine(renderer, ((vertices[meshIndex1]->getOnScreenX())*zoomLevel + (horizontalPixelResolution * zoomLevel) ) , ((vertices[meshIndex1]->getOnScreenY())*zoomLevel + (verticalPixelResolution * zoomLevel) ) , ((vertices[meshIndex2]->getOnScreenX())*zoomLevel + (horizontalPixelResolution * zoomLevel) ) , ((vertices[meshIndex2]->getOnScreenY())*zoomLevel + (verticalPixelResolution * zoomLevel) ) );
+    }
+}
 void myModel::translate(float xTranslateParameter, float yTranslateParameter, float zTranslateParameter) {
     for (auto &item : vertices) {
         item->translate(xTranslateParameter, yTranslateParameter, zTranslateParameter);

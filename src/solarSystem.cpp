@@ -4,11 +4,37 @@
 #include <iostream>
 #include <cmath>
 #include <numbers>
-float MASS_OF_SUN = 10;
-float MASS_OF_EARTH = 10;
-float GRAVITATIONAL_CONSTANT = 100;
+float MASS_OF_SUN = 100;
+float MASS_OF_EARTH = 1;
+float GRAVITATIONAL_CONSTANT = 600;
+float EARTH_HORIZONTAL_VELOCITY = 10;
+float SUN_VERTICAL_VELOCITY = 10;
 float SCREEN_RESOLUTION = 2000;
+float HORIZONTAL_SCREEN_RESOLUTION = 2000;
+float VERTICAL_SCREEN_RESOLUTION = 1300 ; 
+float EXPANSIONCOEFFICIENT = 1.3 ; 
 myModel createSphere()  ; 
+
+class Universe 
+{
+    public: 
+    static float zoomAmount ; 
+    Universe () = default ; 
+    ~Universe () = default ;    
+    void zoomOutAndRenderTheObjectInTheUniverse  ( std::vector <myModel *> & models , SDL_Renderer * renderer ) {
+        SDL_SetRenderDrawColor(renderer, 50, 50, 50, 255);
+        SDL_RenderClear(renderer);
+        for ( int i = 0 ; i < models.size() ; i++ ) {
+            models[i]->renderMyselfAccordingToZoomLevelAndScreePixelResolution( renderer , zoomAmount , HORIZONTAL_SCREEN_RESOLUTION , VERTICAL_SCREEN_RESOLUTION ) ;
+        }
+        SDL_RenderPresent(renderer ) ; 
+    };
+};
+
+class Physics {
+
+};
+
 myModel createEarth () {
     myModel earth ;
     earth = createSphere ( ) ; 
@@ -18,8 +44,8 @@ myModel createEarth () {
     //scaling the earth in proportion to cube root of mass of earth 
     float scalingFactor = std::cbrt(earth.mass) ;
     earth.scale( scalingFactor) ;  
-    earth.velocity = {20  , 20 , 0} ;
-    earth.moveTo (100 , 100 , 0 ) ; 
+    earth.velocity = {EARTH_HORIZONTAL_VELOCITY  , 0, 0} ;
+    earth.moveTo (500, 500, 0 ) ; 
     return earth ;
 }
 myModel createSun () {
@@ -31,6 +57,7 @@ myModel createSun () {
     //scaling the sun in proportion to cube root of mass of sun 
     float scalingFactor = std::cbrt(sun.mass) ;
     sun.scale( scalingFactor) ; 
+    sun.velocity = {0, SUN_VERTICAL_VELOCITY , 0} ;
     sun.moveTo ( 200, 200 , 0 ) ;      
     return sun ;
 }
@@ -92,32 +119,13 @@ class solarSystem {
         }
 
     }
-    void expandTheWorldOrShortenTheWorldAccordingToDistanceOfPlanets() {
-        for ( int i = 0 ; i < game.models.size() ; i++ ) {
-            auto position = game.models[i] -> getPosition() ;
-            float x = std::get<0>(position) ;
-            float y = std::get<1>(position) ;
-            if ( x > SCREEN_RESOLUTION || x < 0 || y > SCREEN_RESOLUTION || y < 0 ) {
-                
-                float x , y , z ; 
-                std::tie(x , y , z) = game.models[i] -> getPosition() ;
-                game.models[i] -> moveTo ( x / 1.3 , y / 1.3 , z / 1.3 ) ;
-                
-            }
-            else {
-                float x , y , z ; 
-                std::tie(x , y , z) = game.models[i] -> getPosition() ;
-                game.models[i] -> moveTo ( x * 1.3 , y * 1.3 , z * 1.3 ) ;
-
-            }
-        }
-    }
-
     
-
-} ; 
+ } ; 
+ float Universe :: zoomAmount = 0.1 ;
 
 void renderSolarSystem () {
+    
+    Universe universe ;
     solarSystem solarSystem ;
     createSolarSystem(solarSystem.game.models) ;
     while (solarSystem.game.isRunning) {
@@ -125,8 +133,7 @@ void renderSolarSystem () {
         solarSystem.game.processInput() ;
         solarSystem.game.update( 20 ) ;
         solarSystem.calculateAccelerationDueToGravitaionalPullAndAlsoMoveTheModelsInAllTheModelsInVectorOfPointerToModels( 20 ) ;
-        // solarSystem.expandTheWorldOrShortenTheWorldAccordingToDistanceOfPlanets() ;
-        solarSystem.game.render() ;
+        universe.zoomOutAndRenderTheObjectInTheUniverse ( solarSystem.game.models , solarSystem.game.renderer ) ;
         SDL_Delay(20) ;
     }
 }

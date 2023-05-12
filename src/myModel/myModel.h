@@ -26,6 +26,7 @@ public:
     myModel () ;  
     ~myModel() ;
     void renderMyself(SDL_Renderer *renderer) override;
+    void renderMyselfAccordingToZoomLevelAndScreePixelResolution ( SDL_Renderer * renderer , float zoomLevel , float horizontalPixelResolution  , float verticalPixelResolution) ; 
     void translate(float xTranslateParameter, float yTranslateParameter, float zTranslateParameter) override;
     void rotate(float xRotateParameter, float yRotateParameter, float zRotateParameter) override;
     void processInput(const SDL_MouseMotionEvent &mouseEvent , const SDL_KeyboardEvent & keyboardEvent ) override;
