@@ -57,7 +57,7 @@ void myModel::processInput(const SDL_MouseMotionEvent &mouseEvent , const SDL_Ke
     }
     else { invertedRotation = false ; }
     if (currentMode == "translate"){
-        float simultaneousMotionFactor{ 1.0f };
+        float simultaneousMotionFactor{ 100.0f };
         if (mouseEvent.state & SDL_BUTTON_LMASK) {
             translate(mouseEvent.xrel * simultaneousMotionFactor,
                 mouseEvent.yrel * simultaneousMotionFactor, 0.0f);
@@ -444,9 +444,9 @@ bool myModel :: isTouchingModel (const SDL_MouseMotionEvent & mousevent ) {
 }
 
 void myModel::accelerate ( float x , float y , float z , size_t timeInMilliseconds) {
-    std::get<0> ( velocity )  = std::get<0> ( acceleration) *   static_cast<float> (timeInMilliseconds)   ;
-    std::get<1> ( velocity )  = std::get<1> ( acceleration) *   static_cast<float> (timeInMilliseconds)   ;
-    std::get<2> ( velocity )  = std::get<2> ( acceleration) *   static_cast<float> (timeInMilliseconds)   ;
+    std::get<0> ( velocity )  += std::get<0> ( acceleration) *   static_cast<float> (timeInMilliseconds)   ;
+    std::get<1> ( velocity )  += std::get<1> ( acceleration) *   static_cast<float> (timeInMilliseconds)   ;
+    std::get<2> ( velocity )  += std::get<2> ( acceleration) *   static_cast<float> (timeInMilliseconds)   ;
      
 }
 

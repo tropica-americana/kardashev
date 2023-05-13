@@ -72,6 +72,8 @@ void Game :: update (size_t time_in_milliseconds ) {
 
     for (auto & item : models ) {
         item->move(time_in_milliseconds) ; 
+        // turning the net accelaration of model to zero so it should be calcualted in the next cycle 
+        item -> acceleration = { 0 , 0 , 0 } ; 
     }
 } 
 // ---------------------------- render and destroying ----------------------------
