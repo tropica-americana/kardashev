@@ -32,7 +32,7 @@ class Game {
     void processInput () ;  // records the input and stores them into a ceratin data type 
     void update (size_t time_in_milliseconds ) ;  // updates the postion and presence of objects based on the input    
     void render () ;  // just paste everything on thhe renderrer 
-    void destroy () ; // destroys the window and the renderer 
+    void destroy () ; // destroys the window and the renderer and removes all the models from the heap 
     void renderText (TTF_Font * ourFont ) ; 
     void getTerminalText() ;
 } ; 

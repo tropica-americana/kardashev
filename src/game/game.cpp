@@ -94,6 +94,9 @@ void Game :: render () //where function is of the type function object
 void Game :: destroy () {
     SDL_DestroyWindow (window ) ; 
     SDL_DestroyRenderer (renderer ) ; 
+    for (auto & item : models ) {
+        delete item ; 
+    }
    
 }
  Game :: Game () {
