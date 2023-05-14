@@ -45,6 +45,9 @@ void myModel::rotate(float xRotateParameter, float yRotateParameter, float zRota
         item->rotateMyVertex(xRotateParameter, yRotateParameter, zRotateParameter);
     }
 }
+void myModel :: rotateWithAngularVelocityInTime ( size_t time_in_milliseconds ) {
+    rotate ( std::get <0> ( angularVelocity) * static_cast<float> ( time_in_milliseconds ) , std::get <1> (angularVelocity) * static_cast<float> ( time_in_milliseconds ) , std::get<2> (angularVelocity) * static_cast<float> ( time_in_milliseconds ) ); 
+}
 
 void myModel::processInput(const SDL_MouseMotionEvent &mouseEvent , const SDL_KeyboardEvent &keyboardEvent) {
     bool keyPressed = true ; 
@@ -375,7 +378,11 @@ myModel & myModel :: operator = (const myModel & other ) {
             vertices.push_back ( new myVertex ( * item ) ) ; 
         }
         Mesh = other.Mesh ;
-        
+        velocity = other.velocity ;
+        acceleration = other.acceleration ;
+        angularVelocity = other.angularVelocity ;
+        mass = other.mass ;
+        angularAcceleration = other.angularAcceleration ;
         return *this ; 
 }
 // myVertex * myModel :: getCenterOfMass( ) {
@@ -449,6 +456,12 @@ void myModel::accelerate ( float x , float y , float z , size_t timeInMillisecon
     std::get<2> ( velocity )  += std::get<2> ( acceleration) *   static_cast<float> (timeInMilliseconds)   ;
      
 }
+void myModel :: angularAccelerate (size_t time_in_milliseconds ) {
+    std::get <0> (angularVelocity) += std::get<0> (angularAcceleration) * static_cast <float>(time_in_milliseconds) ; 
+    std::get <1> (angularVelocity) += std::get<1> (angularAcceleration) * static_cast <float>(time_in_milliseconds) ;
+    std::get <2> (angularVelocity) += std::get<2> (angularAcceleration) * static_cast <float>(time_in_milliseconds) ;
+
+}
 
 void myModel :: move ( size_t timeInMilliseconds ) {
     for ( myVertex * vertex : vertices ) {
@@ -457,6 +470,9 @@ void myModel :: move ( size_t timeInMilliseconds ) {
         vertex -> zTranslate += std::get<2> ( velocity ) * static_cast<float> (timeInMilliseconds)  ;
     }
     accelerate ( std::get<0> ( acceleration) , std::get<1> ( acceleration) , std::get<2> ( acceleration) , timeInMilliseconds ) ;
+    rotateWithAngularVelocityInTime ( timeInMilliseconds ) ;
+    angularAccelerate ( timeInMilliseconds ) ;
+    
 }
 
 void myModel :: moveTo ( float x , float y , float z ) {

@@ -1,0 +1,7 @@
+
+all this time i have been calculating and moving models , but 
+now i see the problem 
+i should create a seperate game system and at the end i should render 
+all the models according to the position of the gamesystem 
+
+

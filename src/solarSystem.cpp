@@ -31,6 +31,7 @@ class Planets {
         earth.scale( scalingFactor) ;  
         earth.velocity = {EARTH_HORIZONTAL_VELOCITY, EARTH_VERTICAL_VELOCITY , EARTH_VELOCITY_Z_AXIS} ;
         earth.moveTo (1000, 1000, 0 ) ; 
+        earth.angularVelocity = {0.0 , 0.01 , 0.0 } ; 
         return earth ;
     }
     myModel createSun () {
@@ -43,7 +44,8 @@ class Planets {
         float scalingFactor = std::cbrt(sun.mass) ;
         sun.scale( scalingFactor) ; 
         sun.velocity = {SUN_HORIZONTAL_VELOCITY, SUN_VERTICAL_VELOCITY , 0} ;
-        sun.moveTo ( 100, 100 , 0 ) ;      
+        sun.moveTo ( 100, 100 , 0 ) ;  
+        sun.angularVelocity = {0.0 , 0.01 , 0.0 } ;     
         return sun ;
     }
 } ; 
@@ -143,7 +145,7 @@ class solarSystem {
     
  } ; 
 
-float Universe :: zoomAmount = 0.1 ;
+float Universe :: zoomAmount = 0.07 ;
 
 void renderSolarSystem () {
     

@@ -20,6 +20,8 @@ public:
     std::vector<std::tuple<int, int>> Mesh;
     std::tuple<float , float  , float > velocity ; 
     std::tuple<float , float  , float > acceleration ;
+    std::tuple <float , float , float > angularVelocity ; 
+    std::tuple < float , float , float > angularAcceleration ;
     float mass ; 
     std::string currentMode  = "translate" ; 
     bool vertexFinalized = true ; 
@@ -29,6 +31,7 @@ public:
     void renderMyselfAccordingToZoomLevelAndScreePixelResolution ( SDL_Renderer * renderer , float zoomLevel , float horizontalPixelResolution  , float verticalPixelResolution) ; 
     void translate(float xTranslateParameter, float yTranslateParameter, float zTranslateParameter) override;
     void rotate(float xRotateParameter, float yRotateParameter, float zRotateParameter) override;
+    void rotateWithAngularVelocityInTime ( size_t time_in_milliseconds ) ; 
     void processInput(const SDL_MouseMotionEvent &mouseEvent , const SDL_KeyboardEvent & keyboardEvent ) override;
     void addVertex (float xAmount , float yAmount , float zAmount) override;
     void addVertex (myVertex vertex) ; 
@@ -39,6 +42,7 @@ public:
     void  joinWithMyModel ( myModel  & anotherModel  ) ; 
     bool isTouchingModel ( const SDL_MouseMotionEvent & mouseEvent ) ;
     void accelerate ( float xAcceleration , float yAcceleration , float zAcceleration  , size_t time_in_milliseconds) ;
+    void angularAccelerate (size_t time_in_milliseconds ) ; 
     void move (size_t timeInMilliseconds) ;
     void moveTo ( float x , float y , float z ) ; 
     std::tuple<float , float , float > getPosition () ; 
