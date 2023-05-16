@@ -5,9 +5,11 @@
 #include <cmath>
 #include <numbers>
 #include "./physics/physics.cpp"
+#include "./Time/Time.cpp"
 #include <random>
-float MASS_OF_SUN = 10000;
-float MASS_OF_EARTH = 100;
+float MASS_OF_SUN = 1;
+float MASS_OF_EARTH = 10;
+size_t TIME_SPENT_IN_EACH_FRAME = 10; // this is in milliseconds 
 float earthVelocityConstatnt = 0;
 float EARTH_HORIZONTAL_VELOCITY = earthVelocityConstatnt;
 float EARTH_VERTICAL_VELOCITY = -earthVelocityConstatnt;
@@ -18,17 +20,41 @@ float SCREEN_RESOLUTION = 2000;
 float HORIZONTAL_SCREEN_RESOLUTION = 2000;
 float VERTICAL_SCREEN_RESOLUTION = 1300 ; 
 float EXPANSIONCOEFFICIENT = 1.3 ; 
-myModel createSphere()  ; 
+float TIMEEXPANSIONCOEFFICIENT = 0.4 ; 
+
 class Random {
-    public : 
-        float getRandomFloatInRange(float minFloat , float maxFloat) {
-        static std::default_random_engine e;
-        static std::uniform_real_distribution<> dis(minFloat , maxFloat ); // range [0, 1)
-        return dis(e);
+public : 
+    float getRandomFloatInRange(float minFloat, float maxFloat) {
+        std::random_device rd;
+        std::mt19937 gen(rd());
+        std::uniform_real_distribution<> dis(minFloat, maxFloat);
+        float randomValue = dis(gen);
+        std::cout << randomValue << std::endl;
+        return randomValue;
     }
 };
+
 class Planets {
     public : 
+    myModel createSphere() {
+        myModel sphere;
+        sphere.currentMode = "modify";
+        myVertex mainVertex{ 0.0f , 100.0f  , 0.0f };
+        sphere.addVertex(mainVertex);
+        float pi = std::numbers::pi_v< float>;
+        float currentAngle = 0.0f;
+        int numberOfVerticesPerPlane = 10;
+        float incrementAngle = 2 * pi / static_cast<int> (numberOfVerticesPerPlane);
+        for (int i = 0; i < 10; i++) {
+            mainVertex.rotateMyVertexAlongAxis(incrementAngle, Axis::x);
+            for (int i = 0; i < 10; i++) {
+                mainVertex.rotateMyVertexAlongAxis(incrementAngle, Axis::z);
+                sphere.addVertex(mainVertex);
+            }
+        }
+        sphere.createMesh();
+        return sphere;
+    }
     myModel createEarth () {
         myModel earth ;
         earth = createSphere ( ) ; 
@@ -53,11 +79,13 @@ class Planets {
         float scalingFactor = std::cbrt(sun.mass) ;
         sun.scale( scalingFactor) ; 
         sun.velocity = {SUN_HORIZONTAL_VELOCITY, SUN_VERTICAL_VELOCITY , 0} ;
-        sun.moveTo ( 500, 500 , 0 ) ;  
+        sun.moveTo ( 0, 0 , 0 ) ;  
         sun.angularVelocity = {0.0 , 0.01 , 0.0 } ;     
         return sun ;
-    }
+            }
     myModel createRandomEarth () {
+        // the random error is not solved and is the cause of many problems . 
+        
         myModel earth ;
         Random randomObject ;
         earth = createSphere ( ) ; 
@@ -67,9 +95,12 @@ class Planets {
         //scaling the earth in proportion to cube root of mass of earth 
         float scalingFactor = std::cbrt(earth.mass) ;
         earth.scale( scalingFactor) ;  
-        earth.velocity = {randomObject.getRandomFloatInRange(-1 , 1 ), randomObject.getRandomFloatInRange(-0.5 , 0.5  ) , randomObject.getRandomFloatInRange(-0.5 , 0.5  )} ;
-        earth.moveTo ( randomObject.getRandomFloatInRange(-1500 , 1500 ), randomObject.getRandomFloatInRange(-1500 , 1500 ),randomObject.getRandomFloatInRange(-1500 , 1500 )) ; 
+        earth.velocity = {randomObject.getRandomFloatInRange( 0.5 , 2 ), randomObject.getRandomFloatInRange(0.5 , 2  ) , randomObject.getRandomFloatInRange(0.5 , 2  )} ;
+        earth.moveTo ( randomObject.getRandomFloatInRange(3000 , 7000 ), randomObject.getRandomFloatInRange(3000 , 7000 ),randomObject.getRandomFloatInRange(3000 , 7000 )) ; 
         earth.angularVelocity = {randomObject.getRandomFloatInRange(-0.02 , 0.02 ) , randomObject.getRandomFloatInRange(-0.02 , 0.02 ) , randomObject.getRandomFloatInRange(-0.02 , 0.02 ) } ; 
+        std::cout << "x position of random earth is " << std::get<0> (earth.getPosition() )  <<  std::endl ;
+        std::cout << "y position of random earth is " << std::get<1> (earth.getPosition() )  <<  std::endl ;
+        std::cout << "z position of random earth is " << std::get<2> (earth.getPosition() )  <<  std::endl ;
         return earth ;
     }
 } ; 
@@ -87,7 +118,7 @@ class Universe
             models[i]->renderMyselfAccordingToZoomLevelAndScreePixelResolution( renderer , zoomAmount , HORIZONTAL_SCREEN_RESOLUTION , VERTICAL_SCREEN_RESOLUTION ) ;
         }
         SDL_RenderPresent(renderer ) ; 
-    };
+    }
     void translateAllModelsAccordingToMouseInput ( std::vector <myModel *> & models , SDL_MouseMotionEvent & mouseevent , SDL_KeyboardEvent & keyboardevent ) {
         {
             
@@ -102,52 +133,13 @@ void createSolarSystem (std::vector<myModel *> & models) {
     Planets planet ; 
     myModel * sun = new myModel(planet.createSun()) ;
     models.push_back(sun) ;
-    // for (int i = 0 ; i < 2  ; i++ ){
-    //     myModel * earth = new myModel(planet.createEarth()) ;
-    //     models.push_back(earth) ; 
-    //     earth = nullptr ;
-    //     }
+    sun = nullptr ;
     myModel * /**/ earth ; 
-    earth = new myModel(planet.createRandomEarth()) ;
-    models.push_back(earth) ;
-    earth = new myModel(planet.createRandomEarth()) ;
-    models.push_back(earth) ;
-    earth = new myModel(planet.createRandomEarth()) ;
-    models.push_back(earth) ;
-    earth = new myModel(planet.createRandomEarth()) ;
-    models.push_back(earth) ;
-    earth = new myModel(planet.createRandomEarth()) ;
-    models.push_back(earth) ;
-    earth = new myModel(planet.createRandomEarth()) ;
-    models.push_back(earth) ;
-    earth = new myModel(planet.createRandomEarth()) ;
-    models.push_back(earth) ;
-    earth = new myModel(planet.createRandomEarth()) ;
-    models.push_back(earth) ;
-    earth = new myModel(planet.createRandomEarth()) ;
-    models.push_back(earth) ;
-    earth = new myModel(planet.createRandomEarth()) ;
-    models.push_back(earth) ;
-    earth = new myModel(planet.createRandomEarth()) ;
-    models.push_back(earth) ;
-    earth = new myModel(planet.createRandomEarth()) ;
-    models.push_back(earth) ;
-    earth = new myModel(planet.createRandomEarth()) ;
-    models.push_back(earth) ;
-    earth = new myModel(planet.createRandomEarth()) ;
-    models.push_back(earth) ;
-    earth = new myModel(planet.createRandomEarth()) ;
-    models.push_back(earth) ;
-    earth = new myModel(planet.createRandomEarth()) ;
-    models.push_back(earth) ;
-    earth = new myModel(planet.createRandomEarth()) ;
-    models.push_back(earth) ;
-    earth = new myModel(planet.createRandomEarth()) ;
-    models.push_back(earth) ;
-    earth = new myModel(planet.createRandomEarth()) ;
-    models.push_back(earth) ;
-    earth = new myModel(planet.createRandomEarth()) ;
-    models.push_back(earth) ;
+    for (int i = 0 ; i < 1 ; i++ ){
+        earth = new myModel(planet.createRandomEarth()) ;
+        models.push_back(earth) ;
+        earth = nullptr ;
+        }
 }
 
 class solarSystem {
@@ -157,39 +149,51 @@ class solarSystem {
         Game game ;
     }
     
-    void calculateAccelerationDueToGravitaionalPullAndAlsoMoveTheModelsInAllTheModelsInVectorOfPointerToModels (size_t  time_in_milliseconds ) {
+    inline void calculateAccelerationDueToGravitaionalPullAndAlsoMoveTheModelsInAllTheModelsInVectorOfPointerToModels ( std::mutex & modelsMutex ) {
         Physics physicsFunctions  ;
+        while (game.isRunning){
         for ( int i = 0 ; i < game.models.size() ; i++ ) {
             for (int j = 0 ; j < game.models.size() ; j++ ) {
                 if ( j != i ) {
-                    std::tuple <float , float , float > force = physicsFunctions .calculateGravitationalForce ( *(game.models[i]) , *(game.models[j]) ) ;
-                    physicsFunctions.addAccelarationToTheModelAccordingToCurrentForce ( *(game.models[i]) , force ) ; 
-                    // std::cout << "force applied on model  " << game.models[i]->modelName << "  is " << std::get<0>(force) << " " << std::get<1>(force) << " " << std::get<2>(force) << std::endl ;
+                    std::tuple <float , float , float > force = physicsFunctions.calculateGravitationalForce ( *(game.models[i]) , *(game.models[j]) ) ;
+                    modelsMutex.lock() ;
+                    physicsFunctions.addAccelarationToTheModelAccordingToCurrentForce ( *(game.models[i]) , force  ) ; 
+                    modelsMutex.unlock() ;
                 }
+            
             }
-        }
+             
+        }}
 
         }
     
- } ; 
+} ;
+
 
 float Universe :: zoomAmount = 0.01 ;
-
 void renderSolarSystem () {
-    
-    Universe universe ;
-    solarSystem solarSystem ;
-    createSolarSystem(solarSystem.game.models) ;
-    std::cout << "number of models in the solar system is " << solarSystem.game.models.size() << std::endl ;
-    while (solarSystem.game.isRunning) {
-        
-        solarSystem.game.processInput() ;
-        // solarSystem.calculateAccelerationDueToGravitaionalPullAndAlsoMoveTheModelsInAllTheModelsInVectorOfPointerToModels( 20 ) ;
-        solarSystem.game.update( 20 ) ;
-        universe.translateAllModelsAccordingToMouseInput ( solarSystem.game.models ,solarSystem.game.mouseevent , solarSystem.game.keyboardEvent) ;
-        universe.zoomOutAndRenderTheObjectInTheUniverse ( solarSystem.game.models , solarSystem.game.renderer ) ;
-        // SDL_Delay(20) ;
+    std::mutex modelsMutex;
+    Universe universe;
+    solarSystem solarsystem;
+    Time timeObject ;
+    size_t time = SDL_GetTicks64() ;  
+    size_t relativeTime ; 
+    createSolarSystem(solarsystem.game.models);
+
+    std::thread calcThread(&solarSystem::calculateAccelerationDueToGravitaionalPullAndAlsoMoveTheModelsInAllTheModelsInVectorOfPointerToModels, &solarsystem, std::ref(modelsMutex));
+    // Detach the thread if it should run independently, otherwise we'll need to join it later
+    calcThread.detach(); 
+
+    while (solarsystem.game.isRunning) {  // Make sure this access is thread-safe!
+        time = timeObject.calculateTimeElapsedAndUpdateTime() ; 
+        relativeTime = static_cast <size_t> ( time * TIMEEXPANSIONCOEFFICIENT ) ;   
+        modelsMutex.lock () ; 
+        solarsystem.game.processInput();
+        solarsystem.game.update(relativeTime);
+        universe.translateAllModelsAccordingToMouseInput(solarsystem.game.models, solarsystem.game.mouseevent, solarsystem.game.keyboardEvent);
+        universe.zoomOutAndRenderTheObjectInTheUniverse(solarsystem.game.models, solarsystem.game.renderer);
+        modelsMutex.unlock();
+        std::cout << "time elapsed " << time  << std::endl ;
+        SDL_Delay(TIME_SPENT_IN_EACH_FRAME );
     }
 }
-
-

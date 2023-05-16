@@ -31,7 +31,7 @@ void myModel :: renderMyselfAccordingToZoomLevelAndScreePixelResolution ( SDL_Re
     for (auto &meshLine : Mesh) {
         int meshIndex1 = std::get<0>(meshLine);
         int meshIndex2 = std::get<1>(meshLine);
-        SDL_RenderDrawLine(renderer, ((vertices[meshIndex1]->getOnScreenX())*zoomLevel + (horizontalPixelResolution * zoomLevel) ) , ((vertices[meshIndex1]->getOnScreenY())*zoomLevel + (verticalPixelResolution * zoomLevel) ) , ((vertices[meshIndex2]->getOnScreenX())*zoomLevel + (horizontalPixelResolution * zoomLevel) ) , ((vertices[meshIndex2]->getOnScreenY())*zoomLevel + (verticalPixelResolution * zoomLevel) ) );
+        SDL_RenderDrawLine(renderer, ((vertices[meshIndex1]->getOnScreenX())*zoomLevel + ((horizontalPixelResolution )/2) ) , ((vertices[meshIndex1]->getOnScreenY())*zoomLevel + ((verticalPixelResolution )/2) ) , ((vertices[meshIndex2]->getOnScreenX())*zoomLevel + ((horizontalPixelResolution )/2) ) , ((vertices[meshIndex2]->getOnScreenY())*zoomLevel + ((verticalPixelResolution )/2) ) );
     }
 }
 void myModel::translate(float xTranslateParameter, float yTranslateParameter, float zTranslateParameter) {

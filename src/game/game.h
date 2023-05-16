@@ -35,6 +35,7 @@ class Game {
     void destroy () ; // destroys the window and the renderer and removes all the models from the heap 
     void renderText (TTF_Font * ourFont ) ; 
     void getTerminalText() ;
-} ; 
+} 
+; 
 ///
 #endif // !_GAME_H_
