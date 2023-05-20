@@ -9,7 +9,7 @@
 #include <cmath>
 #include <numbers>
 #include <mutex>
-float GRAVITATIONAL_CONSTANT = 6;
+float GRAVITATIONAL_CONSTANT = 60;
 class Physics {
 
     public: 
@@ -127,9 +127,11 @@ class Physics {
     inline myModel inelasticCollideModels( myModel & model1 , myModel & model2) {
             myModel model3 ; 
             model3 = model1 ;
+            model3.scale( 3.0f ) ;
             model3.mass = model1.mass + model2.mass ; 
             model3.velocity = giveMeanTuple( model1.velocity , model2.velocity) ; 
             model3.angularAcceleration = giveMeanTuple ( model1.acceleration , model2.acceleration) ;
+            model3.angularVelocity = giveMeanTuple ( model1.angularVelocity , model2.angularVelocity) ;
             return model3 ;    
             }
            

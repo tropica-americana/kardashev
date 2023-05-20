@@ -42,6 +42,7 @@ public:
     void  joinWithMyModel ( myModel  & anotherModel  ) ; 
     bool isTouchingModel ( const SDL_MouseMotionEvent & mouseEvent ) ;
     void accelerate ( float xAcceleration , float yAcceleration , float zAcceleration  , size_t time_in_milliseconds) ;
+    void zeroTheAcceleration () ;
     void angularAccelerate (size_t time_in_milliseconds ) ; 
     void move (size_t timeInMilliseconds) ;
     void moveTo ( float x , float y , float z ) ; 

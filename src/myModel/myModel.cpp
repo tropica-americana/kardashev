@@ -455,6 +455,8 @@ void myModel::accelerate ( float x , float y , float z , size_t timeInMillisecon
     std::get<1> ( velocity )  += std::get<1> ( acceleration) *   static_cast<float> (timeInMilliseconds)   ;
     std::get<2> ( velocity )  += std::get<2> ( acceleration) *   static_cast<float> (timeInMilliseconds)   ;
      
+     // zeroing the acceleration after converting it to velocity for the next cycle 
+   
 }
 void myModel :: angularAccelerate (size_t time_in_milliseconds ) {
     std::get <0> (angularVelocity) += std::get<0> (angularAcceleration) * static_cast <float>(time_in_milliseconds) ; 
@@ -472,9 +474,14 @@ void myModel :: move ( size_t timeInMilliseconds ) {
     accelerate ( std::get<0> ( acceleration) , std::get<1> ( acceleration) , std::get<2> ( acceleration) , timeInMilliseconds ) ;
     rotateWithAngularVelocityInTime ( timeInMilliseconds ) ;
     angularAccelerate ( timeInMilliseconds ) ;
+    zeroTheAcceleration () ;
     
 }
-
+void myModel :: zeroTheAcceleration () {
+    std::get<0> ( acceleration ) = 0 ; 
+    std::get<1> ( acceleration ) = 0 ; 
+    std::get<2> ( acceleration ) = 0 ; 
+}
 void myModel :: moveTo ( float x , float y , float z ) {
    
     for ( myVertex * item: vertices ) {
