@@ -21,8 +21,12 @@ class Time {
     size_t calculateTimeElapsedAndUpdateTime () {
         
         size_t time =  calculateTimeElapsedSinceLastTimeUpdated() ; 
+        timeElapsedInTheBLock = time ; 
         updateTime() ; 
         return time ; 
+    }
+    void outputTimeElapsed ( std::string nameOfTheBlock ) {
+        std::cout << "time elapsed in block "<<nameOfTheBlock << " is " << timeElapsedInTheBLock << std:: endl ; 
     }
  
 
