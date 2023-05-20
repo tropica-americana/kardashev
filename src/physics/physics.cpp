@@ -9,7 +9,7 @@
 #include <cmath>
 #include <numbers>
 #include <mutex>
-float GRAVITATIONAL_CONSTANT = 60;
+float GRAVITATIONAL_CONSTANT = 600;
 class Physics {
 
     public: 

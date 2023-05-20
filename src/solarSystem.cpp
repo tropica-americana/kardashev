@@ -7,7 +7,7 @@
 #include "./physics/physics.cpp"
 #include "./Time/Time.cpp"
 #include <random>
-float MASS_OF_SUN = 1;
+float MASS_OF_SUN = 1000;
 float MASS_OF_EARTH = 10;
 size_t TIME_SPENT_IN_EACH_FRAME = 10; // this is in milliseconds 
 float earthVelocityConstatnt = 0;
@@ -176,7 +176,7 @@ class solarSystem {
 } ;
 
 
-float Universe :: zoomAmount = 0.01 ;
+float Universe :: zoomAmount = 0.01;
 void renderSolarSystem () {
     std::mutex modelsMutex;
     Universe universe;
