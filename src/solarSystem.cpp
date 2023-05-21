@@ -6,10 +6,11 @@
 #include <numbers>
 #include "./physics/physics.cpp"
 #include "./Time/Time.cpp"
+#include "./Random/random.cpp"
 #include <random>
-float MASS_OF_SUN = 1000;
-float MASS_OF_EARTH = 10;
-size_t TIME_SPENT_IN_EACH_FRAME = 10; // this is in milliseconds 
+float MASS_OF_SUN = 100;
+float MASS_OF_EARTH = 0.1;
+size_t TIME_SPENT_IN_EACH_FRAME = 2; // this is in milliseconds 
 float earthVelocityConstatnt = 0;
 float EARTH_HORIZONTAL_VELOCITY = earthVelocityConstatnt;
 float EARTH_VERTICAL_VELOCITY = -earthVelocityConstatnt;
@@ -21,18 +22,7 @@ float HORIZONTAL_SCREEN_RESOLUTION = 2000;
 float VERTICAL_SCREEN_RESOLUTION = 1300 ; 
 float EXPANSIONCOEFFICIENT = 1.3 ; 
 float TIMEEXPANSIONCOEFFICIENT = 1.0 ; 
-
-class Random {
-public : 
-    float getRandomFloatInRange(float minFloat, float maxFloat) {
-        std::random_device rd;
-        std::mt19937 gen(rd());
-        std::uniform_real_distribution<> dis(minFloat, maxFloat);
-        float randomValue = dis(gen);
-      
-        return randomValue;
-    }
-};
+float ALLOWANCEEXPANSIONCOEFFICIENT = 1.0 ;
 
 class Planets {
     public : 
@@ -73,6 +63,7 @@ class Planets {
         myModel sun ;
         sun = createSphere ( ) ;
         sun.modelName = "sun" ;
+        sun.currentMode = "modify" ;
         sun.mass = MASS_OF_SUN ;
         
         //scaling the sun in proportion to cube root of mass of sun 
@@ -90,14 +81,15 @@ class Planets {
         Random randomObject ;
         earth = createSphere ( ) ; 
         earth.modelName = "earth" ;
+        earth.currentMode = "modify" ;
         earth.mass = MASS_OF_EARTH ;
 
         //scaling the earth in proportion to cube root of mass of earth 
         float scalingFactor = std::cbrt(earth.mass) ;
         earth.scale( scalingFactor) ;  
-        earth.velocity = {randomObject.getRandomFloatInRange( 0.5 , 2 ), randomObject.getRandomFloatInRange(0.5 , 2  ) , randomObject.getRandomFloatInRange(0.5 , 2  )} ;
-        earth.moveTo ( randomObject.getRandomFloatInRange(3000 , 7000 ), randomObject.getRandomFloatInRange(3000 , 7000 ),randomObject.getRandomFloatInRange(3000 , 7000 )) ; 
-        earth.angularVelocity = {randomObject.getRandomFloatInRange(-0.02 , 0.02 ) , randomObject.getRandomFloatInRange(-0.02 , 0.02 ) , randomObject.getRandomFloatInRange(-0.02 , 0.02 ) } ; 
+        earth.velocity = {randomObject.getRandomFloatInRangeIncludingNegativeValues( 0.5 , 2 ), randomObject.getRandomFloatInRangeIncludingNegativeValues(0.5 , 2  ) , randomObject.getRandomFloatInRangeIncludingNegativeValues(0.5 , 2  )} ;
+        earth.moveTo ( randomObject.getRandomFloatInRangeIncludingNegativeValues(3000 , 7000 ), randomObject.getRandomFloatInRangeIncludingNegativeValues(3000 , 7000 ),randomObject.getRandomFloatInRangeIncludingNegativeValues(3000 , 7000 )) ; 
+        earth.angularVelocity = {randomObject.getRandomFloatInRangeIncludingNegativeValues(-0.02 , 0.02 ) , randomObject.getRandomFloatInRangeIncludingNegativeValues(-0.02 , 0.02 ) , randomObject.getRandomFloatInRangeIncludingNegativeValues(-0.02 , 0.02 ) } ; 
        
         return earth ;
     }
@@ -133,7 +125,7 @@ void createSolarSystem (std::vector<myModel *> & models) {
     models.push_back(sun) ;
     sun = nullptr ;
     myModel * /**/ earth ; 
-    for (int i = 0 ; i < 10 ; i++ ){
+    for (int i = 0 ; i < 10; i++ ){
         earth = new myModel(planet.createRandomEarth()) ;
         models.push_back(earth) ;
         earth = nullptr ;
@@ -157,19 +149,19 @@ class solarSystem {
             modelsMutex.unlock() ;
             for (int j = 0 ; j < game.models.size() ; j++ ) {
                 if ( j != i ) {
-                    std::tuple <float , float , float > force = physicsFunctions.calculateGravitationalForce ( *(game.models[i]) , *(game.models[j]) ) ;
+                    std::tuple <float , float , float > force = physicsFunctions.calculateGravitationalForce ( *(game.models[i]) , *(game.models[j]) , std::ref (ALLOWANCEEXPANSIONCOEFFICIENT) ) ;
                     modelsMutex.lock() ;
                     physicsFunctions.addAccelarationToTheModelAccordingToCurrentForce ( *(game.models[i]) , force  ) ; 
                     // displaying the accleeration of the model 
                     float x = std::get<0>(game.models[i]->acceleration) ;
                     float y = std::get<1>(game.models[i]->acceleration) ;
                     float z = std::get<2>(game.models[i]->acceleration) ;
-                    std::cout << "acceleration of " << game.models[i]->modelName << " is " << x << " " << y << " " << z << std::endl ;
+                    // std::cout << "acceleration of " << game.models[i]->modelName << " is " << x << " " << y << " " << z << std::endl ;
                     modelsMutex.unlock() ;
                 }
             }
         }
-        SDL_Delay(100) ; 
+        
         }
         }
     
@@ -186,10 +178,10 @@ void renderSolarSystem () {
     size_t time = SDL_GetTicks64() ;  
     size_t relativeTime ; 
     createSolarSystem(solarsystem.game.models);
-    std::thread calcThread(&solarSystem::calculateAccelerationDueToGravitaionalPullAndAlsoMoveTheModelsInAllTheModelsInVectorOfPointerToModels, &solarsystem, std::ref(modelsMutex));
+    std::thread calcThread(&solarSystem::calculateAccelerationDueToGravitaionalPullAndAlsoMoveTheModelsInAllTheModelsInVectorOfPointerToModels, &solarsystem, std::ref(modelsMutex) );
     calcThread.detach(); 
-    // std::thread collisionDetection ( &Physics::checkForCollisionsInVectorOfPointersToModels ,physicsFunctions ,  std::ref(solarsystem.game.models) , 1.0, std::ref ( solarsystem.game) , std::ref(modelsMutex) ) ;
-    // collisionDetection.detach() ;
+    // std::thread collisionThread ( &Physics::checkForCollisionsInVectorOfPointersToModels , &physicsFunctions , std::ref(solarsystem.game.models) , std::ref (ALLOWANCEEXPANSIONCOEFFICIENT) , std::ref(solarsystem.game) , std::ref(modelsMutex) ) ;
+    // collisionThread.detach() ;
     while (solarsystem.game.isRunning) {  
      
         time = timeObject.calculateTimeElapsedAndUpdateTime() ;

@@ -21,20 +21,33 @@ class Physics {
         return distance ; 
     }
 
-    inline std::tuple<float , float , float  > calculateGravitationalForce ( myModel & model1 , myModel & model2) {
-        // we are trying to calculate the force exerted on the model1 by the model 2 
+    inline std::tuple<float , float , float  > calculateGravitationalForce ( myModel & model1 , myModel & model2 , float allowanceExpansionCoefficient  ) {
+        // CHECKING IF THE DISTANCE BETWEEN MODEL1 AND MODEL2 IS  GREATER  THAN THE SUM OF THE RADIUS OF THE TWO MODELS
+        std::tuple <float , float , float > model1Position = model1.getPosition() ;
+        std::tuple <float , float , float > model2Position = model2.getPosition() ;
+        float radiusOfModel1 = getRadius ( model1 ) ;
+        float radiusOfModel2 = getRadius ( model2 ) ;
         float distance = calculateDistanceBetweenTwoModels ( model1 , model2 ) ;
-        float xDistance = std::get<0>(model1.getPosition()) - std::get<0>(model2.getPosition()) ;
-        float yDistance = std::get<1>(model1.getPosition()) - std::get<1>(model2.getPosition()) ;
-        float zDistance = std::get<2>(model1.getPosition()) - std::get<2>(model2.getPosition()) ;
+        // if  ( distance > ( radiusOfModel1 + radiusOfModel2 ) * allowanceExpansionCoefficient ) {
+        float xDistance = std::get<0>(model1Position) - std::get<0>(model2Position) ;
+        float yDistance = std::get<1>(model1Position) - std::get<1>(model2Position) ;
+        float zDistance = std::get<2>(model1Position) - std::get<2>(model2Position) ;
         float force = ( GRAVITATIONAL_CONSTANT * model1.mass * model2.mass ) / std::pow(distance , 2) ;
         float xForce = ( force * xDistance ) / distance ;
         float yForce = ( force * yDistance ) / distance ;
         float zForce = ( force * zDistance ) / distance ;
         return { -xForce , -yForce ,  -zForce } ;
-    
+        // }
         }
-
+    inline float getRadius ( myModel & model ) {
+        float radius = 0.0f ; 
+        radius = model.vertices[0]->x ;
+        // coverting to positive vlaue 
+        if ( radius < 0 ) {
+            radius = -radius ; 
+        }
+        return radius ; 
+    }
         
     inline void addAccelarationToTheModelAccordingToCurrentForce  ( myModel & model , std::tuple<float , float , float > & force  ) {
 
@@ -77,10 +90,10 @@ class Physics {
     inline void checkForCollisionsInVectorOfPointersToModels (std::vector <myModel *> & models , float allowanceExpansionCofficient , Game  & game  , std::mutex & mutex) {
         while ( game.isRunning) 
        { 
-            mutex.lock() ;
+           
             auto positionVector = extractPositionVectorFromModelsVector( models ) ;
             auto vectorContainingRadiusData = extractSizeFromModelsOfSpheres( models ) ; 
-            
+            mutex.lock() ;
             std::vector<int> toRemove;
             for (int i = 0 ; i < positionVector.size() ; i++) {
                 for (int j = i + 1 ; j < positionVector.size() ; j++ ) { // Avoid self-collision and duplicate checks
@@ -89,50 +102,36 @@ class Physics {
                     float y = getYfromTuple(positionVector[i]) - getYfromTuple( positionVector[j]) ; 
                     float z = getZfromTuple(positionVector[i]) - getZfromTuple( positionVector[j]) ; 
                     if ( x < allowedDistance * allowanceExpansionCofficient || y < allowedDistance * allowanceExpansionCofficient || z < allowedDistance * allowanceExpansionCofficient ) {
-                        toRemove.push_back(i);
-                        toRemove.push_back(j);
-                    
-                        myModel * doublePointer = new  myModel{ inelasticCollideModels( *models[i] , *models[j])} ; 
-            
-                        models.push_back(doublePointer);
+                       
+                            inelasticCollideModels( *models[i] , *models[j] ) ;
                     
                     }   
                 }
             }
-
-            for ( int i = 0 ; i < toRemove.size() ; i++ ) {
-                if ( models[toRemove[i]] != nullptr ) {
-                    delete models[toRemove[i]] ;
-                    models[toRemove[i]] = nullptr ; }
-            } 
-
-        
-            std::vector <myModel *> duplicatesRemoved; 
-            duplicatesRemoved.clear() ;
-            for ( int i = 0 ; i < models.size() ; i++ ) {
-                if ( models[i] != nullptr ) {
-                    duplicatesRemoved.push_back(models[i]) ; 
-                }
-            }
-        
-            models.clear() ;
-            models = duplicatesRemoved ;
-            
-            duplicatesRemoved.clear() ;
             mutex.unlock() ;
             SDL_Delay(100);
         }
 
             } 
-    inline myModel inelasticCollideModels( myModel & model1 , myModel & model2) {
-            myModel model3 ; 
-            model3 = model1 ;
-            model3.scale( 3.0f ) ;
-            model3.mass = model1.mass + model2.mass ; 
-            model3.velocity = giveMeanTuple( model1.velocity , model2.velocity) ; 
-            model3.angularAcceleration = giveMeanTuple ( model1.acceleration , model2.acceleration) ;
-            model3.angularVelocity = giveMeanTuple ( model1.angularVelocity , model2.angularVelocity) ;
-            return model3 ;    
+    inline void inelasticCollideModels( myModel & model1 , myModel & model2) {
+           // calculating the combined momentum of system in different directions 
+            float xMomentum = model1.mass * std::get<0>(model1.velocity) + model2.mass * std::get<0>(model2.velocity) ;
+            float yMomentum = model1.mass * std::get<1>(model1.velocity) + model2.mass * std::get<1>(model2.velocity) ;
+            float zMomentum = model1.mass * std::get<2>(model1.velocity) + model2.mass * std::get<2>(model2.velocity) ;
+            // calculating the combined mass of the system
+            float combinedMass = model1.mass + model2.mass ;
+            // calculating the velocity of the system after collision
+            float xVelocity = xMomentum / combinedMass ;
+            float yVelocity = yMomentum / combinedMass ;
+            float zVelocity = zMomentum / combinedMass ;
+
+            // making the velocity of both model1 and model2 equal to the velocity of the system after collision
+            std::get<0>(model1.velocity) = xVelocity ;
+            std::get<1>(model1.velocity) = yVelocity ;
+            std::get<2>(model1.velocity) = zVelocity ;
+            std::get<0>(model2.velocity) = xVelocity ;
+            std::get<1>(model2.velocity) = yVelocity ;
+            
             }
            
     inline float getXfromTuple ( std::tuple <float , float , float > & tuple  ) {
