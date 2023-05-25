@@ -121,11 +121,13 @@ class Universe
 
 void createSolarSystem (std::vector<myModel *> & models) {
     Planets planet ; 
+    models.clear() ;
+    models.reserve(1000) ;
     myModel * sun = new myModel(planet.createSun()) ;
     models.push_back(sun) ;
     sun = nullptr ;
     myModel * /**/ earth ; 
-    for (int i = 0 ; i < 10; i++ ){
+    for (int i = 0 ; i < 20; i++ ){
         earth = new myModel(planet.createRandomEarth()) ;
         models.push_back(earth) ;
         earth = nullptr ;

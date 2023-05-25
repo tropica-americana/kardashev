@@ -16,7 +16,6 @@
 using namespace std;
 void processTerminalText(std::vector<myNothingClass *> &hector, Game &game) ; 
 void renderSolarSystem () ;
-myModel createSphere() ; 
 int main() {
     renderSolarSystem() ;
     return 0;
