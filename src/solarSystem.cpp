@@ -4,9 +4,9 @@
 #include <iostream>
 #include <cmath>
 #include <numbers>
-#include "./physics/physics.cpp"
-#include "./Time/Time.cpp"
-#include "./Random/random.cpp"
+#include "./physics/physics.h"
+#include "./Time/Time.h"
+#include "./Random/random.h"
 #include <random>
 float MASS_OF_SUN = 100;
 float MASS_OF_EARTH = 0.1;
