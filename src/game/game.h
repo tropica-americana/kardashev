@@ -14,6 +14,7 @@
 #include "../nothingClass /nothingClass.h"
 #include "../myModel/myModel.h"
 #include <regex>
+#include <unordered_map>
 class Game {
     public: 
     bool isRunning ; 

@@ -8,6 +8,8 @@
 #include "./Time/Time.h"
 #include "./Random/random.h"
 #include <random>
+using std::cout ;
+using std::endl ;
 float MASS_OF_SUN = 100;
 float MASS_OF_EARTH = 0.1;
 size_t TIME_SPENT_IN_EACH_FRAME = 2; // this is in milliseconds 
@@ -90,7 +92,7 @@ class Planets {
         earth.velocity = {randomObject.getRandomFloatInRangeIncludingNegativeValues( 0.5 , 2 ), randomObject.getRandomFloatInRangeIncludingNegativeValues(0.5 , 2  ) , randomObject.getRandomFloatInRangeIncludingNegativeValues(0.5 , 2  )} ;
         earth.moveTo ( randomObject.getRandomFloatInRangeIncludingNegativeValues(3000 , 7000 ), randomObject.getRandomFloatInRangeIncludingNegativeValues(3000 , 7000 ),randomObject.getRandomFloatInRangeIncludingNegativeValues(3000 , 7000 )) ; 
         earth.angularVelocity = {randomObject.getRandomFloatInRangeIncludingNegativeValues(-0.02 , 0.02 ) , randomObject.getRandomFloatInRangeIncludingNegativeValues(-0.02 , 0.02 ) , randomObject.getRandomFloatInRangeIncludingNegativeValues(-0.02 , 0.02 ) } ; 
-       
+
         return earth ;
     }
 } ; 
@@ -125,7 +127,7 @@ void createSolarSystem (std::vector<myModel *> & models) {
     models.push_back(sun) ;
     sun = nullptr ;
     myModel * /**/ earth ; 
-    for (int i = 0 ; i < 10; i++ ){
+    for (int i = 0 ; i < 100; i++ ){
         earth = new myModel(planet.createRandomEarth()) ;
         models.push_back(earth) ;
         earth = nullptr ;
@@ -141,7 +143,8 @@ class solarSystem {
     
     inline void calculateAccelerationDueToGravitaionalPullAndAlsoMoveTheModelsInAllTheModelsInVectorOfPointerToModels ( std::mutex & modelsMutex ) {
         Physics physicsFunctions  ;
-        while (game.isRunning){
+        while (game.isRunning){       
+        // Time timeObject ; 
         for ( int i = 0 ; i < game.models.size() ; i++ ) {
             // zeroing the acceleration of the model
             modelsMutex.lock() ;
@@ -161,6 +164,7 @@ class solarSystem {
                 }
             }
         }
+        // timeObject.outputTimeElapsedAfterCreationOfObject(" time elapsed in calcualting gravitational pull is " ) ; 
         
         }
         }
@@ -180,8 +184,6 @@ void renderSolarSystem () {
     createSolarSystem(solarsystem.game.models);
     std::thread calcThread(&solarSystem::calculateAccelerationDueToGravitaionalPullAndAlsoMoveTheModelsInAllTheModelsInVectorOfPointerToModels, &solarsystem, std::ref(modelsMutex) );
     calcThread.detach(); 
-    // std::thread collisionThread ( &Physics::checkForCollisionsInVectorOfPointersToModels , &physicsFunctions , std::ref(solarsystem.game.models) , std::ref (ALLOWANCEEXPANSIONCOEFFICIENT) , std::ref(solarsystem.game) , std::ref(modelsMutex) ) ;
-    // collisionThread.detach() ;
     while (solarsystem.game.isRunning) {  
      
         time = timeObject.calculateTimeElapsedAndUpdateTime() ;
@@ -191,8 +193,8 @@ void renderSolarSystem () {
         solarsystem.game.update(relativeTime);
         universe.translateAllModelsAccordingToMouseInput(solarsystem.game.models, solarsystem.game.mouseevent, solarsystem.game.keyboardEvent);
         universe.zoomOutAndRenderTheObjectInTheUniverse(solarsystem.game.models, solarsystem.game.renderer);
-        // physicsFunctions.checkForCollisionsInVectorOfPointersToModels( solarsystem.game.models , 0.0 ,solarsystem.game ,std::ref(modelsMutex)) ;
         modelsMutex.unlock() ;
         SDL_Delay(TIME_SPENT_IN_EACH_FRAME );
     }
 }
+ 

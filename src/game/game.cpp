@@ -28,43 +28,202 @@ void Game ::initialize()
     // --------------to render text -----------------------------------------------------   
 }}
 
-void Game ::processInput()
+void Game ::processInput( )
 {
+    std::unordered_map<std::string , std::string  > stringMap ;
+    std::unordered_map<std::string , float  > floatMap ;
     SDL_Event event;
-    while (SDL_PollEvent(&event)) // fills the event with all kinds of important information about the current state of keyboard and mouse
+    while (SDL_PollEvent(&event)) 
     {
         switch (event.type)
         {
             case SDL_QUIT :  
                 isRunning = false ; 
                 break ; 
-            
             case SDL_KEYDOWN  :
                 if ((event.key.keysym.sym ) == SDLK_ESCAPE) {
                     isRunning = false ; 
                 }
-                keyboardEvent = event.key ;
+                if ((event.key.keysym.sym ) == SDLK_w) {
+                    stringMap["w"] = "being pressed" ;  
+                }
+                if ((event.key.keysym.sym ) == SDLK_t) {
+                    stringMap["t"] = "being pressed" ;  
+                }
+                if ((event.key.keysym.sym ) == SDLK_r) {
+                    stringMap["r"] = "being pressed" ;  
+                }
+                if ((event.key.keysym.sym ) == SDLK_a) {
+                    stringMap["a"] = "being pressed" ;  
+                }
+                
+                if ((event.key.keysym.sym ) == SDLK_f) {
+                    stringMap["f"] = "being pressed" ;
+                }
+              
+                if ((event.key.keysym.sym ) == SDLK_3) {
+                    stringMap["3"] == "being pressed" ; 
+                }
+               
+                if ((event.key.keysym.sym ) == SDLK_1) {
+                    stringMap["1"] == "being pressed" ; 
+                }
+              
+                if ((event.key.keysym.sym ) == SDLK_2) {
+                    stringMap["2"] == "being pressed" ; 
+                }
+                 
+                if ((event.key.keysym.sym ) == SDLK_UP) {
+                    stringMap["up"] = "being pressed" ; 
+                }
+                
+                if ((event.key.keysym.sym ) == SDLK_DOWN) {
+                    stringMap["down"] = "being pressed" ; 
+                }
+                // s key 
+                if ((event.key.keysym.sym ) == SDLK_s) {
+                    stringMap["s"] = "being pressed" ; 
+                }
+                // command key or control in windows 
+                if ((event.key.keysym.sym ) == SDLK_LGUI || (event.key.keysym.sym ) == SDLK_LCTRL) {
+                    stringMap["command"] = "being pressed" ; 
+                }
+                // z eky 
+                if ((event.key.keysym.sym ) == SDLK_z) {
+                    stringMap["z"] = "being pressed" ; 
+                }
                 break; 
             case SDL_KEYUP :
-                keyboardEvent = event.key ;
+                if ((event.key.keysym.sym ) == SDLK_w) {
+                   stringMap["w"] = "was pressed"  ; 
+
+                }
+                if ((event.key.keysym.sym ) == SDLK_t) {
+                    stringMap["t"] = "was pressed" ; 
+                }
+                if ((event.key.keysym.sym ) == SDLK_r) {
+                    stringMap["r"] = "was pressed" ;
+                }
+                if ((event.key.keysym.sym ) == SDLK_a) {
+                    stringMap["a"] = "was pressed" ;  
+                }
+                if ((event.key.keysym.sym ) == SDLK_f) {
+                    stringMap["f"] = "was pressed" ;
+                }
+                if ((event.key.keysym.sym ) == SDLK_3) {
+                    stringMap["3"] == "was pressed" ; 
+                }
+                if ((event.key.keysym.sym ) == SDLK_1) {
+                    stringMap["1"] == "was pressed" ; 
+                }
+                if ((event.key.keysym.sym ) == SDLK_2) {
+                    stringMap["2"] == "was pressed" ; 
+                }
+                if ((event.key.keysym.sym ) == SDLK_UP) {
+                    stringMap["up"] = "was pressed" ; 
+                }
+                if ((event.key.keysym.sym ) == SDLK_DOWN) {
+                    stringMap["down"] = "was pressed" ; 
+                }
+                if ((event.key.keysym.sym ) == SDLK_s) {
+                    stringMap["s"] = "was pressed" ; 
+                }
+                if ((event.key.keysym.sym ) == SDLK_LGUI || (event.key.keysym.sym ) == SDLK_LCTRL) {
+                    stringMap["command"] = "was pressed" ; 
+                }
+                if ((event.key.keysym.sym ) == SDLK_z ) {
+                    stringMap["z"] = "was pressed" ; 
+                }
                 break ;
-            
             case SDL_MOUSEMOTION :
-                mouseeventMutex.lock() ; 
-                mouseevent = event.motion  ;  
-                mouseeventMutex.unlock() ;
+                {SDL_MouseMotionEvent mouseEvent = event.motion ; 
+                floatMap["xrel"] += mouseEvent.xrel ;
+                floatMap["yrel"] += mouseEvent.yrel ;
+                floatMap["x"] = mouseEvent.x ;
+                floatMap["y"] = mouseEvent.y ; 
+                if (mouseEvent.state & SDL_BUTTON_LMASK) {
+                    stringMap["left mouse button"] = "being pressed" ; 
+                }}
                 break ; 
-                
             case SDL_MOUSEWHEEL :
-                mouseeventMutex.lock() ; 
-                wheelEvent = event.wheel ; 
-                mouseeventMutex.unlock() ;
+                continue;
                 break ; 
             
             default :
                 break;  
         }
+        
    } 
+    float simultaneousMotionFactor = 100.0f ;
+    float simultaneousRotationFactor = 0.1f ; 
+    for (auto & item : models ) {
+        if ( item->currentMode == "translate") {
+            item->translate( floatMap["xrel"]*simultaneousMotionFactor , 
+            floatMap["yrel"] * simultaneousMotionFactor , floatMap["zrel"] * simultaneousMotionFactor) ; 
+        } 
+        if ( item->currentMode == "modify" ){
+            if ( stringMap["t"] == "being pressed" && stringMap["left mouse button"] == "being pressed" ) {
+                item->translate (floatMap["xrel"]*simultaneousMotionFactor , 
+                floatMap["yrel"] * simultaneousMotionFactor , floatMap["zrel"] * simultaneousMotionFactor) ; 
+            }
+            if (stringMap["r"] == "being pressed" && stringMap["left mouse button"] == "being pressed"){
+                item->rotate (floatMap["xrel"]*simultaneousRotationFactor , floatMap["yrel"] * simultaneousRotationFactor , 0.0f ) ;
+            }
+            if (stringMap["a"] == "being pressed" && stringMap["left mouse button"] == "being pressed"){
+                if (stringMap["f"] == "was pressed" || stringMap["f"] == "being pressed") {
+                    item->vertexFinalized = true ;
+                }
+                if (item->vertexFinalized == true) {
+                    myVertex newVertex ; 
+                    newVertex.xTranslate = item->vertices[0]->xTranslate ; 
+                    newVertex.yTranslate = item->vertices[0]->yTranslate ;
+                    newVertex.zTranslate = item->vertices[0]->zTranslate ;
+                    newVertex.x = floatMap["x"] - newVertex.xTranslate ;
+                    newVertex.y = floatMap["y"] - newVertex.yTranslate ;
+                    newVertex.z = 0.01f ;
+                    item->vertices.push_back( new myVertex{newVertex} ) ;
+                    item->vertexFinalized = false ;
+                    item->createMesh() ; 
+                }
+                if ( item->vertexFinalized == false ) {
+                    item->vertices[item->vertices.size() - 1]->x += floatMap["x"] * simultaneousMotionFactor ;
+                    item->vertices[item->vertices.size() - 1]->y += floatMap["y"] * simultaneousMotionFactor ;    
+                }
+            }
+            if (stringMap["up"] == "being pressed" ){
+                item->scale (1.2f) ;
+            }
+            if (stringMap["down"] == "being pressed" ){
+                item->scale (0.8f) ;
+            }
+            if (stringMap["up"] == "was pressed") {
+                item->scale (1.1f) ;
+            }
+            if (stringMap["down"] == "was pressed") {
+                item->scale (0.9f) ;
+            }
+            if (stringMap["s"] == "was pressed"){
+                std::string modelName ; 
+                std::cout << "Enter the name of the model you want to save" << std::endl ;
+                std::cin >> modelName ;
+                if (modelName == "" || modelName == " " || modelName == "\n"){
+                    return ; 
+                }
+                item->saveModel( "data.txt", modelName) ;
+                }
+            
+            if (stringMap["command"] == "being pressed"){
+                if (stringMap["z"] == "was pressed"){
+                    int verticesSize = item->vertices.size( ) ;
+                    delete item->vertices[verticesSize - 1] ;
+                    item->vertices.pop_back() ;
+                } 
+                std::cout << "undo recorded" << std::endl ; 
+                // this is the most poorly written algo 
+             }
+
+        }
+    }
 
 }
 

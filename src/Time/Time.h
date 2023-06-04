@@ -7,8 +7,12 @@
   
 class Time {
     public:
-     size_t time ;
-     size_t timeElapsedInTheBLock = 0  ; 
+    size_t time ;
+    size_t timeElapsedInTheBLock ;
+    Time (){
+        time = SDL_GetTicks64() ; 
+        timeElapsedInTheBLock = 0 ;
+    }
     void updateTime () {
         time = static_cast <size_t> (SDL_GetTicks64() ) ; 
 
@@ -27,6 +31,10 @@ class Time {
     }
     void outputTimeElapsed ( std::string nameOfTheBlock ) {
         std::cout << "time elapsed in block "<<nameOfTheBlock << " is " << timeElapsedInTheBLock << std:: endl ; 
+    }
+    void outputTimeElapsedAfterCreationOfObject ( std::string nameOfTheBlock ) {
+        calculateTimeElapsedAndUpdateTime() ;
+        std::cout << "time elapsed after creation of object "<<nameOfTheBlock << " is " << timeElapsedInTheBLock << std:: endl ; 
     }
  
 

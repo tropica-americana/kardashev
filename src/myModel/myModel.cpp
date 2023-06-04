@@ -174,6 +174,20 @@ void myModel::processInput(const SDL_MouseMotionEvent &mouseEvent , const SDL_Ke
     }
     
 }
+// this might be  a failed function . 
+// void myModel::processInput(SDL_Event& event) {
+//     if ( currentMode == "translate" ) {
+//         if (event.type == SDL_MOUSEBUTTONDOWN) {
+//             // getting the mouse motion event 
+            
+//         }
+//     }
+//     if (currentMode == "modify"){
+
+//     }
+
+// }
+
 
 void myModel::addVertex (float xAmount, float yAmount, float zAmount) {
     myVertex* newVertex = new myVertex(xAmount, yAmount, zAmount);
