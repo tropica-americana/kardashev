@@ -23,7 +23,10 @@ void myModel::renderMyself(SDL_Renderer *renderer) {
     }
 }
 void myModel :: renderMyselfAccordingToZoomLevelAndScreePixelResolution ( SDL_Renderer * renderer , float zoomLevel , float horizontalPixelResolution  , float verticalPixelResolution){
-     if (vertices.size() < 5) {
+    if ( stringMap["isRendering"] == "false" ) {
+        return ; 
+    }
+    if (vertices.size() < 5) {
         // std::cout << "not enough vertices to render " << std::endl;
         return;
     }

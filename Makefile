@@ -10,6 +10,7 @@ INCLUDE_PATH = -I"./libs/"
 SRC_FILES = ./src/*.cpp \
 			./src/game/*.cpp \
 			./src/myVertex/*.cpp \
+			./src/cli/*.cpp \
 			./src/myModel/*.cpp 
 			
 			

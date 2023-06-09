@@ -89,5 +89,6 @@
         "fstream": "cpp",
         "__verbose_abort": "cpp"
     },
-    "cmake.sourceDirectory": "/home/sachin/Desktop/gamemachine/SDL2_image-2.0.5/external/libpng-1.6.37"
+    "cmake.sourceDirectory": "/home/sachin/Desktop/gamemachine/SDL2_image-2.0.5/external/libpng-1.6.37",
+    "C_Cpp.errorSquiggles": "enabled"
 }

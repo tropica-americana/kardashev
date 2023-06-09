@@ -218,7 +218,7 @@ void Game ::processInput( )
                     delete item->vertices[verticesSize - 1] ;
                     item->vertices.pop_back() ;
                 } 
-                std::cout << "undo recorded" << std::endl ; 
+                // std::cout << "undo recorded" << std::endl ; 
                 // this is the most poorly written algo 
              }
 

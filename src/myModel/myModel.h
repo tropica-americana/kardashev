@@ -13,8 +13,12 @@
 #include <cmath>
 #include <fstream>
 #include <regex>
+#include <unordered_map>
 class myModel : public myNothingClass {
 public:
+    std::unordered_map <std::string , std::string> stringMap ; 
+    std::unordered_map <std::string , float > floatMap ; 
+    std::unordered_map<std::string , int > intMap ; 
     std::string modelName;
     std::vector<myVertex *> vertices;
     std::vector<std::tuple<int, int>> Mesh;

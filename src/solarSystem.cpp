@@ -7,6 +7,7 @@
 #include "./physics/physics.h"
 #include "./Time/Time.h"
 #include "./Random/random.h"
+#include "./cli/cli.h"
 #include <random>
 using std::cout ;
 using std::endl ;
@@ -133,6 +134,18 @@ void createSolarSystem (std::vector<myModel *> & models) {
         earth = nullptr ;
         }
 }
+void CliThreadFunction (std::vector <myModel *> & models  , bool & isRunning , std::mutex & modelsMutex) {
+    while ( isRunning)
+    {   
+        
+        CLI cliObject  ;
+        cliObject.getTerminalText ( ) ;
+        modelsMutex.lock() ;
+        cliObject.processCommand( models ) ; 
+        modelsMutex.unlock() ;
+        SDL_Delay(100) ; 
+    }
+} 
 
 class solarSystem {
     public:
@@ -183,15 +196,19 @@ void renderSolarSystem () {
     size_t relativeTime ; 
     createSolarSystem(solarsystem.game.models);
     std::thread calcThread(&solarSystem::calculateAccelerationDueToGravitaionalPullAndAlsoMoveTheModelsInAllTheModelsInVectorOfPointerToModels, &solarsystem, std::ref(modelsMutex) );
-    calcThread.detach(); 
+    calcThread.detach();
+    std::thread cliThread(CliThreadFunction, std::ref(solarsystem.game.models),  std::ref(solarsystem.game.isRunning) , std::ref(modelsMutex)); 
+    cliThread.detach();
     while (solarsystem.game.isRunning) {  
-     
+        
         time = timeObject.calculateTimeElapsedAndUpdateTime() ;
         relativeTime = static_cast <size_t> ( time * TIMEEXPANSIONCOEFFICIENT ) ;   
         modelsMutex.lock () ; 
         solarsystem.game.processInput();
         solarsystem.game.update(relativeTime);
+    
         universe.translateAllModelsAccordingToMouseInput(solarsystem.game.models, solarsystem.game.mouseevent, solarsystem.game.keyboardEvent);
+      
         universe.zoomOutAndRenderTheObjectInTheUniverse(solarsystem.game.models, solarsystem.game.renderer);
         modelsMutex.unlock() ;
         SDL_Delay(TIME_SPENT_IN_EACH_FRAME );
