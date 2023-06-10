@@ -13,12 +13,43 @@
 #include <chrono>
 #include <mutex>
 #include <regex>
+#include <fstream>
 using namespace std;
-void processTerminalText(std::vector<myNothingClass *> &hector, Game &game) ; 
-void renderSolarSystem () ;
-myModel createSphere() ; 
+using std::cout;
+using std::endl;
+using std::vector;
+using std::map;
+using std::string;
+using std::regex;
+using std::smatch;
+using std::regex_search;
+using std::ifstream;
+using std::ofstream;
+
 int main() {
-    renderSolarSystem() ;
+    string filepath ; 
+    regex rodRegex ( "\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-\\-*") ; 
+    smatch match ; 
+    cin >> filepath ;
+    ifstream file(filepath);
+    string line;
+    vector <string> lines ; 
+    while (!file.eof()) {
+        getline(file, line);
+        if ( line != ""  ){
+            if (regex_search( line.cbegin() , line.cend() , match , rodRegex )){
+
+            } 
+            else  {
+                lines.push_back (line) ; 
+            }
+        } ; 
+        
+    }
+    for ( auto & item : lines ) {
+        cout << item << endl ; 
+    }
+    file.close() ; 
     return 0;
 }
 
