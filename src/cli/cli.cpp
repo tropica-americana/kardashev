@@ -19,6 +19,8 @@ void CLI::processCommand( std::vector <myModel * > & models ) {
     std::regex modifyByKeyRegex ("if\\s*\\(\\s*(\\w+)\\s*==\\s*(\\w+)\\s*\\)" ) ;
     std::regex notModifyBykeyRegex ("if\\s*\\(\\s*(\\w+)\\s*!=\\s*(\\w+)\\s*\\)") ;  
     std::regex rmCommandRegex ("\\s*rm\\s*") ; 
+    std::regex addCommandRegex ("\\s*add\\s*") ;
+    std::regex joinCommandRegex ("\\s*join\\s*") ;
     // name is in capturing group 1 
     //----------------------------------------------------------------------------------
     //getting the first word from the command string 

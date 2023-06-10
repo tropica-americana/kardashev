@@ -23,6 +23,16 @@ void myModel::renderMyself(SDL_Renderer *renderer) {
     }
 }
 void myModel :: renderMyselfAccordingToZoomLevelAndScreePixelResolution ( SDL_Renderer * renderer , float zoomLevel , float horizontalPixelResolution  , float verticalPixelResolution){
+    float z = std::get<2>(getPosition());
+    if ( z < -vertices[0]->distanceFromObserver ) {
+        std::cout << "not rendering model " << std::endl;
+        return ; 
+    }
+    if ( z > vertices[0]->distanceFromObserver * 300 ) {
+        std::cout << "not rendering model " << std::endl;
+        return ; 
+    }
+
     if ( stringMap["isRendering"] == "false" ) {
         return ; 
     }

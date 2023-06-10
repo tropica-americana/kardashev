@@ -14,11 +14,10 @@
 #include <mutex>
 #include <regex>
 using namespace std;
-void processTerminalText(std::vector<myNothingClass *> &hector, Game &game) ; 
-void renderSolarSystem () ;
 myModel createSphere() ; 
+void renderSolarSystem () ; 
 int main() {
-    renderSolarSystem() ;
+    std::string filePath ; 
     return 0;
 }
 
