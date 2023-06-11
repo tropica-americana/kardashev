@@ -17,8 +17,6 @@
 class myModel : public myNothingClass {
 public:
     std::unordered_map <std::string , std::string> stringMap ; 
-    std::unordered_map <std::string , float > floatMap ; 
-    std::unordered_map<std::string , int > intMap ; 
     std::string modelName;
     std::vector<myVertex *> vertices;
     std::vector<std::tuple<int, int>> Mesh;
@@ -27,7 +25,7 @@ public:
     std::tuple <float , float , float > angularVelocity ; 
     std::tuple < float , float , float > angularAcceleration ;
     float mass ; 
-    std::string currentMode  = "translate" ; 
+
     bool vertexFinalized = true ; 
     myModel () ;  
     ~myModel() ;

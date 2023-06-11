@@ -31,7 +31,6 @@ class Planets {
     public : 
     myModel createSphere() {
         myModel sphere;
-        sphere.currentMode = "modify";
         myVertex mainVertex{ 0.0f , 100.0f  , 0.0f };
         sphere.addVertex(mainVertex);
         float pi = std::numbers::pi_v< float>;
@@ -53,7 +52,7 @@ class Planets {
         earth = createSphere ( ) ; 
         earth.modelName = "earth" ;
         earth.mass = MASS_OF_EARTH ;
-
+        earth.stringMap["input"] = "true" ;
         //scaling the earth in proportion to cube root of mass of earth 
         float scalingFactor = std::cbrt(earth.mass) ;
         earth.scale( scalingFactor) ;  
@@ -66,9 +65,8 @@ class Planets {
         myModel sun ;
         sun = createSphere ( ) ;
         sun.modelName = "sun" ;
-        sun.currentMode = "modify" ;
         sun.mass = MASS_OF_SUN ;
-        
+        sun.stringMap["input"] = "true" ;
         //scaling the sun in proportion to cube root of mass of sun 
         float scalingFactor = std::cbrt(sun.mass) ;
         sun.scale( scalingFactor) ; 
@@ -84,7 +82,7 @@ class Planets {
         Random randomObject ;
         earth = createSphere ( ) ; 
         earth.modelName = "earth" ;
-        earth.currentMode = "modify" ;
+        
         earth.mass = MASS_OF_EARTH ;
 
         //scaling the earth in proportion to cube root of mass of earth 

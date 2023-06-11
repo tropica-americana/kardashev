@@ -157,11 +157,8 @@ void Game ::processInput( )
     float simultaneousMotionFactor = 100.0f ;
     float simultaneousRotationFactor = 0.1f ; 
     for (auto & item : models ) {
-        if ( item->currentMode == "translate") {
-            item->translate( floatMap["xrel"]*simultaneousMotionFactor , 
-            floatMap["yrel"] * simultaneousMotionFactor , floatMap["zrel"] * simultaneousMotionFactor) ; 
-        } 
-        if ( item->currentMode == "modify" ){
+         
+        if ( item->stringMap["input"] != "false" ){
             if ( stringMap["t"] == "being pressed" && stringMap["left mouse button"] == "being pressed" ) {
                 item->translate (floatMap["xrel"]*simultaneousMotionFactor , 
                 floatMap["yrel"] * simultaneousMotionFactor , floatMap["zrel"] * simultaneousMotionFactor) ; 
@@ -282,71 +279,3 @@ void Game :: destroy () {
     TTF_CloseFont ( ourFont ) ; 
 
  }
-void Game::getTerminalText()
-{
-    std::chrono::milliseconds hunderedMilliSeconds(100);
-    while (isRunning == true) {
-        std::string input;
-        std::getline(std::cin, input);
-        {
-            std::unique_lock<std::mutex> lock(terminalTextMutex);
-            terminalText = input;
-        }
-        std::this_thread::sleep_for(hunderedMilliSeconds);
-        std::cout<<terminalText<< std::endl ; 
-    }
-}
-
-void processTerminalText(std::vector<myNothingClass *> &hector, Game &game) {
-    std::string input;
-    input = game.terminalText ; 
-    SDL_MouseMotionEvent &mouseEvent = game.mouseevent ; 
-    SDL_KeyboardEvent &keyboardEvent = game.keyboardEvent ;
-    std::regex rotate_pattern(R"(rotate\s+(\d+))");
-    std::regex translate_pattern(R"(translate\s+(\d+))");
-    std::regex process_input_pattern("processInput");
-    std::regex end_pattern("end");
-
-    std::smatch match;
-    glm::vec3 orientationVector = glm::vec3(0.0f, 0.0f, 0.0f);
-
-    {
-        if (!input.empty()) {
-            if (mouseEvent.state & SDL_BUTTON_LMASK) {
-                orientationVector.x += mouseEvent.xrel;
-                orientationVector.y += mouseEvent.yrel;
-                orientationVector.z = 0.1;
-                orientationVector.x = glm::radians(orientationVector.x) / 4000;
-                orientationVector.y = glm::radians(orientationVector.y) / 4000;
-
-                if (std::regex_search(input, match, rotate_pattern)) {
-                    int index = std::stoi(match[1].str());
-                    if (index >= 0 && index < hector.size()) {
-                        hector[index]->rotate(orientationVector.x , orientationVector.y , orientationVector.z);
-                    } 
-                    else 
-                    {
-                        std::cout << "No such command found." << std::endl;
-                    }
-                } else if (std::regex_search(input, match, translate_pattern)) {
-                    int index = std::stoi(match[1].str());
-                    if (index >= 0 && index < hector.size()) {
-                        orientationVector.x += mouseEvent.xrel;
-                        orientationVector.y += mouseEvent.yrel;
-                        hector[index]->translate(orientationVector.x , orientationVector.y , orientationVector.z);
-                    } else {
-                        std::cout << "No such command found." << std::endl;
-                    }
-                } else if (std::regex_search(input, match, process_input_pattern)) {
-                    for (myNothingClass * obj : hector) {
-                        obj->processInput(mouseEvent , keyboardEvent);
-                    }
-                } else if (std::regex_search(input, match, end_pattern)) {
-                    game.isRunning = false;
-                } else {
-                    std::cout << "No such command found." << std::endl;
-                }
-            }
-        }
-    }
-}

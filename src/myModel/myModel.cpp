@@ -25,11 +25,11 @@ void myModel::renderMyself(SDL_Renderer *renderer) {
 void myModel :: renderMyselfAccordingToZoomLevelAndScreePixelResolution ( SDL_Renderer * renderer , float zoomLevel , float horizontalPixelResolution  , float verticalPixelResolution){
     float z = std::get<2>(getPosition());
     if ( z < -vertices[0]->distanceFromObserver ) {
-        std::cout << "not rendering model " << std::endl;
+        // std::cout << "not rendering model " << std::endl;
         return ; 
     }
     if ( z > vertices[0]->distanceFromObserver * 300 ) {
-        std::cout << "not rendering model " << std::endl;
+        // std::cout << "not rendering model " << std::endl;
         return ; 
     }
 
@@ -63,6 +63,8 @@ void myModel :: rotateWithAngularVelocityInTime ( size_t time_in_milliseconds ) 
 }
 
 void myModel::processInput(const SDL_MouseMotionEvent &mouseEvent , const SDL_KeyboardEvent &keyboardEvent) {
+    if ( stringMap["input"] == "false") 
+    return ; 
     bool keyPressed = true ; 
     bool invertedRotation = false ;
     // iterating through all the events of sdl events 
@@ -72,14 +74,8 @@ void myModel::processInput(const SDL_MouseMotionEvent &mouseEvent , const SDL_Ke
         invertedRotation = true ;
     }
     else { invertedRotation = false ; }
-    if (currentMode == "translate"){
-        float simultaneousMotionFactor{ 100.0f };
-        if (mouseEvent.state & SDL_BUTTON_LMASK) {
-            translate(mouseEvent.xrel * simultaneousMotionFactor,
-                mouseEvent.yrel * simultaneousMotionFactor, 0.0f);
-    }
-    }
-    if (currentMode == "modify") {
+    
+    if (stringMap["input"] != "false") {
         float simultaneousMotionFactor{ 1.0f }; 
             // check whether user is not pressing any key 
             if (keyboardEvent.type == SDL_KEYUP) {

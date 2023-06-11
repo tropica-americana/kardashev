@@ -17,7 +17,7 @@ using namespace std;
 myModel createSphere() ; 
 void renderSolarSystem () ; 
 int main() {
-    std::string filePath ; 
+    renderSolarSystem() ; 
     return 0;
 }
 
