@@ -17,10 +17,10 @@ void CLI::processCommand( std::vector <myModel * > & models ) {
     // the first word is the command 
     // the second word is the if statements 
     // the third word should be empty for these types of command 
-    std::regex ifNameStatementRegex ("if\\s*\\(\\s*name\\s*==\\s*(\\w+)\\s*\\)") ;
-    std::regex notIfNameStatementRegex ( "if\\s*\\(\\s*name\\s*!=\\s*(\\w+)\\s*\\)") ; 
-    std::regex modifyByKeyRegex ("if\\s*\\(\\s*(\\w+)\\s*==\\s*(\\w+)\\s*\\)" ) ;
-    std::regex notModifyBykeyRegex ("if\\s*\\(\\s*(\\w+)\\s*!=\\s*(\\w+)\\s*\\)") ;  
+    std::regex ifNameStatementRegex ("if\\s*\\s*name\\s*==\\s*(\\w+)\\s*") ;
+    std::regex notIfNameStatementRegex ( "if\\s*\\s*name\\s*!=\\s*(\\w+)\\s*") ; 
+    std::regex modifyByKeyRegex ("if\\s*\\s*(\\w+)\\s*==\\s*(\\w+)\\s*" ) ;
+    std::regex notModifyBykeyRegex ("if\\s*\\s*(\\w+)\\s*!=\\s*(\\w+)\\s*") ;  
     std::regex changeKeyRegex ("\\s+([A-Za-z0-9\\.]+)\\s+\\->\\s+([A-Za-z0-9\\.]+)\\s+") ; 
     std::regex rmCommandRegex ("\\s*rm\\s*") ; 
     std::regex changeCommandRegex ( "\\s*change\\s*") ; 
@@ -72,7 +72,7 @@ void CLI::processCommand( std::vector <myModel * > & models ) {
             for ( auto & model : models ) {
                 if ( model->modelName != match[1] ) {
                     if (std::regex_search( command.cbegin() , command.cend() , match2 , changeKeyRegex  )) {
-                        {model->stringMap[match[1]] = match[2] ;
+                        {model->stringMap[match2[1]] = match2[2] ;
                         }
                     }
                 }
