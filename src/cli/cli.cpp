@@ -7,29 +7,17 @@ void CLI::getTerminalText ( ) {
     // error prone area above 
     command = inputText ;  
 }
+// --------------this is the most important function in the whole class -----------------
 void CLI::processCommand( std::vector <myModel * > & models ) {
+    processRmCommand ( models ) ;
+    processChangeCommand ( models ) ;
+    processShowCommand ( ) ;
+    std::cout <<"command processed " << std::endl ;
+}
 
-    std::smatch match ; 
-    std::string extractedModelName ; 
-    std::string lhsString  ;
-    std::string rhsString ;  
-    // below we will create a bunch of regular expressions for each type of terminal command 
-    // the first word is the command 
-    // the second word is the if statements 
-    // the third word should be empty for these types of command 
-    std::regex ifNameStatementRegex ("if\\s*\\s*name\\s*==\\s*(\\w+)\\s*") ;
-    std::regex notIfNameStatementRegex ( "if\\s*\\s*name\\s*!=\\s*(\\w+)\\s*") ; 
-    std::regex modifyByKeyRegex ("if\\s*\\s*(\\w+)\\s*==\\s*(\\w+)\\s*" ) ;
-    std::regex notModifyBykeyRegex ("if\\s*\\s*(\\w+)\\s*!=\\s*(\\w+)\\s*") ;  
-    std::regex changeKeyRegex ("\\s+([A-Za-z0-9\\.]+)\\s+\\->\\s+([A-Za-z0-9\\.]+)\\s+") ; 
-    std::regex rmCommandRegex ("\\s*rm\\s*") ; 
-    std::regex changeCommandRegex ( "\\s*change\\s*") ; 
-    std::regex addCommandRegex ("\\s*add\\s*") ;
-    std::regex joinCommandRegex ("\\s*join\\s*") ;
-    // name is in capturing group 1 
-    //----------------------------------------------------------------------------------
-    //getting the first word from the command string 
-    // multiple if statements for the differnet commad types 
+// ----------------------------------------------------------------------------------------
+
+void CLI::processRmCommand (std::vector <myModel * > & models){
     if ( std::regex_search( command.cbegin() , command.cend() , match , rmCommandRegex  ) ){
         if (std::regex_search( command.cbegin() , command.cend() , match , ifNameStatementRegex  )) {
             for ( auto & model : models ) {
@@ -52,7 +40,9 @@ void CLI::processCommand( std::vector <myModel * > & models ) {
             }
         }        
 
-    }
+    }   
+}
+void CLI::processChangeCommand(std::vector <myModel * > & models ){
     if ( std::regex_search( command.cbegin() , command.cend() , match , changeCommandRegex  ) ){
         if ( std::regex_search(command.cbegin() , command.cend() , match, ifNameStatementRegex)){
             std::cout << "if name statement" << std::endl ;
@@ -103,6 +93,13 @@ void CLI::processCommand( std::vector <myModel * > & models ) {
             }
         }
     }
+}
+void CLI::processShowCommand(){
+    // showing all the keys and their states in the sting map for any model 
+    if ( std::regex_search( command.cbegin() , command.cend() , match ,showAllTheCommandsRegex  )){
+        std::cout << "showing all the commands" << std::endl ;
+        std::cout << "isRendering  --> true / false " ; 
+        std::cout << "input --> true / false " ;
 
-    std::cout <<"command processed " << std::endl ;
+    }
 }

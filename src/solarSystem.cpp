@@ -11,8 +11,8 @@
 #include <random>
 using std::cout ;
 using std::endl ;
-float MASS_OF_SUN = 100;
-float MASS_OF_EARTH = 0.1;
+float MASS_OF_SUN = 10000;
+float MASS_OF_EARTH = 10;
 size_t TIME_SPENT_IN_EACH_FRAME = 2; // this is in milliseconds 
 float earthVelocityConstatnt = 0;
 float EARTH_HORIZONTAL_VELOCITY = earthVelocityConstatnt;
@@ -126,7 +126,7 @@ void createSolarSystem (std::vector<myModel *> & models) {
     models.push_back(sun) ;
     sun = nullptr ;
     myModel * /**/ earth ; 
-    for (int i = 0 ; i < 100; i++ ){
+    for (int i = 0 ; i < 10; i++ ){
         earth = new myModel(planet.createRandomEarth()) ;
         models.push_back(earth) ;
         earth = nullptr ;
@@ -155,34 +155,44 @@ class solarSystem {
     inline void calculateAccelerationDueToGravitaionalPullAndAlsoMoveTheModelsInAllTheModelsInVectorOfPointerToModels ( std::mutex & modelsMutex ) {
         Physics physicsFunctions  ;
         while (game.isRunning){       
-        // Time timeObject ; 
+        Time timeObject ; 
+        modelsMutex.lock() ;
         for ( int i = 0 ; i < game.models.size() ; i++ ) {
-            // zeroing the acceleration of the model
-            modelsMutex.lock() ;
+            
             game.models[i]->zeroTheAcceleration() ; 
-            modelsMutex.unlock() ;
             for (int j = 0 ; j < game.models.size() ; j++ ) {
                 if ( j != i ) {
-                    std::tuple <float , float , float > force = physicsFunctions.calculateGravitationalForce ( *(game.models[i]) , *(game.models[j]) , std::ref (ALLOWANCEEXPANSIONCOEFFICIENT) ) ;
-                    modelsMutex.lock() ;
-                    physicsFunctions.addAccelarationToTheModelAccordingToCurrentForce ( *(game.models[i]) , force  ) ; 
-                    // displaying the accleeration of the model 
-                    float x = std::get<0>(game.models[i]->acceleration) ;
-                    float y = std::get<1>(game.models[i]->acceleration) ;
-                    float z = std::get<2>(game.models[i]->acceleration) ;
-                    // std::cout << "acceleration of " << game.models[i]->modelName << " is " << x << " " << y << " " << z << std::endl ;
-                    modelsMutex.unlock() ;
+                    if ( std::find(game.models[i]->vectorOfModelsCollidedWithThisModel.begin(),game.models[i]->vectorOfModelsCollidedWithThisModel.end() , (game.models[j])) == game.models[i]->vectorOfModelsCollidedWithThisModel.end() )
+                    {}
+                    else {
+                        std::tuple <float , float , float > force = physicsFunctions.calculateGravitationalForce ( *(game.models[i]) , *(game.models[j]) , std::ref (ALLOWANCEEXPANSIONCOEFFICIENT) ) ;
+                        
+                        physicsFunctions.addAccelarationToTheModelAccordingToCurrentForce ( *(game.models[i]) , force  ) ; 
+                        // displaying the accleeration of the model 
+                        float x = std::get<0>(game.models[i]->acceleration) ;
+                        float y = std::get<1>(game.models[i]->acceleration) ;
+                        float z = std::get<2>(game.models[i]->acceleration) ;
+                        // std::cout << "acceleration of " << game.models[i]->modelName << " is " << x << " " << y << " " << z << std::endl ;
+                        
+                    }
                 }
             }
         }
-        // timeObject.outputTimeElapsedAfterCreationOfObject(" time elapsed in calcualting gravitational pull is " ) ; 
+        modelsMutex.unlock() ;
+        timeObject.outputTimeElapsedAfterCreationOfObject(" time elapsed in calcualting gravitational pull is " ) ; 
         
         }
         }
     
 } ;
-
-
+void collisionThread ( std::vector <myModel *> & models , bool & isRunning  ) {
+        Physics physicsFunctions ;
+        while  ( isRunning )
+        {
+            physicsFunctions.checkForCollisionsInVectorOfPointersToModels ( models , 0.30f   )   ;
+            SDL_Delay(10) ;
+        }
+}
 float Universe :: zoomAmount = 0.01;
 void renderSolarSystem () {
     std::mutex modelsMutex;
@@ -197,16 +207,16 @@ void renderSolarSystem () {
     calcThread.detach();
     std::thread cliThread(CliThreadFunction, std::ref(solarsystem.game.models),  std::ref(solarsystem.game.isRunning) , std::ref(modelsMutex)); 
     cliThread.detach();
+    std::thread collisionthread ( collisionThread , std::ref(solarsystem.game.models) , std::ref(solarsystem.game.isRunning) ) ;
+    collisionthread.detach() ;
     while (solarsystem.game.isRunning) {  
         
         time = timeObject.calculateTimeElapsedAndUpdateTime() ;
         relativeTime = static_cast <size_t> ( time * TIMEEXPANSIONCOEFFICIENT ) ;   
         modelsMutex.lock () ; 
         solarsystem.game.processInput();
-        solarsystem.game.update(relativeTime);
-    
-        universe.translateAllModelsAccordingToMouseInput(solarsystem.game.models, solarsystem.game.mouseevent, solarsystem.game.keyboardEvent);
-      
+        solarsystem.game.update(relativeTime);   
+
         universe.zoomOutAndRenderTheObjectInTheUniverse(solarsystem.game.models, solarsystem.game.renderer);
         modelsMutex.unlock() ;
         SDL_Delay(TIME_SPENT_IN_EACH_FRAME );

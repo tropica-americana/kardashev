@@ -5,6 +5,7 @@
 #include "../myModel/myModel.h"
 #include "../myVertex/myVertex.h"
 #include "../game/game.h"
+#include "../Time/Time.h"
 #include <iostream>
 #include <cmath>
 #include <numbers>
@@ -22,6 +23,7 @@ class Physics {
     }
 
     inline std::tuple<float , float , float  > calculateGravitationalForce ( myModel & model1 , myModel & model2 , float allowanceExpansionCoefficient  ) {
+        
         // CHECKING IF THE DISTANCE BETWEEN MODEL1 AND MODEL2 IS  GREATER  THAN THE SUM OF THE RADIUS OF THE TWO MODELS
         std::tuple <float , float , float > model1Position = model1.getPosition() ;
         std::tuple <float , float , float > model2Position = model2.getPosition() ;
@@ -37,7 +39,7 @@ class Physics {
         float yForce = ( force * yDistance ) / distance ;
         float zForce = ( force * zDistance ) / distance ;
         return { -xForce , -yForce ,  -zForce } ;
-        // }
+        
         }
     inline float getRadius ( myModel & model ) {
         float radius = 0.0f ; 
@@ -87,32 +89,34 @@ class Physics {
         float meanZ = (getZfromTuple( tuple1 ) + getZfromTuple( tuple2 ) ) / 2 ; 
         return std::make_tuple ( meanX , meanY , meanZ) ; 
     }
-    inline void checkForCollisionsInVectorOfPointersToModels (std::vector <myModel *> & models , float allowanceExpansionCofficient , Game  & game  , std::mutex & mutex) {
-        while ( game.isRunning) 
-       { 
-           
-            auto positionVector = extractPositionVectorFromModelsVector( models ) ;
-            auto vectorContainingRadiusData = extractSizeFromModelsOfSpheres( models ) ; 
-            mutex.lock() ;
-            std::vector<int> toRemove;
-            for (int i = 0 ; i < positionVector.size() ; i++) {
-                for (int j = i + 1 ; j < positionVector.size() ; j++ ) { // Avoid self-collision and duplicate checks
-                    float allowedDistance = fabs( vectorContainingRadiusData[i] + vectorContainingRadiusData[j] ) ; 
-                    float x = getXfromTuple(positionVector[i]) - getXfromTuple( positionVector[j]) ; 
-                    float y = getYfromTuple(positionVector[i]) - getYfromTuple( positionVector[j]) ; 
-                    float z = getZfromTuple(positionVector[i]) - getZfromTuple( positionVector[j]) ; 
-                    if ( x < allowedDistance * allowanceExpansionCofficient || y < allowedDistance * allowanceExpansionCofficient || z < allowedDistance * allowanceExpansionCofficient ) {
-                       
-                            inelasticCollideModels( *models[i] , *models[j] ) ;
+    inline void checkForCollisionsInVectorOfPointersToModels (std::vector <myModel *> & models , float allowanceExpansionCofficient ) {
+        Time timeObject ; 
+        
+        auto positionVector = extractPositionVectorFromModelsVector( models ) ;
+        std::cout << "reached here 1 " << std::endl ;
+        auto vectorContainingRadiusData = extractSizeFromModelsOfSpheres( models ) ;         
+        std::cout << "reached here 2 " << std::endl ;
+        for (int i = 0 ; i < positionVector.size() ; i++) {
+            std::cout << "reached here 3 " << std::endl ;
+            for (int j = i + 1 ; j < positionVector.size() ; j++ ) { // Avoid self-collision and duplicate checks
+                std::cout << "reached here 4 " << std::endl ;
+                float allowedDistance = fabs( vectorContainingRadiusData[i] + vectorContainingRadiusData[j] ) ; 
+                float x = getXfromTuple(positionVector[i]) - getXfromTuple( positionVector[j]) ; 
+                float y = getYfromTuple(positionVector[i]) - getYfromTuple( positionVector[j]) ; 
+                float z = getZfromTuple(positionVector[i]) - getZfromTuple( positionVector[j]) ; 
+                if ( x < allowedDistance * allowanceExpansionCofficient || y < allowedDistance * allowanceExpansionCofficient || z < allowedDistance * allowanceExpansionCofficient ) {
                     
-                    }   
-                }
+                        inelasticCollideModels( *models[i] , *models[j] ) ;
+                
+                }   
             }
-            mutex.unlock() ;
-            SDL_Delay(100);
         }
+        std::cout << "reached here 5 " << std::endl ;
+        timeObject.outputTimeElapsedAfterCreationOfObject("collision detection");
+        
+        SDL_Delay(100);
 
-            } 
+    } 
     inline void inelasticCollideModels( myModel & model1 , myModel & model2) {
            // calculating the combined momentum of system in different directions 
             float xMomentum = model1.mass * std::get<0>(model1.velocity) + model2.mass * std::get<0>(model2.velocity) ;
@@ -132,7 +136,10 @@ class Physics {
             std::get<0>(model2.velocity) = xVelocity ;
             std::get<1>(model2.velocity) = yVelocity ;
             
+            model1.vectorOfModelsCollidedWithThisModel.push_back( &model2 ) ;
+            model2.vectorOfModelsCollidedWithThisModel.push_back( &model1 ) ;
             }
+
            
     inline float getXfromTuple ( std::tuple <float , float , float > & tuple  ) {
         return std::get<0> ( tuple ) ; 

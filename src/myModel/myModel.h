@@ -24,6 +24,7 @@ public:
     std::tuple<float , float  , float > acceleration ;
     std::tuple <float , float , float > angularVelocity ; 
     std::tuple < float , float , float > angularAcceleration ;
+    std::vector < myModel * > vectorOfModelsCollidedWithThisModel ;
     float mass ; 
 
     bool vertexFinalized = true ; 
