@@ -11,8 +11,8 @@
 #include <random>
 using std::cout ;
 using std::endl ;
-float MASS_OF_SUN = 10000;
-float MASS_OF_EARTH = 10;
+float MASS_OF_SUN = 100;
+float MASS_OF_EARTH = 1;
 size_t TIME_SPENT_IN_EACH_FRAME = 2; // this is in milliseconds 
 float earthVelocityConstatnt = 0;
 float EARTH_HORIZONTAL_VELOCITY = earthVelocityConstatnt;
@@ -179,8 +179,7 @@ class solarSystem {
             }
         }
         modelsMutex.unlock() ;
-        timeObject.outputTimeElapsedAfterCreationOfObject(" time elapsed in calcualting gravitational pull is " ) ; 
-        
+        SDL_Delay(1) ;
         }
         }
     
@@ -189,8 +188,8 @@ void collisionThread ( std::vector <myModel *> & models , bool & isRunning  ) {
         Physics physicsFunctions ;
         while  ( isRunning )
         {
-            physicsFunctions.checkForCollisionsInVectorOfPointersToModels ( models , 0.30f   )   ;
-            SDL_Delay(10) ;
+            physicsFunctions.checkForCollisionsInVectorOfPointersToModels ( models , 1.0f   )   ;
+            SDL_Delay(3) ;
         }
 }
 float Universe :: zoomAmount = 0.01;

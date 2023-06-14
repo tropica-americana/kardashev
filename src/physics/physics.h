@@ -10,7 +10,7 @@
 #include <cmath>
 #include <numbers>
 #include <mutex>
-float GRAVITATIONAL_CONSTANT = 600;
+float GRAVITATIONAL_CONSTANT = 6000;
 class Physics {
 
     public: 
@@ -93,13 +93,13 @@ class Physics {
         Time timeObject ; 
         
         auto positionVector = extractPositionVectorFromModelsVector( models ) ;
-        std::cout << "reached here 1 " << std::endl ;
+ 
         auto vectorContainingRadiusData = extractSizeFromModelsOfSpheres( models ) ;         
-        std::cout << "reached here 2 " << std::endl ;
+ 
         for (int i = 0 ; i < positionVector.size() ; i++) {
-            std::cout << "reached here 3 " << std::endl ;
+ 
             for (int j = i + 1 ; j < positionVector.size() ; j++ ) { // Avoid self-collision and duplicate checks
-                std::cout << "reached here 4 " << std::endl ;
+ 
                 float allowedDistance = fabs( vectorContainingRadiusData[i] + vectorContainingRadiusData[j] ) ; 
                 float x = getXfromTuple(positionVector[i]) - getXfromTuple( positionVector[j]) ; 
                 float y = getYfromTuple(positionVector[i]) - getYfromTuple( positionVector[j]) ; 
@@ -107,11 +107,12 @@ class Physics {
                 if ( x < allowedDistance * allowanceExpansionCofficient || y < allowedDistance * allowanceExpansionCofficient || z < allowedDistance * allowanceExpansionCofficient ) {
                     
                         inelasticCollideModels( *models[i] , *models[j] ) ;
+                        std::cout << "colliding models  "<< i << "  and  " << j  << std::endl ;
                 
                 }   
             }
         }
-        std::cout << "reached here 5 " << std::endl ;
+        
         timeObject.outputTimeElapsedAfterCreationOfObject("collision detection");
         
         SDL_Delay(100);
