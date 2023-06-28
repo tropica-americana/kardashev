@@ -1,7 +1,6 @@
 
 #ifndef PHYSICS_CPP
 #define PHYSICS_CPP
-
 #include "../myModel/myModel.h"
 #include "../myVertex/myVertex.h"
 #include "../game/game.h"
@@ -23,7 +22,9 @@ class Physics {
     }
 
     inline std::tuple<float , float , float  > calculateGravitationalForce ( myModel & model1 , myModel & model2 , float allowanceExpansionCoefficient  ) {
-        
+        if (calculateDistanceBetweenTwoModels ( model1 , model2 ) <  1.0f  ) {
+            return {0.0f , 0.0f , 0.0f} ;
+        }
         // CHECKING IF THE DISTANCE BETWEEN MODEL1 AND MODEL2 IS  GREATER  THAN THE SUM OF THE RADIUS OF THE TWO MODELS
         std::tuple <float , float , float > model1Position = model1.getPosition() ;
         std::tuple <float , float , float > model2Position = model2.getPosition() ;
@@ -104,7 +105,7 @@ class Physics {
                 float x = getXfromTuple(positionVector[i]) - getXfromTuple( positionVector[j]) ; 
                 float y = getYfromTuple(positionVector[i]) - getYfromTuple( positionVector[j]) ; 
                 float z = getZfromTuple(positionVector[i]) - getZfromTuple( positionVector[j]) ; 
-                if ( x < allowedDistance * allowanceExpansionCofficient || y < allowedDistance * allowanceExpansionCofficient || z < allowedDistance * allowanceExpansionCofficient ) {
+                if ( x < allowedDistance * allowanceExpansionCofficient && y < allowedDistance * allowanceExpansionCofficient && z < allowedDistance * allowanceExpansionCofficient ) {
                     
                         inelasticCollideModels( *models[i] , *models[j] ) ;
                         std::cout << "colliding models  "<< i << "  and  " << j  << std::endl ;
@@ -119,38 +120,37 @@ class Physics {
 
     } 
     inline void inelasticCollideModels( myModel & model1 , myModel & model2) {
-           // calculating the combined momentum of system in different directions 
-            float xMomentum = model1.mass * std::get<0>(model1.velocity) + model2.mass * std::get<0>(model2.velocity) ;
-            float yMomentum = model1.mass * std::get<1>(model1.velocity) + model2.mass * std::get<1>(model2.velocity) ;
-            float zMomentum = model1.mass * std::get<2>(model1.velocity) + model2.mass * std::get<2>(model2.velocity) ;
+            if ( std::find ( model1.vectorOfModelsCollidedWithThisModel.begin() , model1.vectorOfModelsCollidedWithThisModel.end() , &model2 ) != model1.vectorOfModelsCollidedWithThisModel.end())
+            return ; 
+            // calculating the combined momentum of system in different directions 
+            float xMomentum = (model1.mass * std::get<0>(model1.velocity)) + model2.mass * std::get<0>(model2.velocity) ;
+            float yMomentum = (model1.mass * std::get<1>(model1.velocity) )+ model2.mass * std::get<1>(model2.velocity) ;
+            float zMomentum = (model1.mass * std::get<2>(model1.velocity) )+ model2.mass * std::get<2>(model2.velocity) ;
             // calculating the combined mass of the system
             float combinedMass = model1.mass + model2.mass ;
             // calculating the velocity of the system after collision
             float xVelocity = xMomentum / combinedMass ;
             float yVelocity = yMomentum / combinedMass ;
             float zVelocity = zMomentum / combinedMass ;
-
             // making the velocity of both model1 and model2 equal to the velocity of the system after collision
-            std::get<0>(model1.velocity) = xVelocity ;
-            std::get<1>(model1.velocity) = yVelocity ;
-            std::get<2>(model1.velocity) = zVelocity ;
-            std::get<0>(model2.velocity) = xVelocity ;
-            std::get<1>(model2.velocity) = yVelocity ;
-            
+            auto velocity = std::make_tuple(xVelocity , yVelocity , zVelocity) ;
+            model1.velocity = velocity ;
+            model2.velocity = velocity ;        
             model1.vectorOfModelsCollidedWithThisModel.push_back( &model2 ) ;
             model2.vectorOfModelsCollidedWithThisModel.push_back( &model1 ) ;
-            }
+            return ;        
+                }   
 
            
     inline float getXfromTuple ( std::tuple <float , float , float > & tuple  ) {
         return std::get<0> ( tuple ) ; 
-    } 
+        } 
     inline float getYfromTuple ( std::tuple <float , float , float > & tuple  ) {
         return std::get<1> ( tuple ) ; 
-    } 
+        } 
     inline float getZfromTuple ( std::tuple <float , float , float > & tuple  ) {
         return std::get<2> ( tuple ) ; 
-    } 
+        } 
 
 };
 

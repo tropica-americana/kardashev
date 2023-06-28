@@ -1,3 +1,4 @@
+
 #include "cli.h"
 
 void CLI::getTerminalText ( ) {
@@ -7,7 +8,9 @@ void CLI::getTerminalText ( ) {
     // error prone area above 
     command = inputText ;  
 }
+
 // --------------this is the most important function in the whole class -----------------
+
 void CLI::processCommand( std::vector <myModel * > & models ) {
     processRmCommand ( models ) ;
     processChangeCommand ( models ) ;
@@ -98,8 +101,8 @@ void CLI::processShowCommand(){
     // showing all the keys and their states in the sting map for any model 
     if ( std::regex_search( command.cbegin() , command.cend() , match ,showAllTheCommandsRegex  )){
         std::cout << "showing all the commands" << std::endl ;
-        std::cout << "isRendering  --> true / false " ; 
-        std::cout << "input --> true / false " ;
+        std::cout << "isRendering  --> true / false " <<std::endl ; 
+        std::cout << "input --> true / false "  <<std::endl ;
 
     }
 }

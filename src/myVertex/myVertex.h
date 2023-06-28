@@ -8,7 +8,7 @@
 #include "../Quadrant/Quadrant.h"
 class myVertex {
     public:
-    float distanceFromObserver {300.0f };  
+    float distanceFromObserver {100.0f };  
     float x ; 
     float y ; 
     float z ; 

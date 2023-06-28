@@ -11,7 +11,7 @@
 #include <random>
 using std::cout ;
 using std::endl ;
-float MASS_OF_SUN = 100;
+float MASS_OF_SUN = 10000;
 float MASS_OF_EARTH = 1;
 size_t TIME_SPENT_IN_EACH_FRAME = 2; // this is in milliseconds 
 float earthVelocityConstatnt = 0;
@@ -188,8 +188,8 @@ void collisionThread ( std::vector <myModel *> & models , bool & isRunning  ) {
         Physics physicsFunctions ;
         while  ( isRunning )
         {
-            physicsFunctions.checkForCollisionsInVectorOfPointersToModels ( models , 1.0f   )   ;
-            SDL_Delay(3) ;
+            physicsFunctions.checkForCollisionsInVectorOfPointersToModels ( models , 0.000000001f   )   ;
+            SDL_Delay(1) ;
         }
 }
 float Universe :: zoomAmount = 0.01;
@@ -206,8 +206,8 @@ void renderSolarSystem () {
     calcThread.detach();
     std::thread cliThread(CliThreadFunction, std::ref(solarsystem.game.models),  std::ref(solarsystem.game.isRunning) , std::ref(modelsMutex)); 
     cliThread.detach();
-    std::thread collisionthread ( collisionThread , std::ref(solarsystem.game.models) , std::ref(solarsystem.game.isRunning) ) ;
-    collisionthread.detach() ;
+    // std::thread collisionthread ( collisionThread , std::ref(solarsystem.game.models) , std::ref(solarsystem.game.isRunning) ) ;
+    // collisionthread.detach() ;
     while (solarsystem.game.isRunning) {  
         
         time = timeObject.calculateTimeElapsedAndUpdateTime() ;
