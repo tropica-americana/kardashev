@@ -15,6 +15,7 @@
 #include "../myModel/myModel.h"
 #include <regex>
 #include <unordered_map>
+#include <SDL2/SDL_image.h>
 class Game {
     public: 
     bool isRunning ; 

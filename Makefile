@@ -11,6 +11,7 @@ SRC_FILES = ./src/*.cpp \
 			./src/game/*.cpp \
 			./src/myVertex/*.cpp \
 			./src/cli/*.cpp \
+			./src/img/*.cpp \
 			./src/myModel/*.cpp 
 			
 			
