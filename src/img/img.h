@@ -14,6 +14,8 @@ class Img {
     void loadImg (std::string path) ;
     void renderImg () ;
     void processInput ( Game & game ) ; 
+    void createImageModel () ;
+    SDL_Rect  createRectFromModel () ;
 };
 
 #endif 
