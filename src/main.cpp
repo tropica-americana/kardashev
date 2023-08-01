@@ -18,7 +18,7 @@ myModel createSphere() ;
 void renderSolarSystem () ; 
 void imageSystem ( std::string path) ;
 int main() {
-    imageSystem("/home/sachin/Desktop/radiology/muscles of the upper back region basically a useles diagram .png") ; 
+    imageSystem("/users/sachinjain/Desktop/radiology/muscles of the upper back region basically a useles diagram .png") ; 
     return 0;
 }
 
