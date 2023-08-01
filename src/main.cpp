@@ -16,9 +16,9 @@
 using namespace std;
 myModel createSphere() ; 
 void renderSolarSystem () ; 
-void imageSystem ( std::string path) ;
+void imageSystem ( std::string path , std::string pathToTtf ) ;
 int main() {
-    imageSystem("/users/sachinjain/Desktop/radiology/muscles of the upper back region basically a useles diagram .png") ; 
+    imageSystem("asd" , "./assets/fonts/arial.ttf") ; 
     return 0;
 }
 

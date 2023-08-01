@@ -21,6 +21,7 @@ Img :: Img ( SDL_Renderer * renderer , std::string path) {
     this->renderer = renderer ;
     loadImg(path) ;
 }
+
 Img :: ~ Img () {
     if (texture != NULL)
     SDL_DestroyTexture(texture) ;
@@ -45,10 +46,11 @@ SDL_Rect  Img :: createRectFromModel (){
     rect.h = imageModel.vertices[2]->y - imageModel.vertices[0]->y ;
     return rect ;
 }
-void imageSystem (std::string path){
+void imageSystem (std::string path , std::string pathToTtf ){
     Game game ; 
     Time timeObject ; 
     Img img (game.renderer , path) ;
+    img.convertTotext("this is the text " , pathToTtf ) ; 
     game.models.push_back(&img.imageModel) ;
     while (game.isRunning) {
         game.processInput();
@@ -57,4 +59,34 @@ void imageSystem (std::string path){
         SDL_RenderPresent(game.renderer);
         SDL_Delay(10);
     }
+}
+Img :: Img ( SDL_Texture * textureInput , SDL_Renderer * rendererInput ) {
+    this-> texture = textureInput ; 
+    this -> renderer = rendererInput ; 
+
+} 
+void Img :: convertTotext( std::string text , std::string pathToTtf  ) {
+    Text textObj ; 
+    SDL_DestroyTexture( texture ) ; 
+    this-> texture = textObj.createTextureOfText( text , this-> renderer , pathToTtf ) ; 
+}
+// -------------------below is the Text  class discriptioon ----------------
+
+SDL_Texture * Text::createTextureOfText ( std::string texttobedisplayed , SDL_Renderer * renderer  , std::string pathToTtf) 
+{  
+    TTF_Font * font = TTF_OpenFont( pathToTtf.c_str() , 100) ; 
+    if (TTF_Init() != 0)
+    {
+        std::cout << "SDL_ttf could not initialize: " << TTF_GetError() << std::endl;
+        return nullptr;
+    }
+    if ( font == NULL) 
+    std::cout << "the font waas not found " << std::endl ; 
+    SDL_Color color;
+    color = {255, 255, 255};
+    SDL_Surface * surface =  TTF_RenderText_Blended(font, texttobedisplayed.c_str(), color );
+    TTF_CloseFont(font) ;
+    SDL_Texture * texture = SDL_CreateTextureFromSurface( renderer , surface ) ;
+    SDL_FreeSurface( surface ) ;  
+    return texture  ;  
 }
