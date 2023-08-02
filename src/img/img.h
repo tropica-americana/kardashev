@@ -4,20 +4,23 @@
 #include "../myModel/myModel.h"
 #include "../game/game.h"
 #include "../Time/Time.h"
+#include <SDL2/SDL_ttf.h>
 class Img {
     public :
     myModel imageModel ; 
     SDL_Renderer * renderer ;
     SDL_Texture * texture ;
-    Img ( ) = default ; 
+    Img ( )  ; 
     Img ( SDL_Renderer * renderer , std::string path) ; 
     Img ( SDL_Texture * textureInput , SDL_Renderer * renderer  ) ; 
+    Img ( SDL_Renderer * renderer ) ; 
+    
     ~Img () ;
     void loadImg (std::string path) ;
     void renderImg () ;
     void processInput ( Game & game ) ; 
     void createImageModel () ;
-    void convertTotext (std::string text , std::string pathToTtf ) ; 
+    void convertTotext ( std::string text , std::string pathToTtf ) ; 
     SDL_Rect  createRectFromModel () ;
 
 };

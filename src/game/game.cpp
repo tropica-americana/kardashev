@@ -11,6 +11,9 @@ void Game ::initialize()
         isRunning = false ; 
         return;
     }
+    if ( TTF_Init() != 0 ) {
+        std::cerr << "problem initializing sdl_ttf" << std::endl ;  
+    }
     SDL_DisplayMode displayMode;
     SDL_GetCurrentDisplayMode(0 , &displayMode);
     window = SDL_CreateWindow(NULL /*NULL AS THE TITLE */,SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 

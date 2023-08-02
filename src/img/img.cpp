@@ -64,7 +64,16 @@ Img :: Img ( SDL_Texture * textureInput , SDL_Renderer * rendererInput ) {
     this-> texture = textureInput ; 
     this -> renderer = rendererInput ; 
 
+}
+Img :: Img ( ) {
+    this -> renderer = nullptr ; 
+    this -> texture = nullptr ; 
+
 } 
+Img:: Img ( SDL_Renderer * renderer ) : renderer (renderer) {
+    this -> texture = nullptr ; 
+} 
+
 void Img :: convertTotext( std::string text , std::string pathToTtf  ) {
     Text textObj ; 
     SDL_DestroyTexture( texture ) ; 
@@ -80,6 +89,7 @@ SDL_Texture * Text::createTextureOfText ( std::string texttobedisplayed , SDL_Re
         std::cout << "SDL_ttf could not initialize: " << TTF_GetError() << std::endl;
         return nullptr;
     }
+    std::cout << SDL_GetError( ) << std::endl ; 
     if ( font == NULL) 
     std::cout << "the font waas not found " << std::endl ; 
     SDL_Color color;

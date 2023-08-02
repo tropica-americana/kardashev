@@ -16,6 +16,7 @@
 #include <regex>
 #include <unordered_map>
 #include <SDL2/SDL_image.h>
+#include <SDL2/SDL_ttf.h>
 class Game {
     public: 
     bool isRunning ; 

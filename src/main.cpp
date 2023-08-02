@@ -18,7 +18,7 @@ myModel createSphere() ;
 void renderSolarSystem () ; 
 void imageSystem ( std::string path , std::string pathToTtf ) ;
 int main() {
-    imageSystem("asd" , "./assets/fonts/arial.ttf") ; 
+    imageSystem("asd" , "/users/sachinjain/Desktop/gamemachine/assets/fonts/arial.ttf") ; 
     return 0;
 }
 
