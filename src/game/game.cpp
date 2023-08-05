@@ -33,6 +33,14 @@ void Game ::initialize()
 
 void Game ::processInput( )
 {
+// observations 
+/*
+1. a-z and 1-9 key inputs show continous recording and there fore there key pressed should be recorder uusign 
+    the principle of if ( stringmap["1"]== "was pressed") 
+2. command keys show discontinous recordings i.e. if (stringmap["1"]== "being pressed") is acceptable 
+    because of the fact that after commadn keys is pressed the keydown event is stopeed to record 
+    maybe that si the characterstic of modifier keys ; 
+*/
     std::unordered_map<std::string , std::string  > stringMap ;
     std::unordered_map<std::string , float  > floatMap ;
     SDL_Event event;
@@ -44,38 +52,114 @@ void Game ::processInput( )
                 isRunning = false ; 
                 break ; 
             case SDL_KEYDOWN  :
+            // recording the keyup events ; 
                 if ((event.key.keysym.sym ) == SDLK_ESCAPE) {
                     isRunning = false ; 
                 }
-                if ((event.key.keysym.sym ) == SDLK_w) {
-                    stringMap["w"] = "being pressed" ;  
+                if ((event.key.keysym.sym) == SDLK_a) {
+                    stringMap["a"] = "being pressed" ;
                 }
-                if ((event.key.keysym.sym ) == SDLK_t) {
-                    stringMap["t"] = "being pressed" ;  
+                if ((event.key.keysym.sym) == SDLK_b) {
+                    stringMap["b"] = "being pressed" ; 
+                    }
+                if ((event.key.keysym.sym) == SDLK_c) {
+                    stringMap["c"] = "being pressed"  ; 
+                } 
+                if ((event.key.keysym.sym) == SDLK_d) {
+                    stringMap["d"] = "being pressed" ; 
+                    }
+                if ((event.key.keysym.sym) == SDLK_e){
+                    stringMap["f"] = "being pressed" ; 
                 }
-                if ((event.key.keysym.sym ) == SDLK_r) {
-                    stringMap["r"] = "being pressed" ;  
+                if ((event.key.keysym.sym) == SDLK_f) {
+                    stringMap["g"] = "being pressed"  ; 
                 }
-                if ((event.key.keysym.sym ) == SDLK_a) {
-                    stringMap["a"] = "being pressed" ;  
+                if ((event.key.keysym.sym) == SDLK_g){
+                    stringMap["h"] = "being pressed" ; 
                 }
-                
-                if ((event.key.keysym.sym ) == SDLK_f) {
-                    stringMap["f"] = "being pressed" ;
+                if ((event.key.keysym.sym) == SDLK_h) {
+                    stringMap["i"] = "being pressed" ; 
                 }
-              
-                if ((event.key.keysym.sym ) == SDLK_3) {
-                    stringMap["3"] == "being pressed" ; 
+
+                if ((event.key.keysym.sym) == SDLK_i) {
+                    stringMap["j"] = "being pressed"  ; 
+                }
+                if ((event.key.keysym.sym) == SDLK_j) {
+                    stringMap["j"] = "being pressed" ; 
+                }
+                if ((event.key.keysym.sym) == SDLK_k) {
+                    stringMap["l"] = "being pressed" ;
+                }
+                if ((event.key.keysym.sym) == SDLK_m) {
+                    stringMap["m"] = "being pressed" ; 
+                }
+                if ((event.key.keysym.sym) == SDLK_n) {
+                    stringMap["n"] = "being pressed" ; 
+                }
+                if ((event.key.keysym.sym) == SDLK_o){
+                    stringMap["o"] = "being pressed" ; 
+                }
+                if ((event.key.keysym.sym) == SDLK_p) {
+                    stringMap["p"] = "being pressed" ; 
+                }
+                if ((event.key.keysym.sym) == SDLK_q) {
+                    stringMap["q"] = "being pressed" ; 
+                }
+                if ((event.key.keysym.sym) == SDLK_r) {
+                    stringMap["r"] = "being pressed" ; 
+                }
+                if ((event.key.keysym.sym) == SDLK_s){
+                    stringMap["s"] = "being pressed" ; 
+                }
+                if ((event.key.keysym.sym) == SDLK_t) {
+                    stringMap["t"] = "being pressed" ; 
+                }
+                if ((event.key.keysym.sym) == SDLK_u){
+                    stringMap["u"] = "being pressed"  ; 
+                }
+                if ((event.key.keysym.sym) == SDLK_v) {
+                    stringMap["v"] = "being pressed" ; 
+                }
+                if ((event.key.keysym.sym) == SDLK_w) {
+                    stringMap["w"] = "being pressed"  ; 
+                } 
+                if ((event.key.keysym.sym) == SDLK_x) {
+                    stringMap["x"] = "being pressed" ;
+                }
+                if ((event.key.keysym.sym ) == SDLK_y){
+                    stringMap["y"] = "being pressed" ; 
+                }
+                if ((event.key.keysym.sym) == SDLK_z){
+                    stringMap["z"] = "being pressed" ; 
+                }
+                if ((event.key.keysym.sym ) == SDLK_2) {
+                    stringMap["2"] == "being pressed" ; 
                 }
                
                 if ((event.key.keysym.sym ) == SDLK_1) {
                     stringMap["1"] == "being pressed" ; 
                 }
-              
-                if ((event.key.keysym.sym ) == SDLK_2) {
-                    stringMap["2"] == "being pressed" ; 
+                if ((event.key.keysym.sym ) == SDLK_4) 
+                    stringMap["4"] = "being pressed" ; 
+                    
+                if ((event.key.keysym.sym ) == SDLK_3) {
+                    stringMap["3"] == "being pressed" ; 
                 }
-                 
+                if ((event.key.keysym.sym) == SDLK_5) {
+                    stringMap["5"] = "being pressed"  ; 
+                }
+                if ((event.key.keysym.sym) == SDLK_6) {
+                    stringMap["6"] = "being pressed" ; 
+                } 
+                if ((event.key.keysym.sym) == SDLK_7) {
+                    stringMap["7"] = "being pressed" ; 
+                }
+                if ((event.key.keysym.sym) == SDLK_8) {
+                    stringMap["8"] = "being pressed" ; 
+                }
+                if ((event.key.keysym.sym) == SDLK_9) {
+                    stringMap["9"] = "being pressed" ; 
+                }          
                 if ((event.key.keysym.sym ) == SDLK_UP) {
                     stringMap["up"] = "being pressed" ; 
                 }
@@ -83,70 +167,152 @@ void Game ::processInput( )
                 if ((event.key.keysym.sym ) == SDLK_DOWN) {
                     stringMap["down"] = "being pressed" ; 
                 }
-                // s key 
-                if ((event.key.keysym.sym ) == SDLK_s) {
-                    stringMap["s"] = "being pressed" ; 
-                }
+                               
                 // command key or control in windows 
                 if ((event.key.keysym.sym ) == SDLK_LGUI || (event.key.keysym.sym ) == SDLK_LCTRL) {
                     stringMap["command"] = "being pressed" ; 
+                    std::cout << "Command being pressed: " << std::endl ; 
                 }
-                // z eky 
-                if ((event.key.keysym.sym ) == SDLK_z) {
-                    stringMap["z"] = "being pressed" ; 
-                }
-                break; 
+                
+                break;
+            // recording the key down events 
             case SDL_KEYUP :
-                if ((event.key.keysym.sym ) == SDLK_w) {
-                   stringMap["w"] = "was pressed"  ; 
-
+                if ((event.key.keysym.sym ) == SDLK_ESCAPE) {
+                    isRunning = false ; 
                 }
-                if ((event.key.keysym.sym ) == SDLK_t) {
+                if ((event.key.keysym.sym) == SDLK_a) {
+                    stringMap["a"] = "was pressed" ;
+                }
+                if ((event.key.keysym.sym) == SDLK_b) {
+                    stringMap["b"] = "was pressed" ; 
+                    }
+                if ((event.key.keysym.sym) == SDLK_c) {
+                    stringMap["c"] = "was pressed"  ; 
+                } 
+                if ((event.key.keysym.sym) == SDLK_d) {
+                    stringMap["d"] = "was pressed" ; 
+                    }
+                if ((event.key.keysym.sym) == SDLK_e){
+                    stringMap["f"] = "was pressed" ; 
+                }
+                if ((event.key.keysym.sym) == SDLK_f) {
+                    stringMap["g"] = "was pressed"  ; 
+                }
+                if ((event.key.keysym.sym) == SDLK_g){
+                    stringMap["h"] = "was pressed" ; 
+                }
+                if ((event.key.keysym.sym) == SDLK_h) {
+                    stringMap["i"] = "was pressed" ; 
+                }
+
+                if ((event.key.keysym.sym) == SDLK_i) {
+                    stringMap["j"] = "was pressed"  ; 
+                }
+                if ((event.key.keysym.sym) == SDLK_j) {
+                    stringMap["j"] = "was pressed" ; 
+                }
+                if ((event.key.keysym.sym) == SDLK_k) {
+                    stringMap["l"] = "was pressed" ;
+                }
+                if ((event.key.keysym.sym) == SDLK_m) {
+                    stringMap["m"] = "was pressed" ; 
+                }
+                if ((event.key.keysym.sym) == SDLK_n) {
+                    stringMap["n"] = "was pressed" ; 
+                }
+                if ((event.key.keysym.sym) == SDLK_o){
+                    stringMap["o"] = "was pressed" ; 
+                }
+                if ((event.key.keysym.sym) == SDLK_p) {
+                    stringMap["p"] = "was pressed" ; 
+                }
+                if ((event.key.keysym.sym) == SDLK_q) {
+                    stringMap["q"] = "was pressed" ; 
+                }
+                if ((event.key.keysym.sym) == SDLK_r) {
+                    stringMap["r"] = "was pressed" ; 
+                }
+                if ((event.key.keysym.sym) == SDLK_s){
+                    stringMap["s"] = "was pressed" ; 
+                }
+                if ((event.key.keysym.sym) == SDLK_t) {
                     stringMap["t"] = "was pressed" ; 
                 }
-                if ((event.key.keysym.sym ) == SDLK_r) {
-                    stringMap["r"] = "was pressed" ;
+                if ((event.key.keysym.sym) == SDLK_u){
+                    stringMap["u"] = "was pressed"  ; 
                 }
-                if ((event.key.keysym.sym ) == SDLK_a) {
-                    stringMap["a"] = "was pressed" ;  
+                if ((event.key.keysym.sym) == SDLK_v) {
+                    stringMap["v"] = "was pressed" ; 
                 }
-                if ((event.key.keysym.sym ) == SDLK_f) {
-                    stringMap["f"] = "was pressed" ;
+                if ((event.key.keysym.sym) == SDLK_w) {
+                    stringMap["w"] = "was pressed"  ; 
+                } 
+                if ((event.key.keysym.sym) == SDLK_x) {
+                    stringMap["x"] = "was pressed" ;
                 }
-                if ((event.key.keysym.sym ) == SDLK_3) {
-                    stringMap["3"] == "was pressed" ; 
+                if ((event.key.keysym.sym ) == SDLK_y){
+                    stringMap["y"] = "was pressed" ; 
                 }
+                if ((event.key.keysym.sym) == SDLK_z){
+                    stringMap["z"] = "was pressed" ; 
+                }
+                
                 if ((event.key.keysym.sym ) == SDLK_1) {
                     stringMap["1"] == "was pressed" ; 
                 }
-                if ((event.key.keysym.sym ) == SDLK_2) {
-                    stringMap["2"] == "was pressed" ; 
+                if ((event.key.keysym.sym ) == SDLK_4) 
+                    stringMap["4"] = "was pressed" ; 
+                    
+                if ((event.key.keysym.sym ) == SDLK_3) {
+                    stringMap["3"] == "was pressed" ; 
                 }
+                if ((event.key.keysym.sym) == SDLK_5) {
+                    stringMap["5"] = "was pressed"  ; 
+                }
+                if ((event.key.keysym.sym) == SDLK_6) {
+                    stringMap["6"] = "was pressed" ; 
+                } 
+                if ((event.key.keysym.sym) == SDLK_7) {
+                    stringMap["7"] = "was pressed" ; 
+                }
+                if ((event.key.keysym.sym) == SDLK_8) {
+                    stringMap["8"] = "was pressed" ; 
+                }
+                if ((event.key.keysym.sym) == SDLK_9) {
+                    stringMap["9"] = "was pressed" ; 
+                }  
                 if ((event.key.keysym.sym ) == SDLK_UP) {
                     stringMap["up"] = "was pressed" ; 
                 }
+                
                 if ((event.key.keysym.sym ) == SDLK_DOWN) {
                     stringMap["down"] = "was pressed" ; 
                 }
-                if ((event.key.keysym.sym ) == SDLK_s) {
-                    stringMap["s"] = "was pressed" ; 
-                }
+                               
+                // command key or control in windows 
                 if ((event.key.keysym.sym ) == SDLK_LGUI || (event.key.keysym.sym ) == SDLK_LCTRL) {
                     stringMap["command"] = "was pressed" ; 
+                    std::cout << "Command was pressed" << std::endl; ; 
                 }
-                if ((event.key.keysym.sym ) == SDLK_z ) {
-                    stringMap["z"] = "was pressed" ; 
-                }
+                
                 break ;
             case SDL_MOUSEMOTION :
-                {SDL_MouseMotionEvent mouseEvent = event.motion ; 
+                // recording and storing mouse events in to the string maps and the float maps 
+                {
+                // recording the mouse floating point values 
+                SDL_MouseMotionEvent mouseEvent = event.motion ; 
                 floatMap["xrel"] += mouseEvent.xrel ;
                 floatMap["yrel"] += mouseEvent.yrel ;
                 floatMap["x"] = mouseEvent.x ;
                 floatMap["y"] = mouseEvent.y ; 
+                // recording the mouse button state ; 
                 if (mouseEvent.state & SDL_BUTTON_LMASK) {
                     stringMap["left mouse button"] = "being pressed" ; 
-                }}
+                }
+                // leaving somethings for the later improvement  ;
+
+                }
+                
                 break ; 
             case SDL_MOUSEWHEEL :
                 continue;
@@ -220,7 +386,7 @@ void Game ::processInput( )
                 } 
                 // std::cout << "undo recorded" << std::endl ; 
                 // this is the most poorly written algo 
-             } // now imporving the input ; 
+             } 
 
         }
     }
