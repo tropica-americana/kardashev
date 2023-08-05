@@ -220,7 +220,7 @@ void Game ::processInput( )
                 } 
                 // std::cout << "undo recorded" << std::endl ; 
                 // this is the most poorly written algo 
-             }
+             } // now imporving the input ; 
 
         }
     }
