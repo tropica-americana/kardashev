@@ -33,7 +33,6 @@ void Game ::initialize()
 
 void Game ::processInput( )
 {
-// observations 
 /*
 1. a-z and 1-9 key inputs show continous recording and there fore there key pressed should be recorder uusign 
     the principle of if ( stringmap["1"]== "was pressed") 
@@ -41,8 +40,13 @@ void Game ::processInput( )
     because of the fact that after commadn keys is pressed the keydown event is stopeed to record 
     maybe that si the characterstic of modifier keys ; 
 */
-    std::unordered_map<std::string , std::string  > stringMap ;
-    std::unordered_map<std::string , float  > floatMap ;
+    // as the stringmap and the floatMap are used uin the class attributes ; 
+    // std::unordered_map<std::string , std::string  > stringMap ;
+    // std::unordered_map<std::string , float  > floatMap ;
+    /*
+     * clearing the unordered maps from the previous imputs which is important ; 
+     */ 
+    stringMap.clear() ;floatMap.clear () ; 
     SDL_Event event;
     while (SDL_PollEvent(&event)) 
     {
@@ -171,7 +175,7 @@ void Game ::processInput( )
                 // command key or control in windows 
                 if ((event.key.keysym.sym ) == SDLK_LGUI || (event.key.keysym.sym ) == SDLK_LCTRL) {
                     stringMap["command"] = "being pressed" ; 
-                    std::cout << "Command being pressed: " << std::endl ; 
+                    // std::cout << "Command being pressed: " << std::endl ; 
                 }
                 
                 break;
@@ -287,12 +291,11 @@ void Game ::processInput( )
                 
                 if ((event.key.keysym.sym ) == SDLK_DOWN) {
                     stringMap["down"] = "was pressed" ; 
-                }
-                               
+                }     
                 // command key or control in windows 
                 if ((event.key.keysym.sym ) == SDLK_LGUI || (event.key.keysym.sym ) == SDLK_LCTRL) {
                     stringMap["command"] = "was pressed" ; 
-                    std::cout << "Command was pressed" << std::endl; ; 
+                    // std::cout << "Command was pressed" << std::endl; ; 
                 }
                 
                 break ;
@@ -319,7 +322,8 @@ void Game ::processInput( )
                 break ; 
             
             default :
-                break;  
+                break;
+            
         }
         
    } 

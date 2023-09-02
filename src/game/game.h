@@ -1,7 +1,6 @@
 #ifndef _GAME_H_
 #define _GAME_H_
 
-
 #include <iostream>
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_ttf.h>
@@ -17,8 +16,11 @@
 #include <unordered_map>
 #include <SDL2/SDL_image.h>
 #include <SDL2/SDL_ttf.h>
+
 class Game {
     public: 
+    std::unordered_map<std::string , std::string  > stringMap ;
+    std::unordered_map<std::string , float  > floatMap ;
     bool isRunning ; 
     std::mutex mouseeventMutex ; 
     SDL_MouseMotionEvent mouseevent ; 

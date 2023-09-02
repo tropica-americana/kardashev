@@ -12,6 +12,7 @@ SRC_FILES = ./src/*.cpp \
 			./src/myVertex/*.cpp \
 			./src/cli/*.cpp \
 			./src/img/*.cpp \
+			./src/mathematicalLayer/*.cpp \
 			./src/myModel/*.cpp 
 			
 			

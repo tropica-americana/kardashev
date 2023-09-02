@@ -22,6 +22,10 @@ Img :: Img ( SDL_Renderer * renderer , std::string path) {
     loadImg(path) ;
 }
 
+Img:: Img ( SDL_Renderer * rendererer ) : renderer (rendererer) {
+    createImageModel() ;
+    this -> texture = nullptr ; 
+} 
 Img :: ~ Img () {
     if (texture != NULL)
     SDL_DestroyTexture(texture) ;
@@ -46,20 +50,6 @@ SDL_Rect  Img :: createRectFromModel (){
     rect.h = imageModel.vertices[2]->y - imageModel.vertices[0]->y ;
     return rect ;
 }
-void imageSystem (std::string path , std::string pathToTtf ){
-    Game game ; 
-    Time timeObject ; 
-    Img img (game.renderer , path) ;
-    img.convertTotext("this is the text " , pathToTtf ) ; 
-    game.models.push_back(&img.imageModel) ;
-    while (game.isRunning) {
-        game.processInput();
-        game.update(timeObject.calculateTimeElapsedAndUpdateTime());
-        img.renderImg() ;
-        SDL_RenderPresent(game.renderer);
-        SDL_Delay(10);
-    }
-}
 Img :: Img ( SDL_Texture * textureInput , SDL_Renderer * rendererInput ) {
     this-> texture = textureInput ; 
     this -> renderer = rendererInput ; 
@@ -70,17 +60,15 @@ Img :: Img ( ) {
     this -> texture = nullptr ; 
 
 } 
-Img:: Img ( SDL_Renderer * renderer ) : renderer (renderer) {
-    this -> texture = nullptr ; 
-} 
 
-void Img :: convertTotext( std::string text , std::string pathToTtf  ) {
+void Img :: convertTotext( std::string text , std::string pathToTtf = "/Users/sachinjain/Desktop/gamemachine/assets/fonts/arial.ttf" ) {
     Text textObj ; 
+    if ( texture != nullptr )
     SDL_DestroyTexture( texture ) ; 
     this-> texture = textObj.createTextureOfText( text , this-> renderer , pathToTtf ) ; 
 }
-// -------------------below is the Text  class discriptioon ----------------
 
+// this is among the most useful functions for text generation ; 
 SDL_Texture * Text::createTextureOfText ( std::string texttobedisplayed , SDL_Renderer * renderer  , std::string pathToTtf) 
 {  
     TTF_Font * font = TTF_OpenFont( pathToTtf.c_str() , 100) ; 
@@ -100,3 +88,35 @@ SDL_Texture * Text::createTextureOfText ( std::string texttobedisplayed , SDL_Re
     SDL_FreeSurface( surface ) ;  
     return texture  ;  
 }
+// here is shown how to render text 
+void imageSystem (std::string path , std::string pathToTtf ){
+    Game game ; 
+    Time timeObject ; 
+    Img img (game.renderer ) ;
+    img.convertTotext("this is the text" , pathToTtf ) ; 
+    game.models.push_back(&img.imageModel) ;
+    while (game.isRunning) {
+        game.processInput();
+        game.update(timeObject.calculateTimeElapsedAndUpdateTime());
+        img.renderImg() ;
+        SDL_RenderPresent(game.renderer);
+        SDL_Delay(10);
+    }
+}
+
+// here is shwon how to render text 
+void textsystem ( std::string text ) {
+    Game game ; 
+    Time timeObject ; 
+    Img img (game.renderer ) ;
+    img.convertTotext("this is the text" ) ; 
+    game.models.push_back(&img.imageModel) ;
+    while (game.isRunning) {
+        game.processInput();
+        game.update(timeObject.calculateTimeElapsedAndUpdateTime());
+        img.renderImg() ;
+        SDL_RenderPresent(game.renderer);
+        SDL_Delay(1);
+    }
+
+} 

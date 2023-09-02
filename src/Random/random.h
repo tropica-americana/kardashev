@@ -24,6 +24,7 @@ public :
         randomValue *= multiplier ;
         return randomValue ;
     }
+	
 };
 
 #endif
